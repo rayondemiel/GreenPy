@@ -31,7 +31,7 @@ Est-ce que je constitue une liste de pays ? Zet leurs départements ? → car 
 Faire un genre de citation de témoignage → genre extrait sur la page de lutte
 
 
-
+rep action https://123dok.net/article/r%C3%A9pertoire-de-l-action-collective-typologie-repertoireactioncollective.eqowe4jy
 ---
 
 
@@ -56,8 +56,16 @@ https://developer.here.com/blog/understanding-geocoding-with-python
 
 https://geopy.readthedocs.io/en/stable/
 
+
+voir chap 13 API python
 geoJSON
 ---
+##style side bar
+https://github.com/maelfabien/AutoHome/blob/master/app.py
+
+---
 ##AUtres
+
+https://atomiks.github.io/tippyjs/   -> pour tooltip javascript
 
 https://github.com/MarkHjorth/nedry
