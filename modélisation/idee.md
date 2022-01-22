@@ -44,6 +44,16 @@ https://maitron.fr/spip.php?article153734
 https://maitron.fr/spip.php?article155122
 
 ---
+## nettoyer 
+
+comme c'est aprticipatif -> il faut controler les données
+
+les ' " , peuvent faire bugger le code -> ajouter fonction .replace avec \ pour permettre le bonne affichage
+
+un truc pour les sauts de ligne ?
+
+
+---
 
 ## Map tuto
 
