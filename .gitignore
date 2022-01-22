@@ -1,5 +1,8 @@
 # ignore ALL .log files
 *.log 
 
+#ignore venv
+.venv/
+
 # ignore idea
-./.idea/
+.idea/
