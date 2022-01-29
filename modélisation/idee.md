@@ -57,15 +57,22 @@ un truc pour les sauts de ligne ?
 
 ## Map tuto
 
+Ca peut etre bien de faire geopy en asynchrone -> pas de changement de page, script qui se lance en silence je crois
+
 https://github.com/flask-extensions/Flask-GoogleMaps
 
 https://python-visualization.github.io/folium/quickstart.html
+
+https://towardsdatascience.com/making-simple-maps-with-folium-and-geopy-4b9e8ab98c00  ->** lien entre geopy et folium**
+
+https://towardsdatascience.com/represent-your-geospatial-data-using-folium-c2a0d8c35c5c    idem
 
 
 https://developer.here.com/blog/understanding-geocoding-with-python
 
 https://geopy.readthedocs.io/en/stable/
 
+https://www.developer.here.com/blog/an-introduction-to-geojson
 
 voir chap 13 API python
 geoJSON

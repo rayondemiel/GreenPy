@@ -1,0 +1,19 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if projet_contest %}| Projets contestés : {{projet_contest.nom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if projet_contest %}
+            <h1>{{projet_contest.nom}}</h1>
+            <dl>
+                <dt>Date de début du projet</dt><dd>{{projet_contest.date_debut}}</dd>
+                <dt>Date de fin de la contestation ou du projet</dt><dd>{{projet_contest.date_fin}}</dd>
+                <dt>Description</dt><dd>{{projet_contest.description}}</dd>
+            </dl>
+        {% else %}
+            <p>La base de données est en cours de constitution</p>
+        {% endif %}
+        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

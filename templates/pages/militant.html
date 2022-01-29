@@ -1,0 +1,19 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if militant %}| militant : {{militant.nom}} {{militant.prenom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if militant %}
+            <h1>{{militant.nom}} {{militant.prenom}}</h1>
+            <dl>
+                <dt>Date de naissance</dt><dd>{{militant.date_naissance}}</dd>
+                <dt>Organisation</dt><dd>{{militant.organisation}}</dd>
+                <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
+            </dl>
+        {% else %}
+            <p>La base de données est en cours de constitution</p>
+        {% endif %}
+        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}}
