@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>GreenPY {% block titre %}{% endblock %}</title>
+    {% include "partials/css.html" %}
     {% include "partials/metadata.html" %}
+
 </head>
 <body>
-    <div><h1>Bienvenue sur le projet GreenPy</h1></div>
-    <div>{% block corps %}{% endblock %}</div>
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+          <a class="navbar-brand" href="{{url_for('accueil')}}">GreenPy</a>
+        </nav>
+        <div class="row">
+            <div class="col">
+            {% block corps %}{% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
