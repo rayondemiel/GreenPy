@@ -1,11 +1,10 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-
+    {{name}}
 {% endblock %}
 
 {% block corps %}
-	<h1>Welcome to GreenPy Project</h1>
 	<p>{% if militants %}
         Il y a {{ militants|length }} enregistrés :
         <ul>
