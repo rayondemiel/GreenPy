@@ -16,7 +16,7 @@ class Acteur(db.Model):
     profession = db.Column(db.Text)
     biographie = db.Column(db.Text, nullable=False)
 
-"""class Objet_contest(db.model):
+class Objet_contest(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     categ_id = db.Column(db.Integer, nullable=False)
@@ -27,24 +27,25 @@ class Acteur(db.Model):
     dpt = db.Column(db.Text)
     pays_id = db.Column(db.Integer, nullable=False)
     ressources = db.Column(db.Text)
-    img_id = db.Column(db.Integer)"""
+    img_id = db.Column(db.Integer)
 
 @app.route("/")
 @app.route("/accueil")
 def accueil():
     militants = Acteur.query.all()
-    """projets_contest = Objet_contest.query.all()"""
-    return render_template("pages/accueil.html", name="accueil", militants=militants)#, projets_contest=projets_contest)
+    projets_contest = Objet_contest.query.all()
+    return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
 
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
-    militants = Acteur.query.get(name_id)
-    return render_template("pages/militant.html", name="militant", militant=militants)
+    unique_militants = Acteur.query.get(name_id)
+    #def age()
+    return render_template("pages/militant.html", name="militant", militant=unique_militants)
 
-"""@app.route("/projet_contest/<int:objContest_id>")
+@app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
-    projets_contest = Objet_contest.query.get(objContest_id)
-    return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=projets_contest)"""
+    unique_contest = Objet_contest.query.get(objContest_id)
+    return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest)
 
 if __name__ == "__main__":
     app.run(debug=True)
