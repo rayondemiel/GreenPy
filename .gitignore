@@ -6,7 +6,3 @@
 
 # ignore idea
 .idea/
-
-#ignore pycharm
-GreenPy/__pycache__/
-GreenPy/__pycache__/*
