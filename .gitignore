@@ -10,3 +10,5 @@
 #ignore pycharm
 GreenPy/__pycache__/
 GreenPy/__pycache__/*
+__pycache__/
+GreenPy/modeles/__pycache__/*
