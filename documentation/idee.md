@@ -59,6 +59,9 @@ un truc pour les sauts de ligne ?
 
 Ca peut etre bien de faire geopy en asynchrone -> pas de changement de page, script qui se lance en silence je crois
 
+https://programminghistorian.org/en/lessons/mapping-with-python-leaflet#transforming-data-with-python
+
+
 https://github.com/flask-extensions/Flask-GoogleMaps
 
 https://python-visualization.github.io/folium/quickstart.html
@@ -79,6 +82,12 @@ geoJSON
 ---
 ##style side bar
 https://github.com/maelfabien/AutoHome/blob/master/app.py
+
+
+---
+##Medadonnées 
+
+voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
 
 ---
 ##AUtres
