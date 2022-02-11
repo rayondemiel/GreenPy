@@ -2,6 +2,7 @@
 
 {% block titre %}
     {%if projet_contest %}| Projets contestés : {{projet_contest.nom}} {% endif %}
+    {%if projets_contest %}| {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}

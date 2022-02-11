@@ -11,11 +11,22 @@ def accueil():
     projets_contest = Objet_contest.query.all()
     return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
 
+@app.route("/militant")
+def index_militant():
+    militants = Acteur.query.all()
+    return render_template("pages/militant.html", name="Index des militants", militants=militants)
+
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
     unique_militants = Acteur.query.get(name_id)
+    #def pour que si il pas de id, aller page accueil des militants. Par contre
     #def age()
     return render_template("pages/militant.html", name="militant", militant=unique_militants)
+
+@app.route("/projet_contest")
+def index_objContest():
+    projets_contest = Objet_contest.query.all()
+    return render_template("pages/objet_contest.html", name="Index des projets contestés", projets_contest=projets_contest)
 
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):

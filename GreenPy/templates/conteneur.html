@@ -8,25 +8,34 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a href="#" class="navabar-brand mb-0 h1">
-            <img class="d-inline-block align-top" src="../static/logo.svg" width="80" height="80"/>
-            Accueil
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a href="#" class="nav-link">
-                        Acteurs
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a href="#" class="nav-link">
-                        Projets contestés
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8bbfca;">
+        <a class="navbar-brand" href="{{url_for('accueil')}}"> <img class="d-inline-block" src="../static/logo.svg" width="60" height="60" alt=""/></a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+            <a class="nav-link" href="{{url_for('accueil')}}">Accueil</a>
+          </li>
+          <li class="nav-item dropdown nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Base de données
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item nav-link" href="{{url_for('index_militant')}}">Les militants</a>
+              <a class="dropdown-item nav-link" href="#">Les projets contestés</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item nav-link" href="#">Organisations</a>
+            </div>
+          </li>
+            <li class="nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+            <a class="nav-link" href="#">Carte</a>
+          </li>
+          <li class="nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+            <a class="nav-link" href="#">À propos</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </nav>
     <div class="container">
         <div class="row">

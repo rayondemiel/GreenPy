@@ -2,6 +2,7 @@
 
 {% block titre %}
     {%if militant %}| militant : {{militant.nom}} {{militant.prenom}} {% endif %}
+    {%if militants %}| {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}
@@ -18,5 +19,15 @@
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}
-        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+        <p>
+            {% if militants %}
+        Il y a {{ militants|length }} enregistrés :
+        <ul>
+            {% for militant in militants %}
+                <li><a href="{{url_for('militant', name_id=militant.id)}}">{{militant.nom}}, {{militant.prenom}}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="{{url_for('accueil')}}">Retour à l'accueil</a>
+        </p>
 {% endblock %}}
