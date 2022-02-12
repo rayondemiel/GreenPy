@@ -52,6 +52,9 @@ les ' " , peuvent faire bugger le code -> ajouter fonction .replace avec \ pour 
 
 un truc pour les sauts de ligne ?
 
+##geo json
+
+https://github.com/gabays/32M7129 -voir cours 10 à 12
 
 ---
 
@@ -84,6 +87,8 @@ geoJSON
 https://github.com/maelfabien/AutoHome/blob/master/app.py
 
 
+plein idees
+https://www.w3schools.com/howto/howto_css_stacked_form.asp
 ---
 ##Medadonnées 
 
