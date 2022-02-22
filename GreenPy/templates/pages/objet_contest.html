@@ -13,6 +13,13 @@
                 <dt>Date de fin de la contestation ou du projet</dt><dd>{{projet_contest.date_fin}}</dd>
                 <dt>Description</dt><dd>{{projet_contest.description}}</dd>
             </dl>
+        {% elif projets_contest%}
+        <p>Il y a {{ projets_contest|length }} enregistrés :
+        <ul>
+            {% for objet in projets_contest %}
+                <li><a href="{{url_for('objContest', objContest_id=objet.id)}}">{{objet.nom}}</a></li>
+            {% endfor %}
+        </ul></p>
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}

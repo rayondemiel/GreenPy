@@ -11,6 +11,8 @@ class Acteur(db.Model):
     profession = db.Column(db.Text)
     biographie = db.Column(db.Text, nullable=False)
 
+all_results_acteur = Acteur.query.all()
+
 class Objet_contest(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)

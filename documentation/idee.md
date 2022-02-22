@@ -52,6 +52,11 @@ les ' " , peuvent faire bugger le code -> ajouter fonction .replace avec \ pour 
 
 un truc pour les sauts de ligne ?
 
+## Recherche
+
+voir si utilisation du NLP pour ameliorer la recherche ?
+
+
 ##geo json
 
 https://github.com/gabays/32M7129 -voir cours 10 à 12
@@ -93,6 +98,13 @@ https://www.w3schools.com/howto/howto_css_stacked_form.asp
 ##Medadonnées 
 
 voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
+
+---
+## Gestion photos
+
+https://roytuts.com/upload-and-display-image-using-python-flask/
+https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
+
 
 ---
 ##AUtres
