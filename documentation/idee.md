@@ -57,6 +57,14 @@ un truc pour les sauts de ligne ?
 voir si utilisation du NLP pour ameliorer la recherche ?
 
 
+#Recherche a facette et multi class
+
+librairie woosh
+
+https://whoosh.reathedocs.io/en/latest/searching.html#the-searcher-object
+https://pythonhosted.org/Flask-WhooshAlchemy/
+
+
 ##geo json
 
 https://github.com/gabays/32M7129 -voir cours 10 à 12
