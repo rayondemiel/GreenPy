@@ -45,7 +45,34 @@
           <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Recherche..." aria-label="Search"/>
           <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Rechercher</button>
         </form>
+        <ul class="navbar-nav mr-auto">
+            {% if not current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('inscription')}}">Inscription</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('connexion')}}">Connexion</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+            {% endif %}
+        </ul>
     </nav>
+    {% block afternav %}{%endblock%}
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="row">
+              <div class="col">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+                {% endfor %}
+              </div>
+          </div>
+          {% endif %}
+        {% endwith %}
     <div class="container">
         <div class="row">
             <div class="col">

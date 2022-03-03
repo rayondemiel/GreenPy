@@ -4,8 +4,10 @@
     {{name}}
 {% endblock %}
 
-{% block corps %}
+{% block afternav %}
     {% include "partials/recherche.html" %}
+{%endblock%}
+{% block corps %}
 	<p>{% if militants %}
         Il y a {{ militants|length }} enregistrés :
         <ul>
