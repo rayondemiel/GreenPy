@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-import flask.ext.whooshalchemy as whooshalchemy
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
@@ -15,4 +14,4 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/env.db'
 # On initie l'extension
 db = SQLAlchemy(app)
 
-from .routes import accueil, militant, objContest, index_objContest, index_militant, recherche
+from .routes import routes

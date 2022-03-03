@@ -1,8 +1,8 @@
 from flask import render_template, request
-from sqlalchemy import and_, or_
+from sqlalchemy import or_
 
-from .app import app
-from .modeles.donnees import Acteur, Objet_contest
+from GreenPy.app import app
+from GreenPy.modeles.donnees import Acteur, Objet_contest
 
 @app.route("/")
 @app.route("/accueil")
@@ -39,8 +39,6 @@ def objContest(objContest_id): ##bug
 def recherche():
     motclef = request.args.get("keyword", None)
     resultatsActeur = []
-    resultatsObj = []
-    resultats = resultatsObj + resultatsActeur
     titre = "Recherche"
     ##ne marche que pour une classe, il faut faire une table d'autorité pour jointure
     if motclef:
@@ -51,9 +49,5 @@ def recherche():
             Acteur.prenom.like("%{}%".format(motclef)),
             Acteur.profession.like("%{}%".format(motclef))
              )).all()
-        resultatsObj = Objet_contest.query.filter(or_(
-            Objet_contest.nom.like("%{}%".format(motclef)),
-            Objet_contest.description.like("%{}%".format(motclef)),
-        ))
         titre = "Résultat pour la recherche `" + motclef + "`"
-    return render_template("pages/recherche.html", resultats=resultats, titre=titre)
+    return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre)
