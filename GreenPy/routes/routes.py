@@ -3,6 +3,7 @@ from sqlalchemy import or_
 
 from GreenPy.app import app
 from GreenPy.modeles.donnees import Acteur, Objet_contest
+from ..constantes import RESULTATS_PAR_PAGES
 
 @app.route("/")
 @app.route("/accueil")
@@ -38,9 +39,15 @@ def objContest(objContest_id): ##bug
 @app.route("/recherche")
 def recherche():
     motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
     resultatsActeur = []
     titre = "Recherche"
-    ##ne marche que pour une classe, il faut faire une table d'autorité pour jointure
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
     if motclef:
         resultatsActeur = Acteur.query.filter(or_(
             Acteur.nom.like("%{}%".format(motclef)),
@@ -48,6 +55,6 @@ def recherche():
             Acteur.biographie.like("%{}%".format(motclef)),
             Acteur.prenom.like("%{}%".format(motclef)),
             Acteur.profession.like("%{}%".format(motclef))
-             )).all()
+             )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche `" + motclef + "`"
-    return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre)
+    return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)

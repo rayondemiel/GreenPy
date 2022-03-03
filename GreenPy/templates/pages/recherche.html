@@ -8,12 +8,36 @@
 
     <h1>{{titre}}</h1>
     {% if resultats %}
-    <p>Il y a {{resultats|length}} {% if resultats|length > 1 %} résultats qui correspondent {% else %} résultat qui correspond {% endif %} à votre requête :</p>
+    <p>Il y a {{resultats.total}} {% if resultats.total > 1 %} résultats qui correspondent {% else %} résultat qui correspond {% endif %} à votre requête :</p>
         <ul>
-            {% for militant in resultats %}
+            {% for militant in resultats.items %}
                 <li><a href="{{url_for('militant', name_id=militant.id)}}">{{militant.nom}}, {{militant.prenom}}</a></li>
             {% endfor %}
         </ul>
+        <nav aria-label="research-pagination">
+          <ul class="pagination">
+            {%- for page in resultats.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page %}
+
+                  {% if page != resultats.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('recherche', keyword=keyword, page=page) }}">{{page}}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item active disabled">
+                      <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                    </li>
+                  {% endif %}
+
+                {% else %}
+                    <li class="page-item disabled">
+                      <a class="page-link">...</a>
+                    </li>
+                {% endif %}
+
+            {%- endfor %}
+          </ul>
+        </nav>
     {% else %}
     <h1>Nous sommes désolé</h1>
     <p>Nous n'avons pas pu trouver votre requête. Vous pouvez réessayer avec d'autres termes ou en utilisant <a href="{{url_for('index_militant')}}">l'index des militants recencés</a>
