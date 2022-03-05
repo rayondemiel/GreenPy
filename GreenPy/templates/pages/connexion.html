@@ -4,7 +4,7 @@
 
 {% block corps %}
 
-<h1>Inscription</h1>
+<h1>Connexion</h1>
 <form class="form" method="POST" action="{{url_for('connexion')}}">
   <div class="form-group row">
     <label for="register-login" class="col-sm-2 col-form-label">Login</label>
@@ -22,5 +22,9 @@
     <button type="submit" class="btn btn-primary">Connexion</button>
     <a href="{{url_for('inscription')}}" class="btn btn-secondary">Inscription</a>
   </div>
+  <div>
+        Mot de passe oublié?
+        <a href="{{ url_for('reset_password_request') }}">Cliquez ici</a>
+    </div>
 </form>
 {% endblock %}

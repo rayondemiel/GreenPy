@@ -1,11 +1,15 @@
 # ignore ALL .log files
-*.log 
-
+*.log
 #ignore venv
 .venv/
-
 # ignore idea
 .idea/
+
+#variable environnement sensible
+#.env
+
+#md
+idee.md
 
 #ignore pycharm
 #GreenPy/__pycache__/

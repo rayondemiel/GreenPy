@@ -1,10 +1,12 @@
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, url_for
 from sqlalchemy import or_
 from flask_login import login_user, current_user, logout_user, login_required
 
+from .email import inscription_mail, mdp_mail
 from ..app import app, login, db
 from ..modeles.donnees import Acteur, Objet_contest
 from ..modeles.utilisateurs import User
+from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
 from ..constantes import RESULTATS_PAR_PAGES
 
 @app.route("/")
@@ -74,6 +76,7 @@ def inscription():
             motdepasse=request.form.get("motdepasse", None)
         )
         if statut is True:
+            inscription_mail(email) ## recuperer mail
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
@@ -112,3 +115,32 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
+
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('/accueil'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(user_email=form.email.data).first()
+        if user:
+            mdp_mail(user)
+        flash("Regardez votre boîte mail d'ici quelques instants")
+        return redirect(url_for('connexion'))
+    return render_template('pages/reset_password.html',
+                           title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('accueil'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('accueil'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data) # methode de classe
+        db.session.commit()             ## Changer car ajout de mdp ne fonctionne pas
+        flash('Votre mot de passe a été changé')
+        return redirect(url_for('connexion'))
+    return render_template('pages/password_reponse.html', form=form)

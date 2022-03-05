@@ -43,21 +43,15 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
----
-## nettoyer 
 
-comme c'est aprticipatif -> il faut controler les données
+## Adminsitrateur
 
-les ' " , peuvent faire bugger le code -> ajouter fonction .replace avec \ pour permettre le bonne affichage
-
-un truc pour les sauts de ligne ?
-
-## Recherche
-
-voir si utilisation du NLP pour ameliorer la recherche ?
+https://www.youtube.com/watch?v=ysdShEL1HMM
 
 
 #Recherche a facette et multi class
+
+https://stackoverflow.com/questions/64243594/sqlalchemy-query-based-on-2-other-classes-tables-with-association-table
 
 librairie woosh
 
@@ -120,3 +114,7 @@ https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
 https://atomiks.github.io/tippyjs/   -> pour tooltip javascript
 
 https://github.com/MarkHjorth/nedry
+
+## test
+
+https://openclassrooms.com/fr/courses/4425066-concevez-un-site-avec-flask/4526533-testez-le-parcours-utilisateur-avec-les-tests-fonctionnels
