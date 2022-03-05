@@ -1,7 +1,7 @@
-{% extends "base.html" %}
-{% block titre %}| inscription{% endblock %}
+{% extends "email/base.html" %}
+
 {% block corps %}
-<h1>Bienvenue au sein du projet GreenPY !</h1>
+<h1>Bienvenue {{ user.user_login }} au sein du projet GreenPY !</h1>
 <p>Votre compte est désormais validé et vous pouvez accéder à toutes les outils utilisateurs. Nous vous remercions pour votre participation afin
     d'enrichir notre base de données sur la mémoire militante des luttes écologistes et environnementales.</p>
 <p>Nos sentiments les plus chaleureux de la part de toute l'équipe GreenPy.</p>

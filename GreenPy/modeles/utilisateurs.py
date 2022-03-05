@@ -88,15 +88,27 @@ class User(UserMixin, db.Model):
         return self.user_id
 
     def set_password(self, motdepasse):
-        self.password_hash = generate_password_hash(motdepasse)
+        self.user_password = generate_password_hash(motdepasse)
 
     def get_reset_password_token(self, expires_in=600):
+        """
+        Fonction de hash d'un token selon l'utilisateur
+
+        :param expires_in: Délai avant expiration du token
+        :return: token, time
+        """
         return jwt.encode(
             {'reset_password': self.user_id, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
     def verify_reset_password_token(token):
+        """
+        Fonction de vérification du token et de l'utilisateur
+
+        :param token: token généré au sein du mail
+        :return: id de User
+        """
         try:
             id = jwt.decode(token, app.config['SECRET_KEY'],
                             algorithms=['HS256'])['reset_password']

@@ -1,4 +1,4 @@
-Bienvenue au sein du projet GreenPY !
+Bienvenue {{ user.user_login }} au sein du projet GreenPY !
 Votre compte est désormais validé et vous pouvez accéder à toutes les outils utilisateurs. Nous vous remercions pour votre participation afin
 d'enrichir notre base de données sur la mémoire militante des luttes écologistes et environnementales.
 Nos sentiments les plus chaleureux de la part de toute l'équipe GreenPy.
