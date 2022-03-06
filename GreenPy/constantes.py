@@ -1,10 +1,5 @@
 from warnings import warn
 
-#Config mail
-G_KEY=
-G_MAIL=
-
-
 #Constantes des résultats de recherche
 RESULTATS_PAR_PAGES = 10
 

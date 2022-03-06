@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 import os
 
-from .constantes import SECRET_KEY, G_KEY, G_MAIL
+from .constantes import SECRET_KEY
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
@@ -21,8 +21,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/env.db'
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = 1
-app.config['MAIL_USERNAME'] = G_MAIL
-app.config['MAIL_PASSWORD'] = G_KEY
+app.config['MAIL_USERNAME'] = os.environ['G_MAIL']
+app.config['MAIL_PASSWORD'] = os.environ['G_KEY']
 
 # On initie les extensions
 db = SQLAlchemy(app)
