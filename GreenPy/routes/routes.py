@@ -6,7 +6,7 @@ from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
 from ..modeles.donnees import Acteur, Objet_contest
 from ..modeles.utilisateurs import User
-from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
+from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm, CaptchaForm
 from ..constantes import RESULTATS_PAR_PAGES
 
 @app.route("/")
@@ -31,8 +31,13 @@ def militant(name_id):
 
 @app.route("/projet_contest/")
 @app.route("/projet_contest")
-def index_objContest():
-    projets_contest = Objet_contest.query.all()
+def index_objContest():   #bug
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    projets_contest = Objet_contest.query.order_by(Objet_contest.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/objet_contest.html", name="Index des projets contestés", projets_contest=projets_contest)
 
 @app.route("/projet_contest/<int:objContest_id>")
@@ -63,7 +68,7 @@ def recherche():
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/inscription", methods=["GET", "POST"])
 def inscription():
     """ Route gérant les inscriptions
     """
@@ -90,6 +95,7 @@ def inscription():
 def connexion():
     """ Route gérant les connexions
     """
+    form = CaptchaForm()
     if current_user.is_authenticated is True:
         flash("Vous êtes déjà connecté-e", "info")
         return redirect("/")
@@ -99,14 +105,15 @@ def connexion():
             login=request.form.get("login", None),
             motdepasse=request.form.get("motdepasse", None)
         )
-        if utilisateur:
+        print(utilisateur)
+        if utilisateur and form.validate_on_submit():
             flash("Connexion effectuée", "success")
             login_user(utilisateur)
             return redirect("/")
         else:
             flash("Les identifiants n'ont pas été reconnus", "error")
 
-    return render_template("pages/connexion.html")
+    return render_template("pages/connexion.html", form=form)
 
 login.login_view = 'connexion'
 

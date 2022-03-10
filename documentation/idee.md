@@ -48,6 +48,11 @@ https://maitron.fr/spip.php?article155122
 
 https://www.youtube.com/watch?v=ysdShEL1HMM
 
+## Navbar soluce
+
+https://stackoverflow.com/questions/47338055/navbar-dropdown-not-working-in-bootstrap4-0
+
+https://stackoverflow.com/questions/46101703/bootstrap-navbar-dropdown-login
 
 #Recherche a facette et multi class
 

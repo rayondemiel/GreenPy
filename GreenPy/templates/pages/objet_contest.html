@@ -13,7 +13,7 @@
                 <dt>Date de fin de la contestation ou du projet</dt><dd>{{projet_contest.date_fin}}</dd>
                 <dt>Description</dt><dd>{{projet_contest.description}}</dd>
             </dl>
-        {% elif projets_contest%}
+        {% elif projets_contest %}
         <p>Il y a {{ projets_contest|length }} enregistrés :
         <ul>
             {% for objet in projets_contest %}

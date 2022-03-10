@@ -1,6 +1,6 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
 
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -11,3 +11,6 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(
         'Repétez le mot de passe', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Changez votre mot de passe')
+
+class CaptchaForm(FlaskForm):
+    recaptcha = RecaptchaField()

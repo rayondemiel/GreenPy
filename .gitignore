@@ -6,7 +6,7 @@
 .idea/
 
 #variable environnement sensible
-#.env
+.env
 
 #md
 idee.md
