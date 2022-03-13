@@ -17,19 +17,19 @@ app = Flask("GreenPy",
     static_folder=statics)
 #Configuration SECRET KEY
 app.config['SECRET_KEY'] = SECRET_KEY
-# On configure la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/env.db'
 
-#configuration serveur mail
+#Configuration BDD
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/env.db'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+#Configuration serveur mail
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = 1
 app.config['MAIL_USERNAME'] = "greenpy.project@gmail.com"
 app.config['MAIL_PASSWORD'] = "" #os.getenv['G_KEY']
-#Captcha
-app.config['RECAPTCHA_PUBLIC_KEY'] = "6LcJi7oeAAAAALEOMVEuYHOnn9R_eSF6-Nxjstsj"
-app.config['RECAPTCHA_PRIVATE_KEY'] = "" #os.getenv['CAPTCHA_PRIVATEKEY']
-# On initie les extensions
+
+#Initiation extensions
 db = SQLAlchemy(app)
 login = LoginManager(app)
 mail = Mail(app)

@@ -11,6 +11,3 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(
         'Repétez le mot de passe', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Changez votre mot de passe')
-
-class CaptchaForm(FlaskForm):
-    recaptcha = RecaptchaField()

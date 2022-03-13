@@ -12,6 +12,10 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False, unique=True)
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
+    #Relations
+    authorships_acteur = db.relationship("AuthorshipActeur", back_populates="user")
+    authorships_objet = db.relationship("ObjetContest", back_populates="user")
+    authorships_orga = db.relationship("Orga", back_populates="user")
 
     @staticmethod
     def identification(login, motdepasse):

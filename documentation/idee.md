@@ -72,6 +72,10 @@ https://github.com/gabays/32M7129 -voir cours 10 à 12
 
 ## Map tuto
 
+
+ex: **https://github.com/jeandamien-genero/actes-bourbon**
+
+
 Ca peut etre bien de faire geopy en asynchrone -> pas de changement de page, script qui se lance en silence je crois
 
 https://programminghistorian.org/en/lessons/mapping-with-python-leaflet#transforming-data-with-python

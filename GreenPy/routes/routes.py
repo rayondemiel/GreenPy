@@ -6,8 +6,10 @@ from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
 from ..modeles.donnees import Acteur, Objet_contest
 from ..modeles.utilisateurs import User
-from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm, CaptchaForm
+from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
 from ..constantes import RESULTATS_PAR_PAGES
+
+#Accueil
 
 @app.route("/")
 @app.route("/accueil")
@@ -15,6 +17,8 @@ def accueil():
     militants = Acteur.query.all()
     projets_contest = Objet_contest.query.all()
     return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
+
+#Accès aux données
 
 @app.route("/militant/")
 @app.route("/militant")
@@ -45,6 +49,36 @@ def objContest(objContest_id):
     unique_contest = Objet_contest.query.get(objContest_id)
     return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest)
 
+#Gestion des données
+
+@app.route("/inscription_militants", methods=["GET", "POST"])
+@login_required
+def inscription_militants():
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Acteur.ajout_acteur(
+            nom = request.form.get("ajout_source_id", None),
+            prenom = request.form.get("ajout_source_id", None),
+            date_naissance= request.form.get("ajout_source_id", None),
+            date_deces= request.form.get("ajout_source_id", None),
+            ville_naissance= request.form.get("ajout_source_id", None),
+            pays_naissance= request.form.get("ajout_source_id", None),
+            profession= request.form.get("ajout_source_id", None),
+            biographie= request.form.get("ajout_source_id", None)
+        )
+
+        if statut is True:
+            flash("Ajout d'un nouveau militant", "success")
+            return redirect("/")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return render_template("pages/ajout_militant.html")
+    else:
+        return render_template("pages/ajout_militant.html")
+
+#Recherche
+
 @app.route("/recherche")
 def recherche():
     motclef = request.args.get("keyword", None)
@@ -67,6 +101,8 @@ def recherche():
              )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+
+#Gestion des utilisateurs
 
 @app.route("/inscription", methods=["GET", "POST"])
 def inscription():
@@ -95,7 +131,6 @@ def inscription():
 def connexion():
     """ Route gérant les connexions
     """
-    form = CaptchaForm()
     if current_user.is_authenticated is True:
         flash("Vous êtes déjà connecté-e", "info")
         return redirect("/")
@@ -106,14 +141,14 @@ def connexion():
             motdepasse=request.form.get("motdepasse", None)
         )
         print(utilisateur)
-        if utilisateur and form.validate_on_submit():
+        if utilisateur:
             flash("Connexion effectuée", "success")
             login_user(utilisateur)
             return redirect("/")
         else:
             flash("Les identifiants n'ont pas été reconnus", "error")
 
-    return render_template("pages/connexion.html", form=form)
+    return render_template("pages/connexion.html")
 
 login.login_view = 'connexion'
 
