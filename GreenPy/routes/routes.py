@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
-from ..modeles.donnees import Acteur, Objet_contest
+from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga
 from ..modeles.utilisateurs import User
 from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
 from ..constantes import RESULTATS_PAR_PAGES
@@ -51,21 +51,23 @@ def objContest(objContest_id):
 
 #Gestion des données
 
-@app.route("/inscription_militants", methods=["GET", "POST"])
+@app.route("/inscription_militant", methods=["GET", "POST"])
 @login_required
-def inscription_militants():
+def inscription_militant():
+
+    pays = Pays.query.all()
 
     # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Acteur.ajout_acteur(
-            nom = request.form.get("ajout_source_id", None),
-            prenom = request.form.get("ajout_source_id", None),
-            date_naissance= request.form.get("ajout_source_id", None),
-            date_deces= request.form.get("ajout_source_id", None),
-            ville_naissance= request.form.get("ajout_source_id", None),
-            pays_naissance= request.form.get("ajout_source_id", None),
-            profession= request.form.get("ajout_source_id", None),
-            biographie= request.form.get("ajout_source_id", None)
+            nom = request.form.get("nom", None),
+            prenom = request.form.get("prenom", None),
+            date_naissance= request.form.get("date_naissance", None),
+            date_deces= request.form.get("date_deces", None),
+            ville_naissance= request.form.get("ville_naissance", None),
+            pays_naissance= Pays.query.get(request.form["pays_naissance"]),
+            profession= request.form.get("profession", None),
+            biographie= request.form.get("biographie", None)
         )
 
         if statut is True:
@@ -75,7 +77,7 @@ def inscription_militants():
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
             return render_template("pages/ajout_militant.html")
     else:
-        return render_template("pages/ajout_militant.html")
+        return render_template("pages/ajout_militant.html", pays=pays)
 
 #Recherche
 

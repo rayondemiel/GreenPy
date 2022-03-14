@@ -11,7 +11,7 @@ class Acteur(db.Model):
     profession = db.Column(db.Text)
     biographie = db.Column(db.Text, nullable=False)
     #Relations
-    """authorships = db.relationship("AuthorshipActeur", back_populates="acteur")"""
+    authorships = db.relationship("AuthorshipActeur", back_populates="acteur")
     participation = db.relationship("Participation", back_populates="acteur")
     militer = db.relationship("Militer", back_populates="acteur")
     pays = db.relationship("Pays", back_populates="acteur")
@@ -19,8 +19,6 @@ class Acteur(db.Model):
     @staticmethod
     def ajout_acteur(nom, prenom, date_naissance, date_deces, ville_naissance, pays_naissance, profession, biographie):
         erreurs = []
-        #if not ajout_acteur_id:
-           # erreurs.append("Veuillez renseigner l'identifiant pour cette source.")
         if not nom:
             erreurs.append("Veuillez renseigner le nom de la personne.")
         if not prenom:
@@ -38,7 +36,7 @@ class Acteur(db.Model):
             Acteur.nom == nom,
             Acteur.prenom == prenom,
             Acteur.date_naissance == date_naissance,
-            Acteur.ville_naissance == ville_naissance
+            Acteur.pays_naissance == pays_naissance
             )).count()
         if unique > 0:
             erreurs.append("Cette personne est déjà présente au sein de la base de données.")
@@ -95,7 +93,7 @@ class Objet_contest(db.Model):
     ressources = db.Column(db.Text)
     img_id = db.Column(db.Integer)
     #Relations
-    """authorships = db.relationship("Authorship_ObjetContest", back_populates="objet_contest")"""
+    authorships = db.relationship("Authorship_ObjetContest", back_populates="objet_contest")
     participation = db.relationship("Participation", back_populates="objet")
     categorie = db.relationship("Categorie", back_populates="objet_contest")
     pays = db.relationship("Pays", back_populates="objet_contest")
@@ -118,6 +116,7 @@ class Orga(db.Model):
     #Relations
     militer = db.relationship("Militer", back_populates="orga")
     pays = db.relationship("Pays", back_populates="orga")
+    authorships = db.relationship("Authorship_Orga", back_populates="orga")
 
 class Militer(db.Model):
     militer_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
@@ -130,7 +129,7 @@ class Militer(db.Model):
     orga = db.relationship("Orga", back_populates="militer")
     acteur = db.relationship("Acteur", back_populates="militer")
 
-class Pays(db.Column):
+class Pays(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     #Relations
