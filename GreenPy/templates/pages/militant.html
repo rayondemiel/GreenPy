@@ -7,7 +7,8 @@
 
 {% block corps %}
     {% if militant %}
-            <h1>{{militant.nom}} {{militant.prenom}}</h1>
+             <!-- Page de présentation des luttes environnementales-->
+            <h1> <b>{{militant.nom}} {{militant.prenom}}</b> ({{militant.date_naissance}}{% if militant.date_deces is not none %} - {{militant.date_deces}} {% else %} - ... {% endif %}) </h1>
             <dl>
                 <dt>Date de naissance</dt><dd>{{militant.date_naissance}}</dd>
                 <dt>Date de décès</dt><dd>{{militant.date_deces}}</dd>
@@ -16,17 +17,49 @@
                 <dt>Profession</dt><dd>{{militant.profession}}</dd>
                 <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
             </dl>
+        <!-- Index des projets contestés et luttes environnementales-->
         {% elif militants%}
-        <p>Il y a {{ militants|length }} enregistrés :
+        <p>Il y a {{ militants.total }} enregistrés :</p>
         <ul>
-            {% for militant in militants %}
+            {% for militant in militants.items %}
                 <li><a href="{{url_for('militant', name_id=militant.id)}}">{{militant.nom}}, {{militant.prenom}}</a></li>
             {% endfor %}
-        </ul></p>
+        </ul>
+        <nav aria-label="research-pagination">
+          <ul class="pagination">
+            {%- for page in militants.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page %}
+
+                  {% if page != militants.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('militant', page=page) }}">{{page}}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item active disabled">
+                      <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                    </li>
+                  {% endif %}
+
+                {% else %}
+                    <li class="page-item disabled">
+                      <a class="page-link">...</a>
+                    </li>
+                {% endif %}
+
+            {%- endfor %}
+              </ul>
+            </nav>
+            <button type="button" class="btn btn-success">
+                <a class="text-light" href="{{url_for('inscription_militant')}}">Ajouter une personne</a>
+            </button>
+
+        <!-- Si requête non trouvée -->
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}
-        <p>
-        <a href="{{url_for('accueil')}}">Retour à l'accueil</a>
-        </p>
+            <div>
+                <button type="button" class="btn btn-secondary">
+                    <a class="text-light" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+                </button>
+            </div>
 {% endblock %}}

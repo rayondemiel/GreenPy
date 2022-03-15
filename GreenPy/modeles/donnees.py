@@ -35,8 +35,7 @@ class Acteur(db.Model):
         unique = Acteur.query.filter(db.and_(
             Acteur.nom == nom,
             Acteur.prenom == prenom,
-            Acteur.date_naissance == date_naissance,
-            Acteur.pays_naissance == pays_naissance
+            Acteur.date_naissance == date_naissance
             )).count()
         if unique > 0:
             erreurs.append("Cette personne est déjà présente au sein de la base de données.")
@@ -51,9 +50,9 @@ class Acteur(db.Model):
                                 date_naissance = date_naissance,
                                 date_deces = date_deces,
                                 ville_naissance = ville_naissance,
-                                pays_naissance = pays_naissance,
                                 profession = profession,
-                                biographie = biographie)
+                                biographie = biographie,
+                                pays=pays_naissance)
 
         try:
             db.session.add(nouveau_acteur)

@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block corps %}
+    <!-- Page d'un projet contesté -->
     {% if projet_contest %}
             <h1>{{projet_contest.nom}}</h1>
             <dl>
@@ -13,15 +14,48 @@
                 <dt>Date de fin de la contestation ou du projet</dt><dd>{{projet_contest.date_fin}}</dd>
                 <dt>Description</dt><dd>{{projet_contest.description}}</dd>
             </dl>
+
+        <!-- Index des projets contestés -->
         {% elif projets_contest %}
-        <p>Il y a {{ projets_contest|length }} enregistrés :
+        <h1>Index des luttes environnementales</h1>
+        <p>Il y a {{ projets_contest.total }} luttes environnementales qui ont été recensées :</p>
         <ul>
-            {% for objet in projets_contest %}
+            {% for objet in projets_contest.items %}
                 <li><a href="{{url_for('objContest', objContest_id=objet.id)}}">{{objet.nom}}</a></li>
             {% endfor %}
-        </ul></p>
+        </ul>
+
+        <nav aria-label="research-pagination">
+          <ul class="pagination">
+            {%- for page in projets_contest.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page %}
+
+                  {% if page != projets_contest.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('index_objContest', page=page) }}">{{page}}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item active disabled">
+                      <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                    </li>
+                  {% endif %}
+
+                {% else %}
+                    <li class="page-item disabled">
+                      <a class="page-link">...</a>
+                    </li>
+                {% endif %}
+
+            {%- endfor %}
+          </ul>
+        </nav>
+        <button type="button" class="btn btn-success">
+            <a class="text-light" href="{{url_for('#')}}">Ajouter une lutte</a>
+        </button>
+        <!-- Si requête non trouvée -->
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}
+
         <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
 {% endblock %}

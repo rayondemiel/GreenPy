@@ -6,6 +6,7 @@ from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga
 from ..modeles.utilisateurs import User
+from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
 from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
 from ..constantes import RESULTATS_PAR_PAGES
 
@@ -23,7 +24,12 @@ def accueil():
 @app.route("/militant/")
 @app.route("/militant")
 def index_militant():
-    militants = Acteur.query.all()
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    militants = Acteur.query.order_by(Acteur.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/militant.html", name="Index des militants", militants=militants)
 
 @app.route("/militant/<int:name_id>")
@@ -33,9 +39,8 @@ def militant(name_id):
     #def age()
     return render_template("pages/militant.html", name="militant", militant=unique_militants)
 
-@app.route("/projet_contest/")
 @app.route("/projet_contest")
-def index_objContest():   #bug
+def index_objContest():
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
@@ -50,7 +55,7 @@ def objContest(objContest_id):
     return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest)
 
 #Gestion des données
-
+##Militants
 @app.route("/inscription_militant", methods=["GET", "POST"])
 @login_required
 def inscription_militant():
@@ -78,6 +83,57 @@ def inscription_militant():
             return render_template("pages/ajout_militant.html")
     else:
         return render_template("pages/ajout_militant.html", pays=pays)
+
+@app.route("/militant/<int:name_id>/update", methods=["GET", "POST"])
+@login_required
+def modification_militant(name_id):
+
+    militant = Acteur.query.get_or_404(name_id)
+    pays = Pays.query.all()
+
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("nom", "").strip():
+            erreurs.append("Veuillez renseigner le nom de la personne.")
+        if not request.form.get("prenom", "").strip():
+            erreurs.append("Veuillez renseigner le prénom de la personne.")
+        if not request.form.get("date_naissance", "").strip():
+            erreurs.append("Veuillez renseigner la date de naissance de la personne.")
+        if not request.form.get("ville_naissance", "").strip():
+            erreurs.append("Veuillez renseigner la ville de naissance de la personne.")
+        if not request.form.get("biographie", "").strip():
+            erreurs.append("Veuillez renseigner la biographie de la personne.")
+
+        if not request.form.get("pays_naissance", "").strip():
+            erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
+        elif not Pays.query.get(request.form["pays_naissance"]):
+            erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
+
+
+        if not erreurs:
+            print("Faire ma modifications")
+            militant.nom = request.form["nom"]
+            militant.prenom = request.form["prenom"]
+            militant.date_naissance = request.form["date_naissance"]
+            militant.date_deces = request.form["date_deces"]
+            militant.ville_naissance = request.form["ville_naissance"]
+            militant.profession = request.form["profession"]
+            militant.biographie = request.form["biographie"]
+            militant.pays = Pays.query.get(request.form["pays_naissance"])
+
+            db.session.add(militant)
+            db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
+            db.session.commit()
+            updated = True
+        return render_template(
+            "pages/ajout_militant.html",
+            militant=militant,
+            pays=pays,
+            erreurs=erreurs,
+            updated=updated
+        )
 
 #Recherche
 
