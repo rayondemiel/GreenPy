@@ -16,6 +16,13 @@
                 <dt>Pays de naissance</dt><dd>{{militant.pays_naissance}}</dd>
                 <dt>Profession</dt><dd>{{militant.profession}}</dd>
                 <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
+                <dd>
+                    <ul>
+                        {% for modification in militant.authorships %}
+                            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
             </dl>
         <!-- Index des projets contestés et luttes environnementales-->
         {% elif militants%}
@@ -49,17 +56,19 @@
             {%- endfor %}
               </ul>
             </nav>
-            <button type="button" class="btn btn-success">
-                <a class="text-light" href="{{url_for('inscription_militant')}}">Ajouter une personne</a>
-            </button>
 
         <!-- Si requête non trouvée -->
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}
+
+        <!-- Bouton accueil -->
             <div>
-                <button type="button" class="btn btn-secondary">
-                    <a class="text-light" href="{{url_for('accueil')}}">Retour à l'accueil</a>
-                </button>
+                {% if militant %}
+                <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_militant', name_id=militant.id)}}">Faire une modification</a>
+                {% elif militants %}
+                <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_militant')}}">Ajouter une personne</a>
+                {% endif %}
+                <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
             </div>
 {% endblock %}}
