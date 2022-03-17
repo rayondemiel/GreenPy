@@ -21,7 +21,7 @@ def accueil():
 
 #Accès aux données
 
-@app.route("/militant/")
+@app.route("/militant")
 @app.route("/militant")
 def index_militant():
     page = request.args.get("page", 1)

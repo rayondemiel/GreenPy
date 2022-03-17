@@ -11,9 +11,6 @@
                 padding:10vh;
                 background-image: url({{url_for('static', filename='images/font.jpg')}});
             }
-            .container {
-                background-image: none;
-            }
     </style>
 </head>
 <body>
@@ -28,10 +25,10 @@
               Base de données
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item nav-link" href="{{url_for('index_militant')}}">Les militants</a>
-              <a class="dropdown-item nav-link" href="{{url_for('index_objContest')}}">Les projets contestés</a>
+              <a class="dropdown-item nav-link" href="{{url_for('index_militant')}}">Index des militants écologistes</a>
+              <a class="dropdown-item nav-link" href="{{url_for('index_objContest')}}">Index des projets contestés</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item nav-link" href="#">Organisations</a>
+              <a class="dropdown-item nav-link" href="#">Index des Organisations</a>
             </div>
           </li>
             <li class="nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
@@ -71,6 +68,7 @@
                 {% endfor %}
               </div>
           </div>
+      </div>
           {% endif %}
         {% endwith %}
     <div class="container">
