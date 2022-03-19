@@ -7,6 +7,7 @@ class AuthorshipActeur(db.Model):
     authorship_acteur_id = db.Column(db.Integer, db.ForeignKey('acteur.id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    createur = db.Column(db.Text)
     #Relations
     user = db.relationship("User", back_populates="authorships_acteur")
     acteur = db.relationship("Acteur", back_populates="authorships")

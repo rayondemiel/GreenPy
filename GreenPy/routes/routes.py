@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
 
 from .email import mdp_mail, inscription_mail
@@ -35,9 +35,16 @@ def index_militant():
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
     unique_militants = Acteur.query.get(name_id)
+    createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
+    organisation = Militer.query\
+        .join(Orga, Militer.orga_id == Orga.id)\
+        .join(Acteur, Militer.acteur_id == Acteur.id)\
+        .filter(Acteur.id == name_id)\
+        .order_by(Militer.date_debut)\
+        .all()
     #def pour que si il pas de id, aller page accueil des militants. Par contre
     #def age()
-    return render_template("pages/militant.html", name="militant", militant=unique_militants)
+    return render_template("pages/militant.html", name="militant", militant=unique_militants, createur=createur, organisation=organisation)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -127,13 +134,13 @@ def modification_militant(name_id):
             db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
             db.session.commit()
             updated = True
-        return render_template(
-            "pages/ajout_militant.html",
-            militant=militant,
-            pays=pays,
-            erreurs=erreurs,
-            updated=updated
-        )
+    return render_template(
+        "pages/ajout_militant.html",
+        militant=militant,
+        pays=pays,
+        erreurs=erreurs,
+        updated=updated
+    )
 
 #Recherche
 

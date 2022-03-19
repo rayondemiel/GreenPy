@@ -8,24 +8,45 @@
 {% block corps %}
     {% if militant %}
              <!-- Page de présentation des luttes environnementales-->
-            <h1> <b>{{militant.nom}} {{militant.prenom}}</b> ({{militant.date_naissance}}{% if militant.date_deces is not none %} - {{militant.date_deces}} {% else %} - ... {% endif %}) </h1>
+            <h1> <b>{{militant.nom}} {{militant.prenom}}</b> ({{militant.date_naissance}}{% if militant.date_deces is not none %} - {{militant.date_deces}}{% else %} - ... {% endif %})</h1>
+            <div class="flex-container">
+                <div>
+                    <h2>Données biographiques</h2>
+                    <dl>
+                        <dt>Date de naissance</dt><dd>{{militant.date_naissance}}</dd>
+                        <dt>Date de décès</dt><dd>{{militant.date_deces}}</dd>
+                        <dt>Lieu de naisssance</dt><dd>{{militant.ville_naissance}}</dd>
+                        <dt>Pays de naissance</dt><dd>{{militant.pays_naissance}}</dd>
+                        <dt>Profession</dt><dd>{{militant.profession}}</dd>
+                        <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
+                    </dl>
+                </div>
+                <div>
+                    <h2>Organisations</h2>
+                    <ul>
+                        {% for groupes in organisation %}
+                        <li>"{{groupes.orga.nom}}" {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
+                            {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% if createur %}
+                <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
+            {% endif %}
             <dl>
-                <dt>Date de naissance</dt><dd>{{militant.date_naissance}}</dd>
-                <dt>Date de décès</dt><dd>{{militant.date_deces}}</dd>
-                <dt>Lieu de naisssance</dt><dd>{{militant.ville_naissance}}</dd>
-                <dt>Pays de naissance</dt><dd>{{militant.pays_naissance}}</dd>
-                <dt>Profession</dt><dd>{{militant.profession}}</dd>
-                <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
-                <dd>
+                <dd> <span>Cette page a été modifiée par :</span>
                     <ul>
                         {% for modification in militant.authorships %}
+                            {% if modification.createur != "True" %}
                             <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </dd>
             </dl>
         <!-- Index des projets contestés et luttes environnementales-->
-        {% elif militants%}
+    {% elif militants %}
         <p>Il y a {{ militants.total }} enregistrés :</p>
         <ul>
             {% for militant in militants.items %}
@@ -66,9 +87,10 @@
             <div>
                 {% if militant %}
                 <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_militant', name_id=militant.id)}}">Faire une modification</a>
+                <a class="btn btn-secondary" role="button" href="{{url_for('index_militant')}}">Retour à l'index</a>
                 {% elif militants %}
                 <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_militant')}}">Ajouter une personne</a>
-                {% endif %}
                 <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+                {% endif %}
             </div>
 {% endblock %}}

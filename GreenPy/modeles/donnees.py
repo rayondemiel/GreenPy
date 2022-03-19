@@ -1,4 +1,7 @@
+from flask_login import current_user
+
 from ..app import db
+from .authorship import AuthorshipActeur
 
 class Acteur(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -56,6 +59,7 @@ class Acteur(db.Model):
 
         try:
             db.session.add(nouveau_acteur)
+            db.session.add(AuthorshipActeur(acteur=nouveau_acteur, user=current_user, createur="True"))
             db.session.commit()
             return True, nouveau_acteur
 

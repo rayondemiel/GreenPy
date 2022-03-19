@@ -6,15 +6,16 @@
 
 {% block corps %}
 
+<!-- Formulaire de modification d'une page existante -->
 {% if militant %}
 
 <div>
     <center>
-        <h2>Modification de {{militant.nom}} {{militant.prenom}}</h2>
+        <h2>Modification de <b>{{militant.nom}} {{militant.prenom}}</b></h2>
         <p>Veuillez renseigner les différents critères. Les élements avec une * sont obligatoire. </p>
     </center>
 </div>
-<form class="form" method="POST" action="{{url_for('modification_militant')}}">
+<form class="form" method="POST">
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Nom*</label>
       <div class="col-sm-10">
@@ -58,24 +59,25 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Profession(s)</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="profession" placeholder="..."/>
+        <input type="text" class="form-control" name="profession" value="{{militant.profession}}"/>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Biographie*</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="biographie" placeholder="..." required/>
+        <input type="text" class="form-control" name="biographie" value="{{militant.biographie}}" required/>
       </div>
     </div>
-
+<!-- ajout d'une notification de succès -->
     {% if updated %}
             <div class="alert alert-success">
                 <p>Nous vous remercions pour votre contribution concernant la page {{militant.nom}} {{militant.prenom}} !</p>
-                <p><a href="{{url_for('obelisque', militant=militant.id)}}">Retour à l'obélisque</a></p>
+                <p><a href="{{url_for('militant', name_id=militant.id)}}">Retour à la page</a></p>
             </div>
         {% endif %}
 
 {% else %}
+ <!-- Formulaire de création d'une personne activiste -->
 <div>
     <center>
         <h2>Formulaire d'ajout d'une personne</h2>
@@ -137,10 +139,10 @@
     </div>
 
 {% endif%}
-
+<!-- Base du formulaire -->
      <div class="col-12">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
       <label class="form-check-label" for="invalidCheck">
         J'accepte de partager les données dans le cadre de projet en étant informé de la <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank"  rel="noreferrer noopener">réglementation en vigueur sur les droits RGPD</a>.
       </label>
@@ -153,7 +155,7 @@
 
         <center>
       <div>
-        <button type="submit" class="btn btn-info">Ajouter</button>
+        {% if militant %} <button type="submit" class="btn btn-info">Modifier</button> {% else %}<button type="submit" class="btn btn-info">Ajouter</button>{% endif %}
         <a class="btn btn-danger" role="button" href="{{url_for('index_militant')}}">Annuler</a>
       </div>
     </center>
