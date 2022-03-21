@@ -1,0 +1,194 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if lutte %}| Luttes environnementales : {{lutte.nom}} | Modification {% else %} Ajout d'une lutte environnementale{% endif %}
+{% endblock %}
+
+{% block corps %}
+
+<!-- Formulaire de modification d'une page existante -->
+{% if lutte %}
+
+<div>
+    <center>
+        <h2>Modification de <b>{{lutte.nom}}</b></h2>
+        <p>Veuillez renseigner les différents critères. Les élements avec une * sont obligatoire. </p>
+    </center>
+</div>
+<form class="form" method="POST">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Nom*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="nom" value="{{lutte.nom}}" required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categorie" class="col-sm-2 col-form-label">Catégorie*</label>
+      <div class="col-sm-10">
+        <select name="categorie" id="categorie" required>
+		    	{% for categ in categorie %}
+		    		<option value="{{categ.id}}" {% if categ.id == lutte.categ_id %}selected{% endif %}>
+			    		{{categ.nom}}
+			    	</option>
+		    	{% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Date de début*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="date_debut" value="{{lutte.date_debut}}" required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Date de fin</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="date_fin" value="{{lutte.date_fin}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Ville*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ville" value="{{lutte.ville}}" required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Département/Région</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="departement" value="{{lutte.dpt}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="pays" class="col-sm-2 col-form-label">Pays*</label>
+      <div class="col-sm-10">
+        <select name="pays" id="pays" required>
+		    	{% for etat in pays %}
+		    		<option value="{{etat.id}}" {% if etat.id == lutte.pays_id %}selected{% endif %}>
+			    		{{etat.nom}}
+			    	</option>
+		    	{% endfor %}
+		    </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Description*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="description" value="{{lutte.description}}"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Ressources bibliographiques</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ressources" value="{{lutte.ressources}}"/>
+      </div>
+    </div>
+<!-- ajout d'une notification de succès -->
+    {% if updated %}
+            <div class="alert alert-success">
+                <p>Nous vous remercions pour votre contribution concernant la page {{lutte.nom}} !</p>
+                <p><a href="{{url_for('objContest', objContest_id=lutte.id)}}">Retour à la page</a></p>
+            </div>
+        {% endif %}
+
+{% else %}
+ <!-- Formulaire de création d'une personne activiste -->
+<div>
+    <center>
+        <h2>Formulaire d'ajout d'une lutte environnementale</h2>
+        <p>Veuillez renseigner les différents critères. Les élements avec une * sont obligatoire.</p>
+    </center>
+</div>
+<form class="form" method="POST" action="{{url_for('inscription_lutte')}}">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Nom*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="nom" placeholder="..." required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="categorie" class="col-sm-2 col-form-label">Catégorie*</label>
+      <div class="col-sm-10">
+        <select name="categorie" id="categorie" required>
+		    	{% for categ in categorie %}
+		    		<option value="{{categ.id}}">
+			    		{{categ.nom}}
+			    	</option>
+		    	{% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Date de début*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="date_debut" placeholder="Année" required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Date de fin</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="date_fin" placeholder="Année"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Ville*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ville" placeholder="..." required/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Département/Région</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="departement" placeholder="..."/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="pays" class="col-sm-2 col-form-label">Pays*</label>
+      <div class="col-sm-10">
+        <select name="pays" id="pays" required>
+		    	{% for etat in pays %}
+		    		<option value="{{etat.id}}">
+			    		{{etat.nom}}
+			    	</option>
+		    	{% endfor %}
+		    </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Description*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="description" placeholder="..."/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Ressources*</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ressources" placeholder="..."/>
+      </div>
+    </div>
+
+{% endif%}
+<!-- Base du formulaire -->
+     <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
+      <label class="form-check-label" for="invalidCheck">
+        J'accepte de partager les données dans le cadre de ce projet en étant informé de la <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank"  rel="noreferrer noopener">réglementation en vigueur sur les droits RGPD</a>.
+      </label>
+      <div class="invalid-feedback">
+        Vous devez accepter les conditions.
+      </div>
+    </div>
+  </div>
+
+
+        <center>
+      <div>
+        {% if lutte %} <button type="submit" class="btn btn-info">Modifier</button> {% else %}<button type="submit" class="btn btn-info">Ajouter</button>{% endif %}
+        <a class="btn btn-danger" role="button" href="{{url_for('index_objContest')}}">Annuler</a>
+      </div>
+    </center>
+</form>
+
+<br/>
+<div><a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
+{% endblock %}

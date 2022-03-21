@@ -59,7 +59,11 @@ def index_objContest():
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
     unique_contest = Objet_contest.query.get(objContest_id)
-    return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest)
+    if Objet_contest.date_fin is not None :
+        date = Objet_contest.date_fin-Objet_contest.date_debut
+    else :
+        date = "En cours"
+    return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest, date=date)
 
 #Gestion des données
 ##Militants
@@ -141,6 +145,92 @@ def modification_militant(name_id):
         erreurs=erreurs,
         updated=updated
     )
+
+#Gestion des données
+##Luttes environnementales
+
+@app.route("/inscription_lutte", methods=["GET", "POST"])
+@login_required
+def inscription_lutte():
+
+    pays = Pays.query.all()
+    categorie = Categorie.query.all()
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Objet_contest.ajout_lutte(
+            nom=request.form.get("nom", None),
+            categorie=Categorie.query.get(request.form["categorie"]),
+            date_debut=request.form.get("date_debut", None),
+            date_fin=request.form.get("date_fin", None),
+            ville=request.form.get("ville", None),
+            dpt=request.form.get("departement", None),
+            pays=Pays.query.get(request.form["pays"]),
+            description=request.form.get("description", None),
+            ressources=request.form.get("ressources", None)
+        )
+
+        if statut is True:
+            flash("Ajout d'une nouvelle lutte environnementale", "success")
+            return redirect("/")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return render_template("pages/ajout_lutte.html")
+    else:
+        return render_template("pages/ajout_lutte.html", pays=pays, categorie=categorie)
+
+@app.route("/projet_contest/<int:objContest_id>/update", methods=["GET", "POST"])
+@login_required
+def modification_lutte(objContest_id):
+
+    lutte = Objet_contest.query.get_or_404(objContest_id)
+    pays = Pays.query.all()
+    categorie = Categorie.query.all()
+
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("nom", "").strip():
+            erreurs.append("Veuillez renseigner un intitulé.")
+        if not request.form.get("date_debut", "").strip():
+            erreurs.append("Veuillez renseigner une date de début.")
+        if not request.form.get("ville", "").strip():
+            erreurs.append("Veuillez renseigner la ville.")
+
+        if not request.form.get("pays", "").strip():
+            erreurs.append("Veuillez renseigner le pays.")
+        elif not Pays.query.get(request.form["pays"]):
+            erreurs.append("Veuillez renseigner le pays.")
+        if not request.form.get("categorie", "").strip():
+            erreurs.append("Veuillez renseigner la categorie.")
+        elif not Pays.query.get(request.form["categorie"]):
+            erreurs.append("Veuillez renseigner la categorie.")
+
+
+        if not erreurs:
+            print("Faire ma modifications")
+            lutte.nom = request.form["nom"]
+            lutte.date_debut = request.form["date_debut"]
+            lutte.date_fin = request.form["date_fin"]
+            lutte.ville = request.form["ville"]
+            lutte.dpt = request.form["departement"]
+            lutte.description = request.form["description"]
+            lutte.ressources = request.form["ressources"]
+            lutte.categ_id = Categorie.query.get(request.form["categorie"])
+            lutte.pays_id = Pays.query.get(request.form["pays"])
+
+            db.session.add(lutte)
+            db.session.add(Authorship_ObjetContest(obj_contest=lutte, user=current_user))
+            db.session.commit()
+            updated = True
+    return render_template(
+        "pages/ajout_lutte.html",
+        lutte=lutte,
+        pays=pays,
+        categorie=categorie,
+        erreurs=erreurs,
+        updated=updated)
 
 #Recherche
 

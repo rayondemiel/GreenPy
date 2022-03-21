@@ -18,6 +18,7 @@ class Authorship_ObjetContest(db.Model):
     authorship_objet_id = db.Column(db.Integer, db.ForeignKey('objet_contest.id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    createur = db.Column(db.Text)
     #Relations
     user = db.relationship("User", back_populates="authorships_objet")
     objet_contest = db.relationship("Objet_contest", back_populates="authorships")
@@ -28,6 +29,7 @@ class Authorship_Orga(db.Model):
     authorship_orga_id = db.Column(db.Integer, db.ForeignKey('orga.id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    createur = db.Column(db.Text)
     #Relations
     user = db.relationship("User", back_populates="authorships_orga")
     orga = db.relationship("Orga", back_populates="authorships")

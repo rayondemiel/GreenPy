@@ -8,11 +8,29 @@
 {% block corps %}
     <!-- Page d'un projet contesté -->
     {% if projet_contest %}
-            <h1>{{projet_contest.nom}}</h1>
+            <h1><b>{{projet_contest.nom}}</b>, ({{projet_contest.date_debut}}{% if projet_contest.date_fin is not none %} - {{projet_contest.date_fin}}{% else %} - ... {% endif %})</h1>
             <dl>
-                <dt>Date de début du projet</dt><dd>{{projet_contest.date_debut}}</dd>
-                <dt>Date de fin de la contestation ou du projet</dt><dd>{{projet_contest.date_fin}}</dd>
-                <dt>Description</dt><dd>{{projet_contest.description}}</dd>
+                <dt>Catégorie de l'objet contesté</dt><dd>{{projet_contest.categorie.nom}}</dd>
+                <dt>Durée du conflit</dt><dd>{{date}}</dd>
+                <dt>Ville</dt><dd>{{projet_contest.ville}}</dd>
+                <dt>Département/Région</dt><dd>{{projet_contest.dpt}}</dd>
+                <dt>Pays</dt><dd>{{projet_contest.pays.nom}}</dd>
+                {% if projet_contest.description is not none %}<dt>Description</dt><dd>{{projet_contest.description}}</dd>{% endif %}
+                {% if projet_contest.ressources is not none %}<dt>Ressources bibliographiques</dt><dd>{{projet_contest.ressources}}</dd>{% endif %}
+            </dl>
+            {% if createur %}
+                <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
+            {% endif %}
+            <dl>
+                <dd> <span>Cette page a été modifiée par :</span>
+                    <ul>
+                        {% for modification in projet_contest.authorships %}
+                            {% if modification.createur != "True" %}
+                            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </dd>
             </dl>
 
         <!-- Index des projets contestés -->
@@ -49,13 +67,16 @@
             {%- endfor %}
           </ul>
         </nav>
-        <button type="button" class="btn btn-success">
-            <a class="text-light" href="{{url_for('#')}}">Ajouter une lutte</a>
-        </button>
         <!-- Si requête non trouvée -->
         {% else %}
             <p>La base de données est en cours de constitution</p>
         {% endif %}
 
-        <div><a class="btn btn-secondary" role="button"href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
+        {% if projet_contest %}
+            <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_lutte', objContest_id=projet_contest.id)}}">Faire une modification</a>
+            <a class="btn btn-secondary" role="button" href="{{url_for('index_objContest')}}">Retour à l'index</a>
+        {% elif projets_contest %}
+            <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_lutte')}}">Ajouter une page</a>
+            <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+        {% endif %}
 {% endblock %}

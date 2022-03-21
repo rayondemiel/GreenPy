@@ -1,7 +1,7 @@
 from flask_login import current_user
 
 from ..app import db
-from .authorship import AuthorshipActeur
+from .authorship import AuthorshipActeur, Authorship_ObjetContest, Authorship_Orga
 
 class Acteur(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -87,7 +87,7 @@ class Objet_contest(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     categ_id = db.Column(db.Integer, db.ForeignKey('categorie.id'))
-    description = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text)
     date_debut = db.Column(db.Text, nullable=False)
     date_fin = db.Column(db.Text)
     ville = db.Column(db.Text, nullable=False)
@@ -101,7 +101,51 @@ class Objet_contest(db.Model):
     categorie = db.relationship("Categorie", back_populates="objet_contest")
     pays = db.relationship("Pays", back_populates="objet_contest")
 
-    #ajouter une fonction deverification unique (avec and_ dans ville et nom) -> si les deux sont deja present alors refus -> voir dans creer() de USER
+    @staticmethod
+    def ajout_lutte(nom, categorie, date_debut, date_fin, ville, dpt, pays, description, ressources):
+        erreurs = []
+        if not nom:
+            erreurs.append("Veuillez renseigner un intitulé.")
+        if not categorie:
+            erreurs.append("Veuillez renseigner une catégorie.")
+        if not date_debut:
+            erreurs.append("Veuillez renseigner une date de début.")
+        if not ville:
+            erreurs.append("Veuillez renseigner la ville.")
+        if not pays:
+            erreurs.append("Veuillez renseigner le pays.")
+
+        unique = Objet_contest.query.filter(db.and_(
+            Objet_contest.categ_id == categorie,
+            Objet_contest.date_debut == date_debut,
+            Objet_contest.ville == ville
+        )).count()
+        if unique > 0:
+            erreurs.append("Cette personne est déjà présente au sein de la base de données.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
+        nouvelle_lutte = Objet_contest(nom=nom,
+                                categ_id=categorie,
+                                date_debut=date_debut,
+                                date_fin=date_fin,
+                                ville=ville,
+                                dpt=dpt,
+                                description=description,
+                                ressources=ressources,
+                                pays_id=pays)
+
+        try:
+            db.session.add(nouvelle_lutte)
+            db.session.add(Authorship_ObjetContest(objet_contest=nouvelle_lutte, user=current_user, createur="True"))
+            db.session.commit()
+            return True, nouvelle_lutte
+
+        except Exception as erreur:
+            return False, [str(erreur)]
 
 class Categorie(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
