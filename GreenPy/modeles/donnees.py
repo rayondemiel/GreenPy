@@ -88,8 +88,8 @@ class Objet_contest(db.Model):
     nom = db.Column(db.Text, nullable=False)
     categ_id = db.Column(db.Integer, db.ForeignKey('categorie.id'))
     description = db.Column(db.Text)
-    date_debut = db.Column(db.Text, nullable=False)
-    date_fin = db.Column(db.Text)
+    date_debut = db.Column(db.Integer, nullable=False)
+    date_fin = db.Column(db.Integer)
     ville = db.Column(db.Text, nullable=False)
     dpt = db.Column(db.Text)
     pays_id = db.Column(db.Integer, db.ForeignKey('pays.id'))
@@ -164,6 +164,38 @@ class Orga(db.Model):
     militer = db.relationship("Militer", back_populates="orga")
     pays = db.relationship("Pays", back_populates="orga")
     authorships = db.relationship("Authorship_Orga", back_populates="orga")
+
+    @staticmethod
+    def ajout_orga(nom, date_fondation, type_orga, pays, description):
+        erreurs = []
+        if not nom:
+            erreurs.append("Veuillez renseigner un intitulé.")
+        if not pays:
+            erreurs.append("Veuillez renseigner le pays.")
+
+        unique = Objet_contest.query.filter(Orga.nom).count()
+        if unique > 0:
+            erreurs.append("Cette personne est déjà présente au sein de la base de données.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
+        nouvelle_orga = Orga(nom=nom,
+                             date_fondation=date_fondation,
+                             type_orga=type_orga,
+                             description=description,
+                             pays=pays)
+
+        try:
+            db.session.add(nouvelle_orga)
+            db.session.add(Authorship_Orga(orga=nouvelle_orga, user=current_user, createur="True"))
+            db.session.commit()
+            return True, nouvelle_orga
+
+        except Exception as erreur:
+            return False, [str(erreur)]
 
 class Militer(db.Model):
     militer_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)

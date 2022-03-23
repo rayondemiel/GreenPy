@@ -43,7 +43,7 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Date de fin</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="date_fin" value="{{lutte.date_fin}}"/>
+        <input type="text" class="form-control" name="date_fin" {% if lutte.date_fin is not none %}value="{{lutte.date_fin}}"{%endif%}/>
       </div>
     </div>
     <div class="form-group row">
@@ -55,7 +55,7 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Département/Région</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="departement" value="{{lutte.dpt}}"/>
+        <input type="text" class="form-control" name="departement" {% if lutte.dpt is not none %}value="{{lutte.dpt}}"{%endif%}/>
       </div>
     </div>
     <div class="form-group row">
@@ -71,15 +71,15 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Description*</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="description" value="{{lutte.description}}"/>
-      </div>
+      <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <textarea id="textarea1" class="form-control" rows="5" name="description">{% if lutte.description is not none %}{{lutte.description}}{%endif%}</textarea>
+        </div>
     </div>
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Ressources bibliographiques</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="ressources" value="{{lutte.ressources}}"/>
+        <input type="text" class="form-control" name="ressources" {% if lutte.ressources is not none %}value="{{lutte.ressources}}"{%endif%}/>
       </div>
     </div>
 <!-- ajout d'une notification de succès -->
@@ -154,10 +154,10 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Description*</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="description" placeholder="..."/>
-      </div>
+      <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <textarea id="textarea1" class="form-control" rows="5" name="description"></textarea>
+        </div>
     </div>
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Ressources*</label>

@@ -44,7 +44,7 @@ def militant(name_id):
         .all()
     #def pour que si il pas de id, aller page accueil des militants. Par contre
     #def age()
-    return render_template("pages/militant.html", name="militant", militant=unique_militants, createur=createur, organisation=organisation)
+    return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -59,11 +59,39 @@ def index_objContest():
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
     unique_contest = Objet_contest.query.get(objContest_id)
+    createur = Authorship_ObjetContest.query.filter(
+        and_(Authorship_ObjetContest.createur == "True", Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
     if Objet_contest.date_fin is not None :
         date = Objet_contest.date_fin-Objet_contest.date_debut
     else :
         date = "En cours"
-    return render_template("pages/objet_contest.html", name="objet_contest", projet_contest=unique_contest, date=date)
+    return render_template("pages/objet_contest.html", projet_contest=unique_contest, date=date, createur=createur)
+
+#Organisation
+
+@app.route("/organisation/<int:orga_id>")
+def organisation(orga_id):
+    organisation = Orga.query.get(orga_id)
+    createur = Authorship_Orga.query.filter(
+        and_(Authorship_Orga.createur == "True",
+             Authorship_Orga.authorship_orga_id == orga_id)).first()
+    militants = Militer.query \
+        .join(Orga, Militer.orga_id == Orga.id) \
+        .join(Acteur, Militer.acteur_id == Acteur.id) \
+        .filter(Orga.id == orga_id) \
+        .order_by(Militer.date_debut) \
+        .all()
+    return render_template("pages/organisation.html", organisation=organisation, createur=createur, militants=militants)
+
+@app.route("/organisation")
+def index_organisation():
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    organisations = Orga.query.order_by(Orga.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+    return render_template("pages/organisation.html", name="Index des organisations", organisations=organisations)
 
 #Gestion des données
 ##Militants
@@ -217,11 +245,11 @@ def modification_lutte(objContest_id):
             lutte.dpt = request.form["departement"]
             lutte.description = request.form["description"]
             lutte.ressources = request.form["ressources"]
-            lutte.categ_id = Categorie.query.get(request.form["categorie"])
-            lutte.pays_id = Pays.query.get(request.form["pays"])
+            lutte.categorie = Categorie.query.get(request.form["categorie"])
+            lutte.pays = Pays.query.get(request.form["pays"])
 
             db.session.add(lutte)
-            db.session.add(Authorship_ObjetContest(obj_contest=lutte, user=current_user))
+            db.session.add(Authorship_ObjetContest(objet_contest=lutte, user=current_user))
             db.session.commit()
             updated = True
     return render_template(
@@ -229,6 +257,72 @@ def modification_lutte(objContest_id):
         lutte=lutte,
         pays=pays,
         categorie=categorie,
+        erreurs=erreurs,
+        updated=updated)
+
+#Gestion des données
+##Organisations
+
+@app.route("/inscription_orga", methods=["GET", "POST"])
+@login_required
+def inscription_orga():
+
+    pays = Pays.query.all()
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Orga.ajout_orga(
+            nom=request.form.get("nom", None),
+            date_fondation=request.form.get("date_fondation", None),
+            type_orga=request.form.get("type_orga", None),
+            pays=Pays.query.get(request.form["pays"]),
+            description=request.form.get("description", None)
+        )
+
+        if statut is True:
+            flash("Ajout d'une nouvelle organisation", "success")
+            return redirect("/")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return render_template("pages/ajout_orga.html")
+    else:
+        return render_template("pages/ajout_orga.html", pays=pays)
+
+@app.route("/organisation/<int:orga_id>/update", methods=["GET", "POST"])
+@login_required
+def modification_orga(orga_id):
+
+    orga = Orga.query.get_or_404(orga_id)
+    pays = Pays.query.all()
+
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("nom", "").strip():
+            erreurs.append("Veuillez renseigner un intitulé.")
+        if not request.form.get("pays", "").strip():
+            erreurs.append("Veuillez renseigner le pays.")
+        elif not Pays.query.get(request.form["pays"]):
+            erreurs.append("Veuillez renseigner le pays.")
+
+
+        if not erreurs:
+            print("Faire ma modifications")
+            orga.nom = request.form["nom"]
+            orga.date_fondation = request.form["date_fondation"]
+            orga.type_orga = request.form["type_orga"]
+            orga.description = request.form["description"]
+            orga.pays = Pays.query.get(request.form["pays"])
+
+            db.session.add(orga)
+            db.session.add(Authorship_Orga(orga=orga, user=current_user))
+            db.session.commit()
+            updated = True
+    return render_template(
+        "pages/ajout_orga.html",
+        orga=orga,
+        pays=pays,
         erreurs=erreurs,
         updated=updated)
 

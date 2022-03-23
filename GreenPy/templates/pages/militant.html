@@ -14,10 +14,10 @@
                     <h2>Données biographiques</h2>
                     <dl>
                         <dt>Date de naissance</dt><dd>{{militant.date_naissance}}</dd>
-                        <dt>Date de décès</dt><dd>{{militant.date_deces}}</dd>
+                        {% if militant.date_deces is not none %}<dt>Date de décès</dt><dd>{{militant.date_deces}}</dd>{% endif %}
                         <dt>Lieu de naisssance</dt><dd>{{militant.ville_naissance}}</dd>
                         <dt>Pays de naissance</dt><dd>{{militant.pays.nom}}</dd>
-                        <dt>Profession</dt><dd>{{militant.profession}}</dd>
+                        <dt>Profession</dt><dd>{% if militant.profession is not none %}{{militant.profession}}{% else %}<i>(Cette section est à completer)</i>{%endif%}</dd>
                         <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
                     </dl>
                 </div>
@@ -47,6 +47,7 @@
             </dl>
         <!-- Index des projets contestés et luttes environnementales-->
     {% elif militants %}
+        <h1>Index des activistes écologistes</h1>
         <p>Il y a {{ militants.total }} enregistrés :</p>
         <ul>
             {% for militant in militants.items %}

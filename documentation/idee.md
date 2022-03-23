@@ -115,7 +115,7 @@ voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
 
 https://roytuts.com/upload-and-display-image-using-python-flask/
 https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
-
+https://getbootstrap.com/docs/4.0/components/forms/#file-browser
 
 ---
 ##AUtres
