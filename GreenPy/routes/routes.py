@@ -42,9 +42,15 @@ def militant(name_id):
         .filter(Acteur.id == name_id)\
         .order_by(Militer.date_debut)\
         .all()
+    participer = Participation.query\
+        .join(Objet_contest, Participation.contest_id == Objet_contest.id)\
+        .join(Acteur, Participation.acteur_id == Acteur.id)\
+        .filter(Acteur.id == name_id)\
+        .order_by(Objet_contest.nom)\
+        .all()
     #def pour que si il pas de id, aller page accueil des militants. Par contre
     #def age()
-    return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation)
+    return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation, participer=participer)
 
 @app.route("/projet_contest")
 def index_objContest():

@@ -43,16 +43,23 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
+#Ajouter dynamiquement
+https://getbootstrap.com/docs/5.1/components/modal/
+
+https://getbootstrap.com/docs/5.1/components/close-button/
+
+# valeur bouton
+https://python.tutorialink.com/get-the-value-of-a-checkbox-in-flask/
+
+
+## Icons
+https://www.w3schools.com/Css/css_icons.asp
+
 
 ## Adminsitrateur
 
 https://www.youtube.com/watch?v=ysdShEL1HMM
 
-## Navbar soluce
-
-https://stackoverflow.com/questions/47338055/navbar-dropdown-not-working-in-bootstrap4-0
-
-https://stackoverflow.com/questions/46101703/bootstrap-navbar-dropdown-login
 
 #Recherche a facette et multi class
 

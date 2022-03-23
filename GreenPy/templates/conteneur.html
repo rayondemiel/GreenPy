@@ -11,16 +11,24 @@
                 padding:10vh;
                 background-image: url({{url_for('static', filename='images/font.jpg')}});
             }
+            .navbar {
+                padding-left: 2em;
+                padding-right: 2em;
+            }
+            div.container {
+                margin-top: 2em
+            }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8bbfca;">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #8bbfca;">
         <a class="navbar-brand" href="{{url_for('accueil')}}"> <img class="d-inline-block" src="{{url_for('static', filename='images/logo.svg')}}" width="60" height="60" alt=""/></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+          <li class="nav-item active">
             <a class="nav-link" href="{{url_for('accueil')}}">Accueil</a>
           </li>
-          <li class="nav-item dropdown nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+          <li class="nav-item dropdown nav-item">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Base de données
             </a>
@@ -31,14 +39,15 @@
               <a class="dropdown-item nav-link" href="{{url_for('index_organisation')}}">Index des Organisations</a>
             </div>
           </li>
-            <li class="nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+            <li class="nav-item">
             <a class="nav-link" href="#">Carte</a>
           </li>
-          <li class="nav-item"> <!-- faire boucle for sur arttibut active pour mettre en gras quand o, est sur la page-->
+          <li class="nav-item">
             <a class="nav-link" href="#">À propos</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="{{url_for('recherche')}}" method="GET">
+        </div>
+        <form class="d-flex my-2 my-lg-0" action="{{url_for('recherche')}}" method="GET">
           <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Recherche..." aria-label="Search"/>
           <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Rechercher</button>
         </form>

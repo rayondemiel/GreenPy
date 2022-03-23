@@ -21,16 +21,48 @@
                         <dt>Biographie</dt><dd>{{militant.biographie}}</dd>
                     </dl>
                 </div>
+                <hr/>
                 <div>
                     <h2>Organisations</h2>
                     <ul>
                         {% for groupes in organisation %}
-                        <li>"{{groupes.orga.nom}}" {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
+                        <li><a href="{{url_for('organisation', orga_id=groupes.orga.id)}}">"{{groupes.orga.nom}}"</a> {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
                             {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %}</li>
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
+                <hr/>
+                <div>
+                    <h2>Participations aux luttes environnementales</h2>
+                    <div class="accordion" id="accordion1">
+                        {% for participation in participer %}
+                        <div class="accordion-item">
+                        <h2 class="accordion-header" id="{{participation.objet.id}}">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{participation.objet.id}}" aria-expanded="false" aria-controls="collapse{{participation.objet.id}}">
+                            <a href="{{url_for('objContest', objContest_id=participation.objet.id)}}">{{participation.objet.nom}}</a>  [{{participation.objet.date_debut}} - {% if participation.objet.date_fin is not none %}{{participation.objet.date_fin}}{%else%}...{%endif%}]
+                          </button>
+                        </h2>
+                        <div id="collapse{{participation.objet.id}}" class="accordion-collapse collapse" aria-labelledby="{{participation.objet.id}}" data-bs-parent="#accordion1">
+                          <div class="accordion-body">
+                            <ul>
+                                <span><strong>Répertoire d'actions collectives utilisés</strong></span>
+                                {% if participation.creation_instance == 1 %}<li>Création d’une instance ou opposition à une instance</li>{%endif%}
+                                {% if participation.participation_instance == 1 %}<li>Participation (non décisionnelle) à une instance de consultation</li>{%endif%}
+                                {% if participation.appel_instance_decision == 1 %}<li>Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</li>{%endif%}
+                                {% if participation.diffusion == 1 %}<li>Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</li>{%endif%}
+                                {% if participation.participation_decision == 1 %}<li>Participation à la prise de décision ou opposition à une prise de décision</li>{%endif%}
+                                {% if participation.rassemblement == 1 %}<li>Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</li>{%endif%}
+                                {% if participation.production== 1 %}<li>Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</li>{%endif%}
+                                {% if participation.illegalisme== 1 %}<li>Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</li>{%endif%}
+                                {% if participation.autre== 1 %}<li>Autres</li>{%endif%}
+                            </ul>
+                          </div>
+                        </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <hr/>
             {% if createur %}
                 <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
             {% endif %}
