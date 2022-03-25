@@ -43,6 +43,10 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
+#scrollspy -> idee pour menu militant
+
+https://www.w3schools.com/bootstrap/bootstrap_scrollspy.asp
+
 #Ajouter dynamiquement
 https://getbootstrap.com/docs/5.1/components/modal/
 
@@ -51,6 +55,13 @@ https://getbootstrap.com/docs/5.1/components/close-button/
 # valeur bouton
 https://python.tutorialink.com/get-the-value-of-a-checkbox-in-flask/
 
+#Multi forms
+
+https://stackoverflow.com/questions/52007908/flask-multiple-submit-button
+https://www.codeproject.com/Questions/5313251/Parametrizing-routes-in-flask-by-multiple-submit-b
+
+
+https://stackoverflow.com/questions/12502646/access-multiselect-form-field-in-flask -> recuperer plusieurs requetes
 
 ## Icons
 https://www.w3schools.com/Css/css_icons.asp

@@ -106,6 +106,8 @@ def index_organisation():
 def inscription_militant():
 
     pays = Pays.query.all()
+    contest = Objet_contest.query.all()
+    organisation = Orga.query.all()
 
     # Ajout d'une personne
     if request.method == "POST":
@@ -127,7 +129,7 @@ def inscription_militant():
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
             return render_template("pages/ajout_militant.html")
     else:
-        return render_template("pages/ajout_militant.html", pays=pays)
+        return render_template("pages/ajout_militant.html", pays=pays, contest=contest, organisation=organisation)
 
 @app.route("/militant/<int:name_id>/update", methods=["GET", "POST"])
 @login_required
@@ -331,6 +333,26 @@ def modification_orga(orga_id):
         pays=pays,
         erreurs=erreurs,
         updated=updated)
+
+#Gestion des données
+#Autres
+
+@app.route("/pays", methods=["GET", "POST"])
+@login_required
+def ajout_pays():
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Pays.ajout_pays(
+            nom = request.form.get("nom", None)
+        )
+
+        if statut is True:
+            flash("Ajout d'un nouveau pays", "success")
+            return redirect("/inscription_militant")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return None
 
 #Recherche
 
