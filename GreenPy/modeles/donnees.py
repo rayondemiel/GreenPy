@@ -173,7 +173,7 @@ class Orga(db.Model):
         if not pays:
             erreurs.append("Veuillez renseigner le pays.")
 
-        unique = Objet_contest.query.filter(Orga.nom).count()
+        unique = Orga.query.filter(Orga.nom).count()
         if unique > 0:
             erreurs.append("Cette personne est déjà présente au sein de la base de données.")
 
@@ -215,6 +215,31 @@ class Pays(db.Model):
     acteur = db.relationship("Acteur", back_populates="pays")
     objet_contest = db.relationship("Objet_contest", back_populates="pays")
     orga = db.relationship("Orga", back_populates="pays")
+
+    @staticmethod
+    def ajout_pays(nom):
+        erreurs = []
+        if not nom:
+            erreurs.append("Veuillez renseigner un intitulé.")
+
+        unique = Pays.query.filter(Pays.nom).count()
+        if unique > 0:
+            erreurs.append("Cette personne est déjà présente au sein de la base de données.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Pays
+        nouveau_pays = Pays(nom=nom)
+
+        try:
+            db.session.add(nouveau_pays)
+            db.session.commit()
+            return True, nouveau_pays
+
+        except Exception as erreur:
+            return False, [str(erreur)]
 
 class Image(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)

@@ -18,11 +18,11 @@
 <form class="form" method="POST">
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Nom*</label>
-      <div class="col-sm-10">
+      <div class="col-sm-4">
         <input type="text" class="form-control" name="nom" value="{{militant.nom}}" required/>
       </div>
         <label class="col-sm-2 col-form-label">Prenom*</label>
-      <div class="col-sm-10">
+      <div class="col-sm-4">
         <input type="text" class="form-control" name="prenom" value="{{militant.prenom}}" required/>
       </div>
     </div>
@@ -87,11 +87,11 @@
 <form class="form" method="POST" action="{{url_for('inscription_militant')}}">
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Nom*</label>
-      <div class="col-sm-10">
+      <div class="col-sm-4">
         <input type="text" class="form-control" name="nom" placeholder="..." required/>
       </div>
         <label class="col-sm-2 col-form-label">Prenom*</label>
-      <div class="col-sm-10">
+      <div class="col-sm-4">
         <input type="text" class="form-control" name="prenom" placeholder="..." required/>
       </div>
     </div>
@@ -114,8 +114,8 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="pays_naissance" class="col-sm-2 col-form-label">Pays de naissance*</label>
-      <div class="col-sm-10">
+      <label for="pays_naissance" class="col-sm-2 col-form-label">Pays de naissance* <a role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+</a></label>
+      <div class="col-sm-7">
         <select name="pays_naissance" id="pays_naissance" required>
 		    	{% for etat in pays %}
 		    		<option value="{{etat.id}}">
@@ -138,49 +138,77 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="creation_instance"/>
-            <label class="form-check-label">Création d’une instance ou opposition à une instance</label>
+    <!-- Block objet de contestation -->
+    <hr/>
+    <h3>Ajout des participartions écologistes</h3>
+    <div id="block-objets">
+        <div class="block-obj" id="block-obj">
+            <div class="form-group row">
+              <label for="obj_contest" class="col-sm-2 col-form-label">Participation*</label>
+              <input class="form-control"  name="objet_contest" list="datalistOptions" id="obj_contest" placeholder="Rechercher...">
+              <datalist id="datalistOptions">
+                  {% for objet in contest %}
+                            <option value="{{objet.id}}">
+                                {{objet.nom}}
+                            </option>
+                        {% endfor %}
+              </datalist>
+                <h6>Repertoire d'actions collectives utilisés*</h6>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="creation_instance"/>
+                    <label class="form-check-label">Création d’une instance ou opposition à une instance</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="participation_instance"/>
+                    <label class="form-check-label">Participation (non décisionnelle) à une instance de consultation</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="appel_instance_decision"/>
+                    <label class="form-check-label">Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="diffusion"/>
+                    <label class="form-check-label">Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="participation_decision"/>
+                    <label class="form-check-label">Participation à la prise de décision ou opposition à une prise de décision</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="rassemblement"/>
+                    <label class="form-check-label">Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="production"/>
+                    <label class="form-check-label">Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="illegalisme"/>
+                    <label class="form-check-label">Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1" name="autre"/>
+                    <label class="form-check-label">Autres</label>
+                </div>
+            </div>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="participation_instance"/>
-            <label class="form-check-label">Participation (non décisionnelle) à une instance de consultation</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="appel_instance_decision"/>
-            <label class="form-check-label">Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="diffusion"/>
-            <label class="form-check-label">Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="participation_decision"/>
-            <label class="form-check-label">Participation à la prise de décision ou opposition à une prise de décision</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="rassemblement"/>
-            <label class="form-check-label">Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="production"/>
-            <label class="form-check-label">Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="illegalisme"/>
-            <label class="form-check-label">Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="autre"/>
-            <label class="form-check-label">Autres</label>
-        </div>
+        <button type="button" class="btn btn-link" onclick="ajoutLutte()">Ajouter une autre participation</button>
+         <script type="text/javascript">
+            var i = 0;
+            function ajoutLutte () {
+                    const divNode = document.querySelector('#block-obj');
+
+
+                    var clone = divNode.cloneNode(true);
+                    divNode.after(clone)
+                };
+         </script>
     </div>
 
 {% endif%}
 <!-- Base du formulaire -->
      <div class="col-12">
-    <div class="form-check">
+    <div class="form-check checkup">
       <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
       <label class="form-check-label" for="invalidCheck">
         J'accepte de partager les données dans le cadre de ce projet en étant informé de la <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank"  rel="noreferrer noopener">réglementation en vigueur sur les droits RGPD</a>.
@@ -199,6 +227,33 @@
       </div>
     </center>
 </form>
+
+
+<!--Modal Pays-->
+<div class="modal fade" id="exampleModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="form" method="POST" action="{{url_for('ajout_pays')}}">
+          <div class="modal-header">
+            <h5 class="modal-title">Ajout d'un pays</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Nom du pays*</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="nom" placeholder="..." required/>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-primary" type="submit">Ajout</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <br/>
 <div><a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
