@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, flash, url_for
 from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
+import folium
 
 from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
@@ -18,6 +19,12 @@ def accueil():
     militants = Acteur.query.all()
     projets_contest = Objet_contest.query.all()
     return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
+
+@app.route("/carte")
+def carte():
+    map = folium.Map(location=[47.115, 8.877])
+    carte = map._repr_html_()
+    return render_template("pages/carte_globale.html", name="accueil", map=map, carte=carte)
 
 #Accès aux données
 

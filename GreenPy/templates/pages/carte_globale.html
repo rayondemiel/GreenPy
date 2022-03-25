@@ -1,0 +1,12 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+{{name}}
+{% endblock %}
+
+{% block corps %}
+{% if map %}
+<h2>Carte des luttes environnementales et écologistes</h2>
+{{map}}
+{% endif %}
+{% endblock %}
