@@ -37,11 +37,11 @@
                     <div class="accordion" id="accordion1">
                         {% for participation in participer %}
                         <div class="accordion-item">
-                        <h2 class="accordion-header" id="{{participation.objet.id}}">
+                        <h3 class="accordion-header" id="{{participation.objet.id}}">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{participation.objet.id}}" aria-expanded="false" aria-controls="collapse{{participation.objet.id}}">
                             <a href="{{url_for('objContest', objContest_id=participation.objet.id)}}">{{participation.objet.nom}}</a>  [{{participation.objet.date_debut}} - {% if participation.objet.date_fin is not none %}{{participation.objet.date_fin}}{%else%}...{%endif%}]
                           </button>
-                        </h2>
+                        </h3>
                         <div id="collapse{{participation.objet.id}}" class="accordion-collapse collapse" aria-labelledby="{{participation.objet.id}}" data-bs-parent="#accordion1">
                           <div class="accordion-body">
                             <ul>
@@ -60,6 +60,11 @@
                         </div>
                         </div>
                         {% endfor %}
+                        <hr/>
+                        <div>
+                            <h2>🌏 Cartographie des participations écologistes 🌏</h2>
+                            <iframe class="carte_folium" src="{{url_for('carte_native')}}" width=1250, height=750></iframe>
+                        </div>
                     </div>
 
                     <hr/>

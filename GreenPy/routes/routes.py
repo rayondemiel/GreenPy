@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, flash, url_for
 from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
+from folium.plugins import MarkerCluster, Search
+import pandas as pd
 
 from .email import mdp_mail, inscription_mail
 from ..app import app, login, db
@@ -20,11 +22,87 @@ def accueil():
     projets_contest = Objet_contest.query.all()
     return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
 
+@app.route("/carte_native")
+def carte_native():
+    """Route permettant de faire appel à la carte générée au sein d'une page html"""
+    return render_template("partials/map.html")
+
 @app.route("/carte")
 def carte():
-    map = folium.Map(location=[47.115, 8.877])
-    carte = map._repr_html_()
-    return render_template("pages/carte_globale.html", name="accueil", map=map, carte=carte)
+    #Requete Sql
+    luttes = Objet_contest.query.all()
+    #Generation dataframe pour localisation et zoom
+    latitude = list(lutte.latitude for lutte in luttes)
+    longitude = list(lutte.longitude for lutte in luttes)
+    nom = list(lutte.nom for lutte in luttes)
+    ville = list(lutte.ville for lutte in luttes)
+    data = {
+        "nom" : nom,
+        "ville" : ville,
+        "lat": latitude,
+        "long": longitude
+    }
+    df = pd.DataFrame(data)
+    sw = df[['lat', 'long']].min().values.tolist()
+    ne = df[['lat', 'long']].max().values.tolist()
+
+
+
+    #Cartographie
+    map = folium.Map(df[['lat', 'long']].mean().values.tolist())
+    map.fit_bounds([sw, ne], max_zoom=10)
+    map = folium.plugins.search
+    #Generation GeoJson et search
+    luttegeo = folium.GeoJson(
+        data,
+        name="Luttes",
+        tooltip=folium.GeoJsonTooltip(
+            fields=["nom", "ville"], localize=True
+        ),
+    ).add_to(map)
+    citysearch = Search(
+        layer=luttegeo,
+        geom_type="Point",
+        placeholder="Search",
+        collapsed=True,
+        search_label="nom",
+    ).add_to(map)
+    #Clustering
+    marker_cluster = folium.plugins.MarkerCluster().add_to(map)
+    #Marqueurs
+    for lutte in luttes:
+        url = request.url_root + url_for('resultat_carte', lutte_id=lutte.id)
+        url_lutte = request.url_root + url_for('objContest', objContest_id=lutte.id)
+        html = f"""<html> \
+                    <h5><center>{lutte.nom}</a><center></h5> \
+                    <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
+                    <ul> \
+                        <span style="text-decoration: underline;">Données :</span>
+                        <li> Ville : {lutte.ville} </li> \
+                        <li> Pays : {lutte.pays.nom} </li> \
+                        <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
+                    </ul> \
+                </html>"""
+        iframe = folium.IFrame(html=html, width=300, height=120)
+        popup = folium.Popup(iframe, max_width=2650)
+        folium.Marker([lutte.latitude, lutte.longitude], popup=popup).add_to(marker_cluster)
+    map.save("GreenPy/templates/partials/map.html")
+    return render_template("pages/carte_globale.html", name="Carte globale des luttes environnementales",)
+
+@app.route("/carte/resultat_carte/<int:lutte_id>")
+def resultat_carte(lutte_id):
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    lutte = Participation.query\
+        .join(Objet_contest, Participation.contest_id == Objet_contest.id)\
+        .join(Acteur, Participation.acteur_id == Acteur.id)\
+        .filter(Objet_contest.id == lutte_id)\
+        .order_by(Acteur.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+    objet = Objet_contest.query.get(lutte_id)
+    return render_template("pages/resultat_carte.html", lutte=lutte, objet=objet)
 
 #Accès aux données
 
@@ -41,6 +119,7 @@ def index_militant():
 
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
+    #Requete SQL
     unique_militants = Acteur.query.get(name_id)
     createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
     organisation = Militer.query\
@@ -55,6 +134,39 @@ def militant(name_id):
         .filter(Acteur.id == name_id)\
         .order_by(Objet_contest.nom)\
         .all()
+    # Generation dataframe pour localisation et zoom
+    latitude = list(lutte.objet.latitude for lutte in participer)
+    longitude = list(lutte.objet.longitude for lutte in participer)
+    data = {
+        "lat": latitude,
+        "long": longitude
+    }
+    df = pd.DataFrame(data)
+    sw = df[['lat', 'long']].min().values.tolist()
+    ne = df[['lat', 'long']].max().values.tolist()
+    print(latitude)
+    #Cartographie
+    map = folium.Map(df[['lat', 'long']].mean().values.tolist())
+    map.fit_bounds([sw, ne], max_zoom=10)
+    marker_cluster = folium.plugins.MarkerCluster().add_to(map)
+    for participation in participer:
+        url = request.url_root + url_for('resultat_carte', lutte_id=participation.objet.id)
+        url_lutte = request.url_root + url_for('objContest', objContest_id=participation.objet.id)
+        html = f"""<html> \
+                        <h5><center>{participation.objet.nom}</a><center></h5> \
+                        <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
+                        <ul> \
+                            <span style="text-decoration: underline;">Données :</span>
+                            <li> Ville : {participation.objet.ville} </li> \
+                            <li> Pays : {participation.objet.pays.nom} </li> \
+                            <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
+                        </ul> \
+                    </html>"""
+        iframe = folium.IFrame(html=html, width=300, height=120)
+        popup = folium.Popup(iframe, max_width=2650)
+        folium.Marker([participation.objet.latitude, participation.objet.longitude], popup=popup).add_to(marker_cluster)
+    map.save("GreenPy/templates/partials/map.html")
+
     #def pour que si il pas de id, aller page accueil des militants. Par contre
     #def age()
     return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation, participer=participer)
@@ -78,6 +190,22 @@ def objContest(objContest_id):
         date = Objet_contest.date_fin-Objet_contest.date_debut
     else :
         date = "En cours"
+    #Cartographie
+    map = folium.Map(location=[unique_contest.latitude, unique_contest.longitude], zoom_start=11)
+    url = request.url_root + url_for('resultat_carte', lutte_id=unique_contest.id)
+    html = f"""<html> \
+                    <h5><center>{unique_contest.nom}</a><center></h5> \
+                    <ul> \
+                        <span style="text-decoration: underline;">Données :</span>
+                        <li> Ville : {unique_contest.ville} </li> \
+                        <li> Pays : {unique_contest.pays.nom} </li> \
+                        <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
+                    </ul> \
+                </html>"""
+    iframe = folium.IFrame(html=html, width=300, height=120)
+    popup = folium.Popup(iframe, max_width=650)
+    folium.Marker([unique_contest.latitude, unique_contest.longitude], popup=popup).add_to(map)
+    map.save("GreenPy/templates/partials/map.html")
     return render_template("pages/objet_contest.html", projet_contest=unique_contest, date=date, createur=createur)
 
 #Organisation
@@ -240,15 +368,19 @@ def modification_lutte(objContest_id):
             erreurs.append("Veuillez renseigner une date de début.")
         if not request.form.get("ville", "").strip():
             erreurs.append("Veuillez renseigner la ville.")
+        if not request.form.get("latitude", "").strip():
+            erreurs.append("Veuillez renseigner la latitude.")
+        if not request.form.get("longitude", "").strip():
+            erreurs.append("Veuillez renseigner la longitude.")
 
         if not request.form.get("pays", "").strip():
             erreurs.append("Veuillez renseigner le pays.")
         elif not Pays.query.get(request.form["pays"]):
             erreurs.append("Veuillez renseigner le pays.")
         if not request.form.get("categorie", "").strip():
-            erreurs.append("Veuillez renseigner la categorie.")
+            erreurs.append("Veuillez renseigner la catégorie.")
         elif not Pays.query.get(request.form["categorie"]):
-            erreurs.append("Veuillez renseigner la categorie.")
+            erreurs.append("Veuillez renseigner la catégorie.")
 
 
         if not erreurs:
@@ -260,6 +392,8 @@ def modification_lutte(objContest_id):
             lutte.dpt = request.form["departement"]
             lutte.description = request.form["description"]
             lutte.ressources = request.form["ressources"]
+            lutte.latitude = request.form["latitude"]
+            lutte.longitude = request.form["longitude"]
             lutte.categorie = Categorie.query.get(request.form["categorie"])
             lutte.pays = Pays.query.get(request.form["pays"])
 
