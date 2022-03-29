@@ -148,8 +148,7 @@
               <input class="form-control"  name="objet_contest" list="datalistOptions" id="obj_contest" placeholder="Rechercher...">
               <datalist id="datalistOptions">
                   {% for objet in contest %}
-                            <option value="{{objet.id}}">
-                                {{objet.nom}}
+                            <option value="{{objet.id}}" label="{{objet.nom}}">
                             </option>
                         {% endfor %}
               </datalist>
@@ -247,7 +246,7 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             <button class="btn btn-primary" type="submit">Ajout</button>
           </div>
       </form>

@@ -57,11 +57,18 @@ https://python.tutorialink.com/get-the-value-of-a-checkbox-in-flask/
 
 #Multi forms
 
+essayer de passer pra la jointure -> dans le form -> faire Acteur.militer.nom ect, ca peut peut marcher ?
+
+
 https://stackoverflow.com/questions/52007908/flask-multiple-submit-button
 https://www.codeproject.com/Questions/5313251/Parametrizing-routes-in-flask-by-multiple-submit-b
 
 
 https://stackoverflow.com/questions/12502646/access-multiselect-form-field-in-flask -> recuperer plusieurs requetes
+
+
+
+
 
 ## Icons
 https://www.w3schools.com/Css/css_icons.asp
@@ -84,9 +91,13 @@ https://pythonhosted.org/Flask-WhooshAlchemy/
 
 ##geo json
 
-https://github.com/gabays/32M7129 -voir cours 10 à 12
+https://github.com/gabays/32M7129 -voir cours 10 à 12**
 
 ---
+
+## search plugins 
+https://python-visualization.github.io/folium/plugins.html
+https://github.com/python-visualization/folium/issues/464
 
 ## Map tuto
 

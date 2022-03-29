@@ -1,7 +1,10 @@
 from flask_login import current_user
+from geopy.geocoders import Nominatim
 
 from ..app import db
 from .authorship import AuthorshipActeur, Authorship_ObjetContest, Authorship_Orga
+
+geolocator = Nominatim(user_agent="GreenPy")
 
 class Acteur(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -95,6 +98,8 @@ class Objet_contest(db.Model):
     pays_id = db.Column(db.Integer, db.ForeignKey('pays.id'))
     ressources = db.Column(db.Text)
     img_id = db.Column(db.Integer)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     #Relations
     authorships = db.relationship("Authorship_ObjetContest", back_populates="objet_contest")
     participation = db.relationship("Participation", back_populates="objet")
@@ -116,27 +121,38 @@ class Objet_contest(db.Model):
             erreurs.append("Veuillez renseigner le pays.")
 
         unique = Objet_contest.query.filter(db.and_(
-            Objet_contest.categ_id == categorie,
+            Objet_contest.categorie == categorie,
             Objet_contest.date_debut == date_debut,
             Objet_contest.ville == ville
         )).count()
         if unique > 0:
-            erreurs.append("Cette personne est déjà présente au sein de la base de données.")
+            erreurs.append("Cette page est déjà présente au sein de la base de données.")
+
+        #Géolocalisation automatique
+        if dpt:
+            location = geolocator.geocode("{ville}, {dpt}, {pays}".format(ville=ville, dpt=dpt, pays=pays.nom))
+            if location is None:
+                erreurs.append("Le lieu n'a pas pu être géolocaliser. Veuillez préciser les données du formulaire.")
+        else:
+            location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
+            if location is None:
+                erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
 
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
             return False, erreurs
-
-            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
+        # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
         nouvelle_lutte = Objet_contest(nom=nom,
-                                categ_id=categorie,
-                                date_debut=date_debut,
-                                date_fin=date_fin,
-                                ville=ville,
-                                dpt=dpt,
-                                description=description,
-                                ressources=ressources,
-                                pays_id=pays)
+                                       categorie=categorie,
+                                       date_debut=date_debut,
+                                       date_fin=date_fin,
+                                       ville=ville,
+                                       dpt=dpt,
+                                       description=description,
+                                       ressources=ressources,
+                                       pays=pays,
+                                       latitude=location.latitude,
+                                       longitude=location.longitude)
 
         try:
             db.session.add(nouvelle_lutte)

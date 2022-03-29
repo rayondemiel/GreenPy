@@ -8,16 +8,26 @@
 {% block corps %}
     <!-- Page d'un projet contesté -->
     {% if projet_contest %}
-            <h1><b>{{projet_contest.nom}}</b> ({{projet_contest.date_debut}}{% if projet_contest.date_fin is not none %} - {{projet_contest.date_fin}}{% else %} - ... {% endif %})</h1>
-            <dl>
-                <dt>Catégorie de l'objet contesté</dt><dd>{{projet_contest.categorie.nom}}</dd>
-                <dt>Durée du conflit</dt><dd>{{date}}</dd>
-                <dt>Ville</dt><dd>{{projet_contest.ville}}</dd>
-                <dt>Département/Région</dt><dd>{% if projet_contest.dpt is not none %}{{projet_contest.dpt}}{%else%}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-                <dt>Pays</dt><dd>{{projet_contest.pays.nom}}</dd>
-                <dt>Description</dt><dd>{% if projet_contest.description is not none %}{{projet_contest.description}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-                <dt>Ressources bibliographiques</dt><dd>{% if projet_contest.ressources is not none %}{{projet_contest.ressources}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-            </dl>
+            <h1 style="margin-bottom: 1em"><center><b>{{projet_contest.nom}}</b> ({{projet_contest.date_debut}}{% if projet_contest.date_fin is not none %} - {{projet_contest.date_fin}}{% else %} - ... {% endif %})</center></h1>
+            <div class="page_objet">
+                <div style="margin-right: 1em">
+                    <h4>Données</h4>
+                    <dl>
+                        <dt>Catégorie de l'objet contesté</dt><dd>{{projet_contest.categorie.nom}}</dd>
+                        <dt>Durée du conflit</dt><dd>{{date}}</dd>
+                        <dt>Ville</dt><dd>{{projet_contest.ville}}</dd>
+                        <dt>Département/Région</dt><dd>{% if projet_contest.dpt is not none %}{{projet_contest.dpt}}{%else%}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+                        <dt>Pays</dt><dd>{{projet_contest.pays.nom}}</dd>
+                        <dt>Description</dt><dd>{% if projet_contest.description is not none %}{{projet_contest.description}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+                        <dt>Ressources bibliographiques</dt><dd>{% if projet_contest.ressources is not none %}{{projet_contest.ressources}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+                    </dl>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1em"><center>🌏 Situation géographique 🌏</center></h4>
+                    <center><iframe class="carte_folium" src="{{url_for('carte_native')}}" width=750, height=450></iframe></center>
+                </div>
+            </div>
+
             <hr/>
             {% if createur %}
                 <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
