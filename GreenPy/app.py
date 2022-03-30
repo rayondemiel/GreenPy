@@ -34,4 +34,4 @@ db = SQLAlchemy(app)
 login = LoginManager(app)
 mail = Mail(app)
 
-from .routes import routes, email
+from .routes import routes, email, map
