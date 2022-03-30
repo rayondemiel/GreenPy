@@ -89,17 +89,17 @@ https://whoosh.reathedocs.io/en/latest/searching.html#the-searcher-object
 https://pythonhosted.org/Flask-WhooshAlchemy/
 
 
-##geo json
+##geo json (inutile)
 
 https://github.com/gabays/32M7129 -voir cours 10 à 12**
 
 ---
 
-## search plugins 
+## search plugins (done)
 https://python-visualization.github.io/folium/plugins.html
 https://github.com/python-visualization/folium/issues/464
 
-## Map tuto
+## Map tuto (done)
 
 
 ex: **https://github.com/jeandamien-genero/actes-bourbon**

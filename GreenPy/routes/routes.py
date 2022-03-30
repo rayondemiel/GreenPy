@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, flash, url_for
 from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
-from folium.plugins import MarkerCluster, Search
+from folium.plugins import MarkerCluster, Search, Fullscreen, FeatureGroupSubGroup
 import pandas as pd
 
 from .email import mdp_mail, inscription_mail
@@ -34,11 +34,7 @@ def carte():
     #Generation dataframe pour localisation et zoom
     latitude = list(lutte.latitude for lutte in luttes)
     longitude = list(lutte.longitude for lutte in luttes)
-    nom = list(lutte.nom for lutte in luttes)
-    ville = list(lutte.ville for lutte in luttes)
     data = {
-        "nom" : nom,
-        "ville" : ville,
         "lat": latitude,
         "long": longitude
     }
@@ -46,46 +42,48 @@ def carte():
     sw = df[['lat', 'long']].min().values.tolist()
     ne = df[['lat', 'long']].max().values.tolist()
 
-
-
     #Cartographie
+    ##Generation carte
     map = folium.Map(df[['lat', 'long']].mean().values.tolist())
-    map.fit_bounds([sw, ne], max_zoom=10)
-    map = folium.plugins.search
-    #Generation GeoJson et search
-    luttegeo = folium.GeoJson(
-        data,
-        name="Luttes",
-        tooltip=folium.GeoJsonTooltip(
-            fields=["nom", "ville"], localize=True
-        ),
-    ).add_to(map)
-    citysearch = Search(
-        layer=luttegeo,
-        geom_type="Point",
-        placeholder="Search",
-        collapsed=True,
-        search_label="nom",
-    ).add_to(map)
-    #Clustering
-    marker_cluster = folium.plugins.MarkerCluster().add_to(map)
-    #Marqueurs
+    map.fit_bounds([sw, ne], max_zoom=12)
+    ##Clustering
+    marker_cluster = MarkerCluster(name='Luttes environnementales')
+    map.add_child(marker_cluster)
+    ##Marqueurs
     for lutte in luttes:
+        nom = lutte.nom
+        categ = lutte.categorie.nom
         url = request.url_root + url_for('resultat_carte', lutte_id=lutte.id)
         url_lutte = request.url_root + url_for('objContest', objContest_id=lutte.id)
         html = f"""<html> \
                     <h5><center>{lutte.nom}</a><center></h5> \
                     <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
                     <ul> \
-                        <span style="text-decoration: underline;">Données :</span>
+                        <span style="text-decoration: underline;">Données :</span> \
+                        <li> Catégorie : {lutte.categorie.nom} </li> \
                         <li> Ville : {lutte.ville} </li> \
                         <li> Pays : {lutte.pays.nom} </li> \
                         <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
                     </ul> \
                 </html>"""
         iframe = folium.IFrame(html=html, width=300, height=120)
-        popup = folium.Popup(iframe, max_width=2650)
-        folium.Marker([lutte.latitude, lutte.longitude], popup=popup).add_to(marker_cluster)
+        popup = folium.Popup(iframe, max_width=650)
+        folium.Marker([lutte.latitude, lutte.longitude], popup=popup, tooltip=categ + " : " + nom, name=categ + " : " + nom).add_to(marker_cluster)
+    ##Options
+    ###Ajout Maps
+    folium.TileLayer("Stamen Terrain").add_to(map)
+    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", name="World Imagery").add_to(map)
+    folium.LayerControl().add_to(map)
+    #Ajout fonction recherche
+    Search(layer=marker_cluster, search_label="name", geom_type="Point", placeholder="Search", position="topleft", collapsed=True).add_to(
+        map)
+    ###Ajout fonction fullscreen
+    Fullscreen(
+        title="Fullscreen",
+        title_cancel="Exit fullscreen",
+        force_separate_button=True
+    ).add_to(map)
+    ##Save
     map.save("GreenPy/templates/partials/map.html")
     return render_template("pages/carte_globale.html", name="Carte globale des luttes environnementales",)
 
@@ -146,25 +144,47 @@ def militant(name_id):
     ne = df[['lat', 'long']].max().values.tolist()
     print(latitude)
     #Cartographie
+    ##Generation carte
     map = folium.Map(df[['lat', 'long']].mean().values.tolist())
-    map.fit_bounds([sw, ne], max_zoom=10)
-    marker_cluster = folium.plugins.MarkerCluster().add_to(map)
+    map.fit_bounds([sw, ne], max_zoom=12)
+    ##Clustering
+    marker_cluster = MarkerCluster(name='Luttes environnementales')
+    map.add_child(marker_cluster)
+    ##Marqueurs
     for participation in participer:
+        nom = participation.objet.nom
+        categ = participation.objet.categorie.nom
         url = request.url_root + url_for('resultat_carte', lutte_id=participation.objet.id)
         url_lutte = request.url_root + url_for('objContest', objContest_id=participation.objet.id)
         html = f"""<html> \
                         <h5><center>{participation.objet.nom}</a><center></h5> \
                         <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
                         <ul> \
-                            <span style="text-decoration: underline;">Données :</span>
+                            <span style="text-decoration: underline;">Données :</span> \
+                            <li> Catégorie : {participation.objet.categorie.nom} </li> \
                             <li> Ville : {participation.objet.ville} </li> \
                             <li> Pays : {participation.objet.pays.nom} </li> \
                             <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
                         </ul> \
                     </html>"""
         iframe = folium.IFrame(html=html, width=300, height=120)
-        popup = folium.Popup(iframe, max_width=2650)
-        folium.Marker([participation.objet.latitude, participation.objet.longitude], popup=popup).add_to(marker_cluster)
+        popup = folium.Popup(iframe, max_width=650)
+        folium.Marker([participation.objet.latitude, participation.objet.longitude], popup=popup, tooltip=categ + " : " + nom, name=categ + " : " + nom).add_to(marker_cluster)
+    ##Options
+    ###Ajout Maps
+    folium.TileLayer("Stamen Terrain").add_to(map)
+    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",name="World Imagery").add_to(map)
+    folium.LayerControl().add_to(map)
+    ### Ajout fonction recherche
+    Search(layer=marker_cluster, search_label="name", geom_type="Point", placeholder="Search", position="topleft",
+            collapsed=True).add_to(map)
+    ###Ajout fonction fullscreen
+    Fullscreen(
+        title="Fullscreen",
+        title_cancel="Exit fullscreen",
+        force_separate_button=True
+    ).add_to(map)
+    ##Save
     map.save("GreenPy/templates/partials/map.html")
 
     #def pour que si il pas de id, aller page accueil des militants. Par contre
