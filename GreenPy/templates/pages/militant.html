@@ -23,17 +23,71 @@
                 </div>
                 <hr/>
                 <div>
-                    <h2>Organisations</h2>
-                    <ul>
-                        {% for groupes in organisation %}
-                        <li><a href="{{url_for('organisation', orga_id=groupes.orga.id)}}">"{{groupes.orga.nom}}"</a> {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
-                            {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %}</li>
-                        {% endfor %}
-                    </ul>
+                    <h2>Organisations {% if current_user.is_authenticated %}<a role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#militerModal">+</a>{% endif %}</h2>
+                    {% if compte_organisation > 0 %}
+                        <ul>
+                            {% for groupes in organisation %}
+                            <li><a href="{{url_for('organisation', orga_id=groupes.orga.id)}}">"{{groupes.orga.nom}}"</a> {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
+                                {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p><i>Cette section est à completer ! Pour ajouter une participation, vous devez être connecté et cliquer sur le bouton au-dessus.</i></p>
+                    {% endif %}
                 </div>
+
+                        <!--Modal Militant -->
+        <div class="modal fade" id="militerModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form class="form" method="POST" action="{{url_for('militer')}}">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'une participation à une organisation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div><input type="hidden" name="acteur" value="{{militant.id}}"></div>
+                      <div class="form-group row">
+                          <label for="orga" class="col-sm-8 col-form-label">Organisation* <a href="{{url_for('inscription_orga')}}" style="font-size: small;">(Ajouter une organisation ?)</a></label>
+                          <input class="form-control"  name="orga" list="datalistOrgaOptions" id="orga" placeholder="Rechercher..." required>
+                          <datalist id="datalistOrgaOptions">
+                              {% for groupe in liste_orga %}
+                                        <option value="{{groupe.id}}" label="{{groupe.nom}}"></option>
+                                    {% endfor %}
+                          </datalist>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date de début</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="date_debut" placeholder="..."/>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date de fin</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="date_fin" placeholder="..."/>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Statut</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="statut" placeholder="..."/>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button class="btn btn-primary" type="submit">Ajout</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+               <!--Fin modal-->
                 <hr/>
                 <div>
                     <h2>Participations aux luttes environnementales</h2>
+                    {% if compte_participer > 0 %}
                     <div class="accordion" id="accordion1">
                         {% for participation in participer %}
                         <div class="accordion-item">
@@ -65,6 +119,9 @@
                             <h2>🌏 Cartographie des participations écologistes 🌏</h2>
                             <iframe class="carte_folium" src="{{url_for('carte_native')}}" width=1250, height=750></iframe>
                         </div>
+                        {% else %}
+                            <p><i>Cette section est à completer ! Pour en ajouter, veuillez cliquez sur le bouton au dessus.</i></p>
+                        {% endif %}
                     </div>
 
                     <hr/>
@@ -82,6 +139,9 @@
                     </ul>
                 </dd>
             </dl>
+
+
+
         <!-- Index des projets contestés et luttes environnementales-->
     {% elif militants %}
         <h1>Index des activistes écologistes</h1>
@@ -121,14 +181,36 @@
             <p>La base de données est en cours de constitution</p>
         {% endif %}
 
+
         <!-- Bouton accueil -->
             <div>
                 {% if militant %}
                 <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_militant', name_id=militant.id)}}">Faire une modification</a>
                 <a class="btn btn-secondary" role="button" href="{{url_for('index_militant')}}">Retour à l'index</a>
+                {% if current_user.user_login == "admin"%}<a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#modalSuppr">Supprimer la page</a>{% endif %}
                 {% elif militants %}
                 <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_militant')}}">Ajouter une personne</a>
                 <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
                 {% endif %}
             </div>
+            {% if militant %}
+            <!--Modal suppression-->
+            <div class="modal fade" id="modalSuppr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Veuillez confirmer la suppression de la page de {{militant.nom}} {{militant.prenom}}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a type="button" class="btn btn-danger" href="{{url_for('supprimer_militant', name_id=militant.id)}}">J'accepte</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
 {% endblock %}}

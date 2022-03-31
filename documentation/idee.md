@@ -55,6 +55,14 @@ https://getbootstrap.com/docs/5.1/components/close-button/
 # valeur bouton
 https://python.tutorialink.com/get-the-value-of-a-checkbox-in-flask/
 
+
+https://docs.sqlalchemy.org/en/14/core/type_basics.html#sqlalchemy.types.Boolean
+
+https://stackoverflow.com/questions/38226607/python-flask-sqlalchemy-query-filter-by-boolean-values-ignore-false
+https://stackoverflow.com/questions/12045698/sqlalchemy-boolean-value-is-none
+https://stackoverflow.com/questions/20941539/how-to-get-if-checkbox-is-checked-on-flask?noredirect=1&lq=1
+https://stackoverflow.com/questions/44600601/get-a-list-of-values-from-checkboxes-using-flask-through-python
+
 #Multi forms
 
 essayer de passer pra la jointure -> dans le form -> faire Acteur.militer.nom ect, ca peut peut marcher ?
@@ -74,7 +82,7 @@ https://stackoverflow.com/questions/12502646/access-multiselect-form-field-in-fl
 https://www.w3schools.com/Css/css_icons.asp
 
 
-## Adminsitrateur
+## Adminsitrateur (osef)
 
 https://www.youtube.com/watch?v=ysdShEL1HMM
 
@@ -87,6 +95,8 @@ librairie woosh
 
 https://whoosh.reathedocs.io/en/latest/searching.html#the-searcher-object
 https://pythonhosted.org/Flask-WhooshAlchemy/
+
+https://stackoverflow.com/questions/24204118/flask-request-form-getlist-wont-return-any-entries
 
 
 ##geo json (inutile)
