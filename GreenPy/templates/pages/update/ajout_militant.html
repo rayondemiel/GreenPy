@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="pays" class="col-sm-2 col-form-label">Pays de naissance*</label>
+      <label for="pays" class="col-sm-2 col-form-label">Pays de naissance* <a role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+</a></label>
       <div class="col-sm-10">
         <select name="pays_naissance" id="pays" required>
 		    	{% for etat in pays %}
@@ -140,7 +140,7 @@
 
     <!-- Block objet de contestation -->
     <hr/>
-    <h3>Ajout des participartions écologistes</h3>
+    <h3>Ajout des participations écologistes</h3>
     <div id="block-objets">
         <div class="block-obj" id="block-obj">
             <div class="form-group row">
@@ -153,41 +153,47 @@
                         {% endfor %}
               </datalist>
                 <h6>Repertoire d'actions collectives utilisés*</h6>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="creation_instance"/>
-                    <label class="form-check-label">Création d’une instance ou opposition à une instance</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="participation_instance"/>
-                    <label class="form-check-label">Participation (non décisionnelle) à une instance de consultation</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="appel_instance_decision"/>
-                    <label class="form-check-label">Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="diffusion"/>
-                    <label class="form-check-label">Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="participation_decision"/>
-                    <label class="form-check-label">Participation à la prise de décision ou opposition à une prise de décision</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="rassemblement"/>
-                    <label class="form-check-label">Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="production"/>
-                    <label class="form-check-label">Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="illegalisme"/>
-                    <label class="form-check-label">Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="1" name="autre"/>
-                    <label class="form-check-label">Autres</label>
+                <div class="block-check">
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="creation_instance"/>
+                            <label class="form-check-label">Création d’une instance ou opposition à une instance</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="participation_instance"/>
+                            <label class="form-check-label">Participation (non décisionnelle) à une instance de consultation</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="appel_instance_decision"/>
+                            <label class="form-check-label">Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="diffusion"/>
+                            <label class="form-check-label">Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="autre"/>
+                            <label class="form-check-label">Autres</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="participation_decision"/>
+                            <label class="form-check-label">Participation à la prise de décision ou opposition à une prise de décision</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="rassemblement"/>
+                            <label class="form-check-label">Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="production"/>
+                            <label class="form-check-label">Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="illegalisme"/>
+                            <label class="form-check-label">Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_a3677271eba24b4584f51dd139600469 {
+                #map_1a09a529f0b84409915f75543fe3afee {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -32,27 +32,20 @@
                 }
             </style>
         
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css"/>
 </head>
 <body>    
     
-            <div class="folium-map" id="map_a3677271eba24b4584f51dd139600469" ></div>
+            <div class="folium-map" id="map_1a09a529f0b84409915f75543fe3afee" ></div>
         
 </body>
 <script>    
     
-            var map_a3677271eba24b4584f51dd139600469 = L.map(
-                "map_a3677271eba24b4584f51dd139600469",
+            var map_1a09a529f0b84409915f75543fe3afee = L.map(
+                "map_1a09a529f0b84409915f75543fe3afee",
                 {
-                    center: [49.693466666666666, 1.0746],
+                    center: [44.4057, 8.9343],
                     crs: L.CRS.EPSG3857,
-                    zoom: 10,
+                    zoom: 11,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -62,169 +55,28 @@
 
         
     
-            var tile_layer_5b10d2f6767445b482c8c8e737f7ff64 = L.tileLayer(
+            var tile_layer_48c032762def4580a2d160503dd60885 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_a3677271eba24b4584f51dd139600469);
+            ).addTo(map_1a09a529f0b84409915f75543fe3afee);
         
     
-            map_a3677271eba24b4584f51dd139600469.fitBounds(
-                [[47.2168, -1.7947], [52.3685, 4.899]],
-                {"maxZoom": 12}
-            );
-        
-    
-            var marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb = L.markerClusterGroup(
+            var marker_3e4b0d4ec06e468cbbf4630f534d6285 = L.marker(
+                [44.4057, 8.9343],
                 {}
-            );
-            map_a3677271eba24b4584f51dd139600469.addLayer(marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb);
+            ).addTo(map_1a09a529f0b84409915f75543fe3afee);
         
     
-            var marker_36cee94aafdc4914b7d58b7f59953f35 = L.marker(
-                [52.3685, 4.899],
-                {"name": "Protection des animaux : Lutte contre la vivisection"}
-            ).addTo(marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb);
-        
-    
-        var popup_41483caa51f04e5bab57b1bbbee5df7f = L.popup({"maxWidth": 650});
+        var popup_c9eb86ee9c834553ae8835a46964c960 = L.popup({"maxWidth": 650});
 
         
-            var i_frame_8cbae5f3c5194af3995beab2e0ab7131 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgPGg1PjxjZW50ZXI+THV0dGUgY29udHJlIGxhIHZpdmlzZWN0aW9uPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xMCIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogUHJvdGVjdGlvbiBkZXMgYW5pbWF1eCA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEFtc3RlcmRhbSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogUGF5cy1CYXMgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzEwIiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_41483caa51f04e5bab57b1bbbee5df7f.setContent(i_frame_8cbae5f3c5194af3995beab2e0ab7131);
+            var i_frame_0e9245e3c5d047e19ec10eca00e9104f = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5NYW5pZmVzdGF0aW9uIGNvbnRyZSBsZSBHODwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPgogICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogR8OqbmVzIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEl0YWxpZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMyIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_c9eb86ee9c834553ae8835a46964c960.setContent(i_frame_0e9245e3c5d047e19ec10eca00e9104f);
         
 
-        marker_36cee94aafdc4914b7d58b7f59953f35.bindPopup(popup_41483caa51f04e5bab57b1bbbee5df7f)
+        marker_3e4b0d4ec06e468cbbf4630f534d6285.bindPopup(popup_c9eb86ee9c834553ae8835a46964c960)
         ;
 
         
     
-    
-            marker_36cee94aafdc4914b7d58b7f59953f35.bindTooltip(
-                `<div>
-                     Protection des animaux : Lutte contre la vivisection
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var marker_47d69ac13b3a4ad58bb63509ae581a3c = L.marker(
-                [47.2168, -1.7947],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire au Pellerin/Carnet"}
-            ).addTo(marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb);
-        
-    
-        var popup_b077be68e7254907aea75aebeebfd8ff = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_0000fa7883f141749f0d722407a62ba1 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgPGg1PjxjZW50ZXI+UHJvamV0IGRlIGNlbnRyYWxlIG51Y2zDqWFpcmUgYXUgUGVsbGVyaW4vQ2FybmV0PC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC84IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBFbmVyZ2llIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgUGVsbGVyaW4gPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvOCIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_b077be68e7254907aea75aebeebfd8ff.setContent(i_frame_0000fa7883f141749f0d722407a62ba1);
-        
-
-        marker_47d69ac13b3a4ad58bb63509ae581a3c.bindPopup(popup_b077be68e7254907aea75aebeebfd8ff)
-        ;
-
-        
-    
-    
-            marker_47d69ac13b3a4ad58bb63509ae581a3c.bindTooltip(
-                `<div>
-                     Energie : Projet de centrale nucléaire au Pellerin/Carnet
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var marker_4bcca5c8371c41e28bff0f673a4eae8a = L.marker(
-                [49.4951, 0.1195],
-                {"name": "Protection des animaux : Protection des baleines en mer du Nord"}
-            ).addTo(marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb);
-        
-    
-        var popup_eddd48fc4b68468ebdd06f3d5f9cc56c = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_8898550f666643499820d808c16eabf7 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgPGg1PjxjZW50ZXI+UHJvdGVjdGlvbiBkZXMgYmFsZWluZXMgZW4gbWVyIGR1IE5vcmQ8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzExIiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBQcm90ZWN0aW9uIGRlcyBhbmltYXV4IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvMTEiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_eddd48fc4b68468ebdd06f3d5f9cc56c.setContent(i_frame_8898550f666643499820d808c16eabf7);
-        
-
-        marker_4bcca5c8371c41e28bff0f673a4eae8a.bindPopup(popup_eddd48fc4b68468ebdd06f3d5f9cc56c)
-        ;
-
-        
-    
-    
-            marker_4bcca5c8371c41e28bff0f673a4eae8a.bindTooltip(
-                `<div>
-                     Protection des animaux : Protection des baleines en mer du Nord
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var tile_layer_89729075c101478c97e4ff3df62b2f18 = L.tileLayer(
-                "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
-                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_a3677271eba24b4584f51dd139600469);
-        
-    
-            var tile_layer_a8f8e8e237a147e2af14214effc1fd48 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {"attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_a3677271eba24b4584f51dd139600469);
-        
-    
-            var layer_control_1d6f2e6339664610bcf1999061eef509 = {
-                base_layers : {
-                    "openstreetmap" : tile_layer_5b10d2f6767445b482c8c8e737f7ff64,
-                    "stamenterrain" : tile_layer_89729075c101478c97e4ff3df62b2f18,
-                    "World Imagery" : tile_layer_a8f8e8e237a147e2af14214effc1fd48,
-                },
-                overlays :  {
-                    "Luttes environnementales" : marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb,
-                },
-            };
-            L.control.layers(
-                layer_control_1d6f2e6339664610bcf1999061eef509.base_layers,
-                layer_control_1d6f2e6339664610bcf1999061eef509.overlays,
-                {"autoZIndex": true, "collapsed": true, "position": "topright"}
-            ).addTo(map_a3677271eba24b4584f51dd139600469);
-            tile_layer_89729075c101478c97e4ff3df62b2f18.remove();
-            tile_layer_a8f8e8e237a147e2af14214effc1fd48.remove();
-        
-    
-            var marker_cluster_a2f46035897a45d993ff1ef6c2ad31cbsearchControl = new L.Control.Search({
-                layer: marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb,
-                
-                propertyName: 'name',
-                
-                collapsed: true,
-                textPlaceholder: 'Search',
-                position:'topleft',                
-            
-                initial: false,
-                
-                hideMarkerOnCollapse: true
-            
-                });
-                marker_cluster_a2f46035897a45d993ff1ef6c2ad31cbsearchControl.on('search:locationfound', function(e) {
-                    marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb.setStyle(function(feature){
-                        return feature.properties.style
-                    })
-                    
-                    if(e.layer._popup)
-                        e.layer.openPopup();
-                })
-                marker_cluster_a2f46035897a45d993ff1ef6c2ad31cbsearchControl.on('search:collapsed', function(e) {
-                        marker_cluster_a2f46035897a45d993ff1ef6c2ad31cb.setStyle(function(feature){
-                            return feature.properties.style
-                    });
-                });
-            map_a3677271eba24b4584f51dd139600469.addControl( marker_cluster_a2f46035897a45d993ff1ef6c2ad31cbsearchControl );
-
-        
-    
-            L.control.fullscreen(
-                {"forceSeparateButton": true, "position": "topleft", "title": "Fullscreen", "titleCancel": "Exit fullscreen"}
-            ).addTo(map_a3677271eba24b4584f51dd139600469);
-        
 </script>

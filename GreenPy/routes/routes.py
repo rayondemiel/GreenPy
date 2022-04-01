@@ -40,6 +40,7 @@ def militant(name_id):
     #Requete SQL
     unique_militants = Acteur.query.get(name_id)
     createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
+    liste_orga = Orga.query.all()
     organisation = Militer.query\
         .join(Orga, Militer.orga_id == Orga.id)\
         .join(Acteur, Militer.acteur_id == Acteur.id)\
@@ -50,66 +51,68 @@ def militant(name_id):
         .join(Objet_contest, Participation.contest_id == Objet_contest.id)\
         .join(Acteur, Participation.acteur_id == Acteur.id)\
         .filter(Acteur.id == name_id)\
-        .order_by(Objet_contest.nom)\
+        .order_by(Objet_contest.date_debut)\
         .all()
+    #Compte
+    compte_participer = len(participer)
+    compte_organisation = len(organisation)
     # Generation dataframe pour localisation et zoom
     latitude = list(lutte.objet.latitude for lutte in participer)
     longitude = list(lutte.objet.longitude for lutte in participer)
-    data = {
-        "lat": latitude,
-        "long": longitude
-    }
-    df = pd.DataFrame(data)
-    sw = df[['lat', 'long']].min().values.tolist()
-    ne = df[['lat', 'long']].max().values.tolist()
-    print(latitude)
-    #Cartographie
-    ##Generation carte
-    map = folium.Map(df[['lat', 'long']].mean().values.tolist())
-    map.fit_bounds([sw, ne], max_zoom=12)
-    ##Clustering
-    marker_cluster = MarkerCluster(name='Luttes environnementales')
-    map.add_child(marker_cluster)
-    ##Marqueurs
-    for participation in participer:
-        nom = participation.objet.nom
-        categ = participation.objet.categorie.nom
-        url = request.url_root + url_for('resultat_carte', lutte_id=participation.objet.id)
-        url_lutte = request.url_root + url_for('objContest', objContest_id=participation.objet.id)
-        html = f"""<html> \
-                        <h5><center>{participation.objet.nom}</a><center></h5> \
-                        <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
-                        <ul> \
-                            <span style="text-decoration: underline;">Données :</span> \
-                            <li> Catégorie : {participation.objet.categorie.nom} </li> \
-                            <li> Ville : {participation.objet.ville} </li> \
-                            <li> Pays : {participation.objet.pays.nom} </li> \
-                            <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
-                        </ul> \
-                    </html>"""
-        iframe = folium.IFrame(html=html, width=300, height=120)
-        popup = folium.Popup(iframe, max_width=650)
-        folium.Marker([participation.objet.latitude, participation.objet.longitude], popup=popup, tooltip=categ + " : " + nom, name=categ + " : " + nom).add_to(marker_cluster)
-    ##Options
-    ###Ajout Maps
-    folium.TileLayer("Stamen Terrain").add_to(map)
-    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",name="World Imagery").add_to(map)
-    folium.LayerControl().add_to(map)
-    ### Ajout fonction recherche
-    Search(layer=marker_cluster, search_label="name", geom_type="Point", placeholder="Search", position="topleft",
-            collapsed=True).add_to(map)
-    ###Ajout fonction fullscreen
-    Fullscreen(
-        title="Fullscreen",
-        title_cancel="Exit fullscreen",
-        force_separate_button=True
-    ).add_to(map)
-    ##Save
-    map.save("GreenPy/templates/partials/map.html")
+    if compte_participer >= 1:
+        data = {
+            "lat": latitude,
+            "long": longitude
+        }
+        df = pd.DataFrame(data)
+        sw = df[['lat', 'long']].min().values.tolist()
+        ne = df[['lat', 'long']].max().values.tolist()
+        #Cartographie
+        ##Generation carte
+        map = folium.Map(df[['lat', 'long']].mean().values.tolist())
+        map.fit_bounds([sw, ne], max_zoom=12)
+        ##Clustering
+        marker_cluster = MarkerCluster(name='Luttes environnementales')
+        map.add_child(marker_cluster)
+        ##Marqueurs
+        for participation in participer:
+            nom = participation.objet.nom
+            categ = participation.objet.categorie.nom
+            url = request.url_root + url_for('resultat_carte', lutte_id=participation.objet.id)
+            url_lutte = request.url_root + url_for('objContest', objContest_id=participation.objet.id)
+            html = f"""<html> \
+                            <h5><center>{participation.objet.nom}</a><center></h5> \
+                            <p style="font-size: x-small"><a href="{url_lutte}" target="_blank">Cliquez-ici pour accéder</a></p> \
+                            <ul> \
+                                <span style="text-decoration: underline;">Données :</span> \
+                                <li> Catégorie : {participation.objet.categorie.nom} </li> \
+                                <li> Ville : {participation.objet.ville} </li> \
+                                <li> Pays : {participation.objet.pays.nom} </li> \
+                                <li> Voir les résultats associés : <a href="{url}" target="_blank">cliquez ici</a> \
+                            </ul> \
+                        </html>"""
+            iframe = folium.IFrame(html=html, width=300, height=120)
+            popup = folium.Popup(iframe, max_width=650)
+            folium.Marker([participation.objet.latitude, participation.objet.longitude], popup=popup, tooltip=categ + " : " + nom, name=categ + " : " + nom).add_to(marker_cluster)
+        ##Options
+        ###Ajout Maps
+        folium.TileLayer("Stamen Terrain").add_to(map)
+        folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",name="World Imagery").add_to(map)
+        folium.LayerControl().add_to(map)
+        ### Ajout fonction recherche
+        Search(layer=marker_cluster, search_label="name", geom_type="Point", placeholder="Search", position="topleft",
+                collapsed=True).add_to(map)
+        ###Ajout fonction fullscreen
+        Fullscreen(
+            title="Fullscreen",
+            title_cancel="Exit fullscreen",
+            force_separate_button=True
+        ).add_to(map)
+        ##Save
+        map.save("GreenPy/templates/partials/map.html")
+    return render_template("pages/militant.html", militant=unique_militants, createur=createur, compte_organisation=compte_organisation,
+                               organisation=organisation, participer=participer, compte_participer=compte_participer, liste_orga=liste_orga)
 
-    #def pour que si il pas de id, aller page accueil des militants. Par contre
-    #def age()
-    return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation, participer=participer)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -182,7 +185,6 @@ def inscription_militant():
 
     pays = Pays.query.all()
     contest = Objet_contest.query.all()
-    organisation = Orga.query.all()
 
     # Ajout d'une personne
     if request.method == "POST":
@@ -202,9 +204,9 @@ def inscription_militant():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_militant.html")
+            return render_template("pages/update/ajout_militant.html")
     else:
-        return render_template("pages/ajout_militant.html", pays=pays, contest=contest, organisation=organisation)
+        return render_template("pages/update/ajout_militant.html", pays=pays, contest=contest)
 
 @app.route("/militant/<int:name_id>/update", methods=["GET", "POST"])
 @login_required
@@ -250,12 +252,27 @@ def modification_militant(name_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_militant.html",
+        "pages/update/ajout_militant.html",
         militant=militant,
         pays=pays,
         erreurs=erreurs,
         updated=updated
     )
+@app.route("/militant/<int:name_id>/suppression", methods=["POST", "GET"])
+@login_required
+def supprimer_militant(name_id):
+
+    suppr = Acteur.query.get(name_id)
+
+    if suppr:
+        db.session.delete(suppr)
+        db.session.commit()
+        flash("Suppression réussie", "success")
+        return redirect("/")
+    else:
+        db.session.rollback()
+        flash("La suppression a échoué. Réessayez !", "warning")
+        return redirect(url_for('militant', name_id=name_id))
 
 #Gestion des données
 ##Luttes environnementales
@@ -286,9 +303,9 @@ def inscription_lutte():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_lutte.html")
+            return render_template("pages/update/ajout_lutte.html")
     else:
-        return render_template("pages/ajout_lutte.html", pays=pays, categorie=categorie)
+        return render_template("pages/update/ajout_lutte.html", pays=pays, categorie=categorie)
 
 @app.route("/projet_contest/<int:objContest_id>/update", methods=["GET", "POST"])
 @login_required
@@ -342,7 +359,7 @@ def modification_lutte(objContest_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_lutte.html",
+        "pages/update/ajout_lutte.html",
         lutte=lutte,
         pays=pays,
         categorie=categorie,
@@ -373,9 +390,9 @@ def inscription_orga():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_orga.html")
+            return render_template("pages/update/ajout_orga.html")
     else:
-        return render_template("pages/ajout_orga.html", pays=pays)
+        return render_template("pages/update/ajout_orga.html", pays=pays)
 
 @app.route("/organisation/<int:orga_id>/update", methods=["GET", "POST"])
 @login_required
@@ -409,11 +426,73 @@ def modification_orga(orga_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_orga.html",
+        "pages/update/ajout_orga.html",
         orga=orga,
         pays=pays,
         erreurs=erreurs,
         updated=updated)
+#Gestion des données associés
+##Militer
+
+@login_required
+@app.route("/ajout_militer", methods=["GET", "POST"])
+def militer():
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Militer.ajout_militer(
+            date_debut=request.form.get("date_debut", None),
+            date_fin=request.form.get("date_fin", None),
+            statut=request.form.get("statut", None),
+            orga_id=Orga.query.get(request.form["orga"]),
+            acteur_id=Acteur.query.get(request.form["acteur"])
+        )
+        print(informations)
+        name_id = request.form.get("acteur")
+        print(name_id)
+
+        if statut is True:
+            flash("Ajout d'une nouvelle participation à une organisation", "success")
+            return redirect(url_for('militant', name_id=name_id))
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return None
+
+@login_required
+@app.route("/militant/<int:militer_id>/update_militer", methods=["GET", "POST"])
+def modification_militer(militer_id):
+
+    militer = Militer.query.get_or_404(militer_id)
+    liste_orga = Orga.query.all()
+
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("orga", "").strip():
+            erreurs.append("Veuillez renseigner l'organisation.")
+        elif not Orga.query.get(request.form["orga"]):
+            erreurs.append("Veuillez renseigner l'organisation.")
+
+        if not erreurs:
+            print("Faire ma modifications")
+            militer.acteur_id = militer_id
+            militer.orga = Orga.query.get(request.form["orga"])
+            militer.date_debut = request.form["date_debut"]
+            militer.date_fin = request.form["date_fin"]
+            militer.statut = request.form["statut"]
+            print(militer.orga, militer.date_debut, militer.date_fin, militer.statut)
+
+            db.session.add(militer)
+            db.session.commit()
+            updated = True
+    return render_template(
+        "pages/update/modification_autres.html",
+        liste_orga=liste_orga,
+        militer=militer,
+        erreurs=erreurs,
+        updated=updated)
+
 
 #Gestion des données
 #Autres
@@ -480,10 +559,10 @@ def inscription():
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
-            return render_template("pages/inscription.html")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
+            return render_template("pages/user/inscription.html")
     else:
-        return render_template("pages/inscription.html")
+        return render_template("pages/user/inscription.html")
 
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
@@ -504,9 +583,9 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "error")
+            flash("Les identifiants n'ont pas été reconnus", "warning")
 
-    return render_template("pages/connexion.html")
+    return render_template("pages/user/connexion.html")
 
 login.login_view = 'connexion'
 
@@ -533,7 +612,7 @@ def reset_password_request():
             mdp_mail(user)
         flash("Regardez votre boîte mail d'ici quelques instants")
         return redirect(url_for('connexion'))
-    return render_template('pages/reset_password.html',
+    return render_template('email/reset_password.html',
                            title='Reset Password', form=form)
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -556,4 +635,4 @@ def reset_password(token):
         db.session.commit()
         flash('Votre mot de passe a été changé')
         return redirect(url_for('connexion'))
-    return render_template('pages/password_reponse.html', form=form)
+    return render_template('email/password_reponse.html', form=form)

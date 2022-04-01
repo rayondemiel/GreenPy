@@ -86,6 +86,47 @@ class Participation(db.Model):
     acteur = db.relationship("Acteur", back_populates="participation")
     objet = db.relationship("Objet_contest", back_populates="participation")
 
+    @staticmethod
+    def ajout_participation(acteur_id, contest_id, creation_instance, participation_instance, appel_instance_decision,
+                            diffusion, participation_decision, rassemblement, production, illegalisme, autre):
+        erreurs = []
+        if not acteur_id:
+            erreurs.append("Veuillez renseigner la personne.")
+        if not contest_id:
+            erreurs.append("Veuillez renseigner l'objet contesté'")
+
+        unique = Participation.query.filter(db.and_(
+            Participation.acteur.id == acteur_id,
+            Participation.objet.id == contest_id
+        )).count()
+        if unique > 0:
+            erreurs.append("Cette participation est déjà présente au sein de la base de données.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
+        nouvelle_participation = Participation(acteur=acteur_id,
+                                               objet=contest_id,
+                                               creation_instance=creation_instance,
+                                               participation_instance=participation_instance,
+                                               appel_instance_decision=appel_instance_decision,
+                                               diffusion=diffusion,
+                                               participation_decision=participation_decision,
+                                               rassemblement=rassemblement,
+                                               production=production,
+                                               illegalisme=illegalisme,
+                                               autre=autre)
+
+        try:
+            db.session.add(nouvelle_participation)
+            db.session.commit()
+            return True, nouvelle_participation
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 class Objet_contest(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
@@ -223,6 +264,40 @@ class Militer(db.Model):
     #Relations
     orga = db.relationship("Orga", back_populates="militer")
     acteur = db.relationship("Acteur", back_populates="militer")
+
+    @staticmethod
+    def ajout_militer(acteur_id, orga_id, date_debut, date_fin, statut):
+        erreurs = []
+        if not acteur_id:
+            erreurs.append("Veuillez renseigner la personne.")
+        if not orga_id:
+            erreurs.append("Veuillez renseigner l'organisation'")
+
+        unique = Militer.query.filter(db.and_(
+            Militer.acteur.id == acteur_id,
+            Militer.orga.id == orga_id
+        )).count()
+        if unique > 0:
+            erreurs.append("Cette participation est déjà présente au sein de la base de données.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Militer
+        nouvelle_participation = Militer(date_debut=date_debut,
+                                         date_fin=date_fin,
+                                         statut=statut,
+                                         orga=orga_id,
+                                         acteur=acteur_id)
+
+        try:
+            db.session.add(nouvelle_participation)
+            db.session.commit()
+            return True, nouvelle_participation
+
+        except Exception as erreur:
+            return False, [str(erreur)]
 
 class Pays(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)

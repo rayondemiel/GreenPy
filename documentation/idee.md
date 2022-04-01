@@ -43,6 +43,35 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
+
+
+---
+# Problème a regler
+
+-> modal militer (def militer) dans template militant -> bug clé
+
+-> def suppression -> prob avec les jointures associés
+
+-> faire la jointure de participation avec les booleens
+
+---
+
+---
+## Gestion photos
+
+https://roytuts.com/upload-and-display-image-using-python-flask/
+https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
+https://getbootstrap.com/docs/4.0/components/forms/#file-browser
+
+https://stackoverflow.com/questions/44861182/how-to-render-image-from-flask-sqlalchemy-on-page
+
+https://flask-appbuilder.readthedocs.io/en/latest/quickfiles.html
+
+https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-display
+
+https://www.youtube.com/watch?v=pPSZpCVRbvQ
+
+
 #scrollspy -> idee pour menu militant
 
 https://www.w3schools.com/bootstrap/bootstrap_scrollspy.asp
@@ -54,6 +83,14 @@ https://getbootstrap.com/docs/5.1/components/close-button/
 
 # valeur bouton
 https://python.tutorialink.com/get-the-value-of-a-checkbox-in-flask/
+
+
+https://docs.sqlalchemy.org/en/14/core/type_basics.html#sqlalchemy.types.Boolean
+
+https://stackoverflow.com/questions/38226607/python-flask-sqlalchemy-query-filter-by-boolean-values-ignore-false
+https://stackoverflow.com/questions/12045698/sqlalchemy-boolean-value-is-none
+https://stackoverflow.com/questions/20941539/how-to-get-if-checkbox-is-checked-on-flask?noredirect=1&lq=1
+https://stackoverflow.com/questions/44600601/get-a-list-of-values-from-checkboxes-using-flask-through-python
 
 #Multi forms
 
@@ -74,7 +111,7 @@ https://stackoverflow.com/questions/12502646/access-multiselect-form-field-in-fl
 https://www.w3schools.com/Css/css_icons.asp
 
 
-## Adminsitrateur
+## Adminsitrateur (osef)
 
 https://www.youtube.com/watch?v=ysdShEL1HMM
 
@@ -87,6 +124,8 @@ librairie woosh
 
 https://whoosh.reathedocs.io/en/latest/searching.html#the-searcher-object
 https://pythonhosted.org/Flask-WhooshAlchemy/
+
+https://stackoverflow.com/questions/24204118/flask-request-form-getlist-wont-return-any-entries
 
 
 ##geo json (inutile)
@@ -139,12 +178,7 @@ https://www.w3schools.com/howto/howto_css_stacked_form.asp
 
 voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
 
----
-## Gestion photos
 
-https://roytuts.com/upload-and-display-image-using-python-flask/
-https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
-https://getbootstrap.com/docs/4.0/components/forms/#file-browser
 
 ---
 ##AUtres
