@@ -274,8 +274,8 @@ class Militer(db.Model):
             erreurs.append("Veuillez renseigner l'organisation'")
 
         unique = Militer.query.filter(db.and_(
-            Militer.acteur.id == acteur_id,
-            Militer.orga.id == orga_id
+            Militer.acteur == acteur_id,
+            Militer.orga == orga_id
         )).count()
         if unique > 0:
             erreurs.append("Cette participation est déjà présente au sein de la base de données.")

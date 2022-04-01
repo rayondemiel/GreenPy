@@ -71,6 +71,13 @@ https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-d
 
 https://www.youtube.com/watch?v=pPSZpCVRbvQ
 
+## pdf
+
+https://pypi.org/project/pdfkit/
+https://stackoverflow.com/questions/28165704/convert-html-to-pdf-using-python-flask
+
+https://stackoverflow.com/questions/51206880/how-to-use-python-pdfkit-with-python-flask-webapp
+
 
 #scrollspy -> idee pour menu militant
 
