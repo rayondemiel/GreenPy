@@ -43,6 +43,20 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
+
+
+---
+# Problème a regler
+
+-> modal militer (def militer) dans template militant -> bug clé
+
+-> def suppression -> prob avec les jointures associés
+
+-> faire la jointure de participation avec les booleens
+
+---
+
+
 #scrollspy -> idee pour menu militant
 
 https://www.w3schools.com/bootstrap/bootstrap_scrollspy.asp
@@ -155,6 +169,14 @@ voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
 https://roytuts.com/upload-and-display-image-using-python-flask/
 https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
 https://getbootstrap.com/docs/4.0/components/forms/#file-browser
+
+https://stackoverflow.com/questions/44861182/how-to-render-image-from-flask-sqlalchemy-on-page
+
+https://flask-appbuilder.readthedocs.io/en/latest/quickfiles.html
+
+https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-display
+
+https://www.youtube.com/watch?v=pPSZpCVRbvQ
 
 ---
 ##AUtres

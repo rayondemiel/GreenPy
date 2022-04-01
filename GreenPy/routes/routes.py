@@ -51,7 +51,7 @@ def militant(name_id):
         .join(Objet_contest, Participation.contest_id == Objet_contest.id)\
         .join(Acteur, Participation.acteur_id == Acteur.id)\
         .filter(Acteur.id == name_id)\
-        .order_by(Objet_contest.nom)\
+        .order_by(Objet_contest.date_debut)\
         .all()
     #Compte
     compte_participer = len(participer)
@@ -60,7 +60,6 @@ def militant(name_id):
     latitude = list(lutte.objet.latitude for lutte in participer)
     longitude = list(lutte.objet.longitude for lutte in participer)
     if compte_participer >= 1:
-        carte = True
         data = {
             "lat": latitude,
             "long": longitude
@@ -68,7 +67,6 @@ def militant(name_id):
         df = pd.DataFrame(data)
         sw = df[['lat', 'long']].min().values.tolist()
         ne = df[['lat', 'long']].max().values.tolist()
-        print(latitude)
         #Cartographie
         ##Generation carte
         map = folium.Map(df[['lat', 'long']].mean().values.tolist())
@@ -206,9 +204,9 @@ def inscription_militant():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_militant.html")
+            return render_template("pages/update/ajout_militant.html")
     else:
-        return render_template("pages/ajout_militant.html", pays=pays, contest=contest)
+        return render_template("pages/update/ajout_militant.html", pays=pays, contest=contest)
 
 @app.route("/militant/<int:name_id>/update", methods=["GET", "POST"])
 @login_required
@@ -254,7 +252,7 @@ def modification_militant(name_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_militant.html",
+        "pages/update/ajout_militant.html",
         militant=militant,
         pays=pays,
         erreurs=erreurs,
@@ -305,9 +303,9 @@ def inscription_lutte():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_lutte.html")
+            return render_template("pages/update/ajout_lutte.html")
     else:
-        return render_template("pages/ajout_lutte.html", pays=pays, categorie=categorie)
+        return render_template("pages/update/ajout_lutte.html", pays=pays, categorie=categorie)
 
 @app.route("/projet_contest/<int:objContest_id>/update", methods=["GET", "POST"])
 @login_required
@@ -361,7 +359,7 @@ def modification_lutte(objContest_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_lutte.html",
+        "pages/update/ajout_lutte.html",
         lutte=lutte,
         pays=pays,
         categorie=categorie,
@@ -392,9 +390,9 @@ def inscription_orga():
             return redirect("/")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return render_template("pages/ajout_orga.html")
+            return render_template("pages/update/ajout_orga.html")
     else:
-        return render_template("pages/ajout_orga.html", pays=pays)
+        return render_template("pages/update/ajout_orga.html", pays=pays)
 
 @app.route("/organisation/<int:orga_id>/update", methods=["GET", "POST"])
 @login_required
@@ -428,12 +426,12 @@ def modification_orga(orga_id):
             db.session.commit()
             updated = True
     return render_template(
-        "pages/ajout_orga.html",
+        "pages/update/ajout_orga.html",
         orga=orga,
         pays=pays,
         erreurs=erreurs,
         updated=updated)
-
+#Gestion des données associés
 ##Militer
 
 @login_required
@@ -443,13 +441,15 @@ def militer():
     # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Militer.ajout_militer(
-            acteur_id=Acteur.query.get(request.form["acteur"]),
-            orga_id=Orga.query.get(request.form["orga"]),
             date_debut=request.form.get("date_debut", None),
             date_fin=request.form.get("date_fin", None),
-            statut=request.form.get("statut", None)
+            statut=request.form.get("statut", None),
+            orga_id=Orga.query.get(request.form["orga"]),
+            acteur_id=Acteur.query.get(request.form["acteur"])
         )
+        print(informations)
         name_id = request.form.get("acteur")
+        print(name_id)
 
         if statut is True:
             flash("Ajout d'une nouvelle participation à une organisation", "success")
@@ -463,30 +463,32 @@ def militer():
 def modification_militer(militer_id):
 
     militer = Militer.query.get_or_404(militer_id)
-    orga = Orga.query.all()
+    liste_orga = Orga.query.all()
 
     erreurs = []
     updated = False
 
     if request.method == "POST":
-        if not request.form.get("orga_id", "").strip():
-            erreurs.append("Veuillez renseigner le pays.")
-        elif not Pays.query.get(request.form["orga_id"]):
-            erreurs.append("Veuillez renseigner le pays.")
+        if not request.form.get("orga", "").strip():
+            erreurs.append("Veuillez renseigner l'organisation.")
+        elif not Orga.query.get(request.form["orga"]):
+            erreurs.append("Veuillez renseigner l'organisation.")
 
         if not erreurs:
             print("Faire ma modifications")
-            militer.orga = Orga.query.get(request.form["orga_id"])
+            militer.acteur_id = militer_id
+            militer.orga = Orga.query.get(request.form["orga"])
             militer.date_debut = request.form["date_debut"]
             militer.date_fin = request.form["date_fin"]
             militer.statut = request.form["statut"]
+            print(militer.orga, militer.date_debut, militer.date_fin, militer.statut)
 
             db.session.add(militer)
             db.session.commit()
             updated = True
     return render_template(
         "pages/update/modification_autres.html",
-        orga=orga,
+        liste_orga=liste_orga,
         militer=militer,
         erreurs=erreurs,
         updated=updated)
@@ -558,9 +560,9 @@ def inscription():
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
-            return render_template("pages/inscription.html")
+            return render_template("pages/user/inscription.html")
     else:
-        return render_template("pages/inscription.html")
+        return render_template("pages/user/inscription.html")
 
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
@@ -583,7 +585,7 @@ def connexion():
         else:
             flash("Les identifiants n'ont pas été reconnus", "error")
 
-    return render_template("pages/connexion.html")
+    return render_template("pages/user/connexion.html")
 
 login.login_view = 'connexion'
 

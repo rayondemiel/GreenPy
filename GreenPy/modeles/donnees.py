@@ -107,8 +107,8 @@ class Participation(db.Model):
             return False, erreurs
 
             # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
-        nouvelle_participation = Participation(acteur_id=acteur_id,
-                                               contest_id=contest_id,
+        nouvelle_participation = Participation(acteur=acteur_id,
+                                               objet=contest_id,
                                                creation_instance=creation_instance,
                                                participation_instance=participation_instance,
                                                appel_instance_decision=appel_instance_decision,
@@ -285,11 +285,11 @@ class Militer(db.Model):
             return False, erreurs
 
             # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Militer
-        nouvelle_participation = Militer(acteur=acteur_id,
-                                         orga=orga_id,
-                                         date_debut=date_debut,
+        nouvelle_participation = Militer(date_debut=date_debut,
                                          date_fin=date_fin,
-                                         statut=statut)
+                                         statut=statut,
+                                         orga=orga_id,
+                                         acteur=acteur_id)
 
         try:
             db.session.add(nouvelle_participation)
