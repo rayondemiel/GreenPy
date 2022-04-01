@@ -271,7 +271,7 @@ def supprimer_militant(name_id):
         return redirect("/")
     else:
         db.session.rollback()
-        flash("La suppression a échoué. Réessayez !", "error")
+        flash("La suppression a échoué. Réessayez !", "warning")
         return redirect(url_for('militant', name_id=name_id))
 
 #Gestion des données
@@ -559,7 +559,7 @@ def inscription():
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
         else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "danger")
             return render_template("pages/user/inscription.html")
     else:
         return render_template("pages/user/inscription.html")
@@ -583,7 +583,7 @@ def connexion():
             login_user(utilisateur)
             return redirect("/")
         else:
-            flash("Les identifiants n'ont pas été reconnus", "error")
+            flash("Les identifiants n'ont pas été reconnus", "warning")
 
     return render_template("pages/user/connexion.html")
 

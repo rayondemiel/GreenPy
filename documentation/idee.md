@@ -56,6 +56,21 @@ https://maitron.fr/spip.php?article155122
 
 ---
 
+---
+## Gestion photos
+
+https://roytuts.com/upload-and-display-image-using-python-flask/
+https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
+https://getbootstrap.com/docs/4.0/components/forms/#file-browser
+
+https://stackoverflow.com/questions/44861182/how-to-render-image-from-flask-sqlalchemy-on-page
+
+https://flask-appbuilder.readthedocs.io/en/latest/quickfiles.html
+
+https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-display
+
+https://www.youtube.com/watch?v=pPSZpCVRbvQ
+
 
 #scrollspy -> idee pour menu militant
 
@@ -163,20 +178,7 @@ https://www.w3schools.com/howto/howto_css_stacked_form.asp
 
 voir systeme POSH dans métadonnées  (voir cours SQPARQL et web semantique)
 
----
-## Gestion photos
 
-https://roytuts.com/upload-and-display-image-using-python-flask/
-https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image
-https://getbootstrap.com/docs/4.0/components/forms/#file-browser
-
-https://stackoverflow.com/questions/44861182/how-to-render-image-from-flask-sqlalchemy-on-page
-
-https://flask-appbuilder.readthedocs.io/en/latest/quickfiles.html
-
-https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-display
-
-https://www.youtube.com/watch?v=pPSZpCVRbvQ
 
 ---
 ##AUtres
