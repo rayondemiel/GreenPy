@@ -1,6 +1,10 @@
-from flask import render_template
+from flask import render_template, redirect, url_for, flash
 from flask_mail import Message
-from ..app import mail, app
+from flask_login import current_user
+
+from ..app import mail, app, db
+from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
+from ..modeles.utilisateurs import User
 
 def send_email(subject, sender, recipients, text_body, html_body):
     """
@@ -44,3 +48,44 @@ def mdp_mail(user):
                recipients=[user.user_email],
                text_body=render_template('email/pages/reset_mdp_requete.txt', user=user, token=token),
                html_body=render_template('email/pages/reset_mdp_requete.html', user=user, token=token))
+
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    """
+    Fonction permettant de vérifier que l'utilisateur est bien présent au sein de la base de données et d'initier la fonction mdp_mail()
+    Si l'utilisateur est déjà identifier alors il redirigé vers l'accueil.
+    :return: Html template
+    """
+    if current_user.is_authenticated:
+        return redirect(url_for('/accueil'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(user_email=form.email.data).first()
+        if user:
+            mdp_mail(user)
+        flash("Regardez votre boîte mail d'ici quelques instants")
+        return redirect(url_for('connexion'))
+    return render_template('email/reset_password.html',
+                           title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    """
+    Fonction de reinitialisation du mot de passe de l'utilisateur à partir du formulaire de reinitialisation.
+    Si l'utilisateur est déjà identifier ou n'est pas le même, alors il redirigé vers l'accueil.
+
+    :param token: Retour de la variable de la fonction mdp_mail() ou rediction vers l'accueil
+    :return: Template Html
+    """
+    if current_user.is_authenticated:
+        return redirect(url_for('accueil'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('accueil'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Votre mot de passe a été changé')
+        return redirect(url_for('connexion'))
+    return render_template('email/password_reponse.html', form=form)

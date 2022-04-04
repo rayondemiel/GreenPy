@@ -71,6 +71,8 @@ https://stackoverflow.com/questions/63507504/python-flask-app-upload-image-and-d
 
 https://www.youtube.com/watch?v=pPSZpCVRbvQ
 
+https://pythonhosted.org/Flask-Uploads/ -> voir les tests
+
 ## pdf
 
 https://pypi.org/project/pdfkit/

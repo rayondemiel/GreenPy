@@ -138,7 +138,6 @@ class Objet_contest(db.Model):
     dpt = db.Column(db.Text)
     pays_id = db.Column(db.Integer, db.ForeignKey('pays.id'))
     ressources = db.Column(db.Text)
-    img_id = db.Column(db.Integer)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     #Relations
@@ -146,6 +145,7 @@ class Objet_contest(db.Model):
     participation = db.relationship("Participation", back_populates="objet")
     categorie = db.relationship("Categorie", back_populates="objet_contest")
     pays = db.relationship("Pays", back_populates="objet_contest")
+    image = db.relationship("Image", back_populates="objet")
 
     @staticmethod
     def ajout_lutte(nom, categorie, date_debut, date_fin, ville, dpt, pays, description, ressources):
@@ -315,7 +315,7 @@ class Pays(db.Model):
 
         unique = Pays.query.filter(Pays.nom).count()
         if unique > 0:
-            erreurs.append("Cette personne est déjà présente au sein de la base de données.")
+            erreurs.append("Ce pays est déjà présente au sein de la base de données.")
 
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
@@ -335,5 +335,34 @@ class Pays(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
-    legende = db.Column(db.Text, nullable=False)
-    lien = db.Column(db.Text)
+    legende = db.Column(db.Text)
+    lien = db.Column(db.Text, nullable=False)
+    objet_id = db.Column(db.Integer, db.ForeignKey('objet_contest.id'))
+    # Relations
+    objet = db.relationship("Objet_contest", back_populates="image")
+
+    @staticmethod
+    def ajout_image(nom, legende, lien, objet_id):
+        erreurs = []
+        if not nom:
+            erreurs.append("Veuillez renseigner un intitulé.")
+        if not lien:
+            erreurs.append("Le lien n'est pas accepté au sein de la base de données, veuillez réesayer.")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Image
+        nouvelle_image = Image(nom=nom,
+                               legende=legende,
+                               lien=lien,
+                               objet=objet_id)
+
+        try:
+            db.session.add(nouvelle_image)
+            db.session.commit()
+            return True, nouvelle_image
+
+        except Exception as erreur:
+            return False, [str(erreur)]

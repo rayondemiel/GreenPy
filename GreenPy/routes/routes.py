@@ -5,12 +5,11 @@ import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
 
-from .email import mdp_mail, inscription_mail
+from .email import inscription_mail
 from ..app import app, login, db
-from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga
+from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
 from ..modeles.utilisateurs import User
 from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
-from ..modeles.forms import ResetPasswordRequestForm, ResetPasswordForm
 from ..constantes import RESULTATS_PAR_PAGES
 
 #Accueil
@@ -126,13 +125,19 @@ def index_objContest():
 
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
-    unique_contest = Objet_contest.query.get(objContest_id)
-    createur = Authorship_ObjetContest.query.filter(
-        and_(Authorship_ObjetContest.createur == "True", Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
     if Objet_contest.date_fin is not None :
         date = Objet_contest.date_fin-Objet_contest.date_debut
     else :
         date = "En cours"
+    #Requete SQL
+    unique_contest = Objet_contest.query.get(objContest_id)
+    createur = Authorship_ObjetContest.query.filter(
+        and_(Authorship_ObjetContest.createur == "True", Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
+    images = Image.query \
+        .join(Objet_contest, Image.objet_id == Objet_contest.id) \
+        .filter(Objet_contest.id == objContest_id) \
+        .order_by(Image.nom) \
+        .all()
     #Cartographie
     map = folium.Map(location=[unique_contest.latitude, unique_contest.longitude], zoom_start=11)
     url = request.url_root + url_for('resultat_carte', lutte_id=unique_contest.id)
@@ -149,7 +154,7 @@ def objContest(objContest_id):
     popup = folium.Popup(iframe, max_width=650)
     folium.Marker([unique_contest.latitude, unique_contest.longitude], popup=popup).add_to(map)
     map.save("GreenPy/templates/partials/map.html")
-    return render_template("pages/objet_contest.html", projet_contest=unique_contest, date=date, createur=createur)
+    return render_template("pages/objet_contest.html", projet_contest=unique_contest, date=date, createur=createur, images=images)
 
 #Organisation
 
@@ -435,9 +440,9 @@ def modification_orga(orga_id):
 ##Militer
 
 @login_required
-@app.route("/ajout_militer", methods=["GET", "POST"])
+@app.route("/ajout_militer", methods=["Get","POST"])
 def militer():
-
+    name_id = request.form.get("acteur")
     # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Militer.ajout_militer(
@@ -447,16 +452,13 @@ def militer():
             orga_id=Orga.query.get(request.form["orga"]),
             acteur_id=Acteur.query.get(request.form["acteur"])
         )
-        print(informations)
-        name_id = request.form.get("acteur")
-        print(name_id)
 
         if statut is True:
             flash("Ajout d'une nouvelle participation à une organisation", "success")
             return redirect(url_for('militant', name_id=name_id))
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return None
+            return redirect(url_for('militant', name_id=name_id))
 
 @login_required
 @app.route("/militant/<int:militer_id>/update_militer", methods=["GET", "POST"])
@@ -512,7 +514,7 @@ def ajout_pays():
             return redirect("/inscription_militant")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-            return None
+            return redirect("/")
 
 #Recherche
 
@@ -595,44 +597,3 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
-
-@app.route('/reset_password_request', methods=['GET', 'POST'])
-def reset_password_request():
-    """
-    Fonction permettant de vérifier que l'utilisateur est bien présent au sein de la base de données et d'initier la fonction mdp_mail()
-    Si l'utilisateur est déjà identifier alors il redirigé vers l'accueil.
-    :return: Html template
-    """
-    if current_user.is_authenticated:
-        return redirect(url_for('/accueil'))
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(user_email=form.email.data).first()
-        if user:
-            mdp_mail(user)
-        flash("Regardez votre boîte mail d'ici quelques instants")
-        return redirect(url_for('connexion'))
-    return render_template('email/reset_password.html',
-                           title='Reset Password', form=form)
-
-@app.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    """
-    Fonction de reinitialisation du mot de passe de l'utilisateur à partir du formulaire de reinitialisation.
-    Si l'utilisateur est déjà identifier ou n'est pas le même, alors il redirigé vers l'accueil.
-
-    :param token: Retour de la variable de la fonction mdp_mail() ou rediction vers l'accueil
-    :return: Template Html
-    """
-    if current_user.is_authenticated:
-        return redirect(url_for('accueil'))
-    user = User.verify_reset_password_token(token)
-    if not user:
-        return redirect(url_for('accueil'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        user.set_password(form.password.data)
-        db.session.commit()
-        flash('Votre mot de passe a été changé')
-        return redirect(url_for('connexion'))
-    return render_template('email/password_reponse.html', form=form)

@@ -42,6 +42,14 @@
                 justify-content: space-around;
             }
 
+            .carousel-text {
+                color: #000000;
+            }
+
+            .carousel-caption {
+                background-color: rgba(139, 191, 202, 0.3);
+            }
+
     </style>
 </head>
 <body>
@@ -57,10 +65,10 @@
               Base de données
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item nav-link" href="{{url_for('index_militant')}}">Index des militants écologistes</a>
-              <a class="dropdown-item nav-link" href="{{url_for('index_objContest')}}">Index des projets contestés</a>
+              <a class="dropdown-item" href="{{url_for('index_militant')}}">Index des militants écologistes</a>
+              <a class="dropdown-item" href="{{url_for('index_objContest')}}">Index des projets contestés</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item nav-link" href="{{url_for('index_organisation')}}">Index des Organisations</a>
+              <a class="dropdown-item" href="{{url_for('index_organisation')}}">Index des Organisations</a>
             </div>
           </li>
             <li class="nav-item">
