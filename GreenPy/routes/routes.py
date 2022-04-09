@@ -4,13 +4,14 @@ from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
+import re
 
 from .email import inscription_mail
 from ..app import app, login, db
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
 from ..modeles.utilisateurs import User
 from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
-from ..constantes import RESULTATS_PAR_PAGES
+from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
 
 #Accueil
 
@@ -238,6 +239,13 @@ def modification_militant(name_id):
         elif not Pays.query.get(request.form["pays_naissance"]):
             erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
 
+        if request.form.get("date_naissance"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_naissance")) or not re.match(REGEX_DATE, request.form.get("date_naissance")):
+                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+        if request.form.get("date_deces"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_deces")) or not re.match(REGEX_DATE, request.form.get("date_deces")):
+                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+
 
         if not erreurs:
             print("Faire ma modifications")
@@ -254,6 +262,9 @@ def modification_militant(name_id):
             db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
             db.session.commit()
             updated = True
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
+            return redirect(url_for('modification_militant', name_id=name_id))
     return render_template(
         "pages/update/ajout_militant.html",
         militant=militant,
@@ -342,6 +353,13 @@ def modification_lutte(objContest_id):
         elif not Pays.query.get(request.form["categorie"]):
             erreurs.append("Veuillez renseigner la catégorie.")
 
+        if request.form.get("date_debut"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
+                erreurs.append("Les dates doivent être sous le format AAAA")
+        if request.form.get("date_fin"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_fin")):
+                erreurs.append("Les dates doivent être sous le format AAAA")
+
 
         if not erreurs:
             print("Faire ma modifications")
@@ -361,6 +379,9 @@ def modification_lutte(objContest_id):
             db.session.add(Authorship_ObjetContest(objet_contest=lutte, user=current_user))
             db.session.commit()
             updated = True
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
+            return redirect(url_for('modification_lutte', objContest_id=objContest_id))
     return render_template(
         "pages/update/ajout_lutte.html",
         lutte=lutte,
@@ -414,7 +435,9 @@ def modification_orga(orga_id):
             erreurs.append("Veuillez renseigner le pays.")
         elif not Pays.query.get(request.form["pays"]):
             erreurs.append("Veuillez renseigner le pays.")
-
+        if request.form.get("date_fondation"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
 
         if not erreurs:
             print("Faire ma modifications")
@@ -428,6 +451,9 @@ def modification_orga(orga_id):
             db.session.add(Authorship_Orga(orga=orga, user=current_user))
             db.session.commit()
             updated = True
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
+            return redirect(url_for('modification_orga', orga_id=orga_id))
     return render_template(
         "pages/update/ajout_orga.html",
         orga=orga,
@@ -473,19 +499,28 @@ def modification_militer(militer_id):
             erreurs.append("Veuillez renseigner l'organisation.")
         elif not Orga.query.get(request.form["orga"]):
             erreurs.append("Veuillez renseigner l'organisation.")
+        if request.form.get("date_debut"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if request.form.get("date_fin"):
+            if not re.match(REGEX_ANNEE, request.form.get("date_fin")):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
 
         if not erreurs:
             print("Faire ma modifications")
             militer.acteur_id = militer.acteur_id
             militer.orga = Orga.query.get(request.form["orga"])
-            militer.date_debut = request.form["date_debut"]
-            militer.date_fin = request.form["date_fin"]
-            militer.statut = request.form["statut"]
+            militer.date_debut = request.form.get("date_debut", None)
+            militer.date_fin = request.form.get("date_fin", None)
+            militer.statut = request.form.get("statut", None)
 
             db.session.add(militer)
             db.session.add(AuthorshipActeur(authorship_acteur_id=militer.acteur_id, user=current_user))
             db.session.commit()
             updated = True
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
+            return redirect(url_for('modification_militer', militer_id=militer_id))
     return render_template(
         "pages/update/modification_autres.html",
         liste_orga=liste_orga,

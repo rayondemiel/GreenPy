@@ -1,8 +1,10 @@
 from flask_login import current_user
 from geopy.geocoders import Nominatim
+import re
 
 from ..app import db
 from .authorship import AuthorshipActeur, Authorship_ObjetContest, Authorship_Orga
+from ..constantes import REGEX_ANNEE, REGEX_DATE
 
 geolocator = Nominatim(user_agent="GreenPy")
 
@@ -37,6 +39,12 @@ class Acteur(db.Model):
             erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
         if not biographie:
             erreurs.append("Veuillez renseigner la biographie de la personne.")
+        if date_naissance:
+            if not re.match(REGEX_ANNEE, date_naissance) or not re.match(REGEX_DATE, date_naissance):
+                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+        if date_deces:
+            if not re.match(REGEX_ANNEE, date_deces) or not re.match(REGEX_DATE, date_deces):
+                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
 
         unique = Acteur.query.filter(db.and_(
             Acteur.nom == nom,
@@ -165,6 +173,12 @@ class Objet_contest(db.Model):
             erreurs.append("Veuillez renseigner la ville.")
         if not pays:
             erreurs.append("Veuillez renseigner le pays.")
+        if date_debut:
+            if not re.match(REGEX_ANNEE, date_debut):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if date_fin:
+            if not re.match(REGEX_ANNEE, date_fin):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
 
         unique = Objet_contest.query.filter(db.and_(
             Objet_contest.categorie == categorie,
@@ -234,6 +248,9 @@ class Orga(db.Model):
             erreurs.append("Veuillez renseigner un intitulé.")
         if not pays:
             erreurs.append("Veuillez renseigner le pays.")
+        if date_fondation:
+            if not re.match(REGEX_ANNEE, date_fondation):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
 
         unique = Orga.query.filter(Orga.nom).count()
         if unique > 0:
@@ -276,7 +293,13 @@ class Militer(db.Model):
         if not acteur_id:
             erreurs.append("Veuillez renseigner la personne.")
         if not orga_id:
-            erreurs.append("Veuillez renseigner l'organisation'")
+            erreurs.append("Veuillez renseigner l'organisation.")
+        if date_debut:
+            if not re.match(REGEX_ANNEE, date_debut):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if date_fin:
+            if not re.match(REGEX_ANNEE, date_fin):
+                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
 
         unique = Militer.query.filter(db.and_(
             Militer.acteur == acteur_id,

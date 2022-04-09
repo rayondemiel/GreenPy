@@ -1,9 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from time import time
-import jwt
+import jwt, re
 
 from .. app import db, login, app
+from ..constantes import REGEX_NB, REGEX_CAR, REGEX_MAJ
 
 
 class User(UserMixin, db.Model):
@@ -50,8 +51,12 @@ class User(UserMixin, db.Model):
             erreurs.append("L'email fourni est vide")
         if not nom:
             erreurs.append("Le nom fourni est vide")
-        if not motdepasse or len(motdepasse) < 6:
+        if not motdepasse or len(motdepasse) < 8:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
+        elif motdepasse and len(motdepasse) > 8 :
+            if not re.match(REGEX_MAJ, motdepasse) and not re.match(REGEX_NB, motdepasse) and not re.match(REGEX_CAR, motdepasse):
+                erreurs.append("Le mot de passe fourni doit contenir au moins une majuscule, un chiffre et un caractère spécials")
+
 
         # On vérifie que personne n'a utilisé cet email ou ce login
         uniques = User.query.filter(
