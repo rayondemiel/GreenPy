@@ -38,8 +38,8 @@ def index_militant():
 def militant(name_id):
     #Requete SQL
     unique_militants = Acteur.query.get(name_id)
-    createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
     liste_orga = Orga.query.all()
+    contest = Objet_contest.query.all()
     organisation = Militer.query\
         .join(Orga, Militer.orga_id == Orga.id)\
         .join(Acteur, Militer.acteur_id == Acteur.id)\
@@ -52,12 +52,11 @@ def militant(name_id):
         .filter(Acteur.id == name_id)\
         .order_by(Objet_contest.date_debut)\
         .all()
-    #Compte
-    compte_participer = len(participer)
-    compte_organisation = len(organisation)
+    createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
     # Generation dataframe pour localisation et zoom
     latitude = list(lutte.objet.latitude for lutte in participer)
     longitude = list(lutte.objet.longitude for lutte in participer)
+    compte_participer = len(participer)
     if compte_participer >= 1:
         data = {
             "lat": latitude,
@@ -109,9 +108,8 @@ def militant(name_id):
         ).add_to(map)
         ##Save
         map.save("GreenPy/templates/partials/map.html")
-    return render_template("pages/militant.html", militant=unique_militants, createur=createur, compte_organisation=compte_organisation,
-                               organisation=organisation, participer=participer, compte_participer=compte_participer, liste_orga=liste_orga)
-
+    return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation,
+                           participer=participer, liste_orga=liste_orga, contest=contest)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -478,14 +476,14 @@ def modification_militer(militer_id):
 
         if not erreurs:
             print("Faire ma modifications")
-            militer.acteur_id = militer_id
+            militer.acteur_id = militer.acteur_id
             militer.orga = Orga.query.get(request.form["orga"])
             militer.date_debut = request.form["date_debut"]
             militer.date_fin = request.form["date_fin"]
             militer.statut = request.form["statut"]
-            print(militer.orga, militer.date_debut, militer.date_fin, militer.statut)
 
             db.session.add(militer)
+            db.session.add(AuthorshipActeur(authorship_acteur_id=militer.acteur_id, user=current_user))
             db.session.commit()
             updated = True
     return render_template(
@@ -495,6 +493,77 @@ def modification_militer(militer_id):
         erreurs=erreurs,
         updated=updated)
 
+@login_required
+@app.route("/ajout_participer", methods=["Get", "POST"])
+def participer():
+    name_id = request.form.get("acteur")
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Participation.ajout_participation(
+            contest_id=Objet_contest.query.get(request.form["objet_contest"]),
+            acteur_id=Acteur.query.get(request.form["acteur"]),
+            check=request.form.getlist("check")
+        )
+
+        if statut is True:
+            flash("Ajout d'une nouvelle participation environnementale", "success")
+            return redirect(url_for('militant', name_id=name_id))
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return redirect(url_for('militant', name_id=name_id))
+
+@login_required
+@app.route("/militant/<int:participer_id>/update_participer", methods=["GET", "POST"])
+def modification_participer(participer_id):
+
+    participer = Participation.query.get_or_404(participer_id)
+    contest = Objet_contest.query.all()
+
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("objet_contest", "").strip():
+            erreurs.append("Veuillez renseigner l'objet contesté.")
+        elif not Orga.query.get(request.form["objet_contest"]):
+            erreurs.append("Veuillez renseigner l'objet contesté.")
+
+        # Fonction permettant de verifier l'existence dans la valeur au sein de la getlist des checkbox
+        # Valeur de 1 si présente, 0 si absente
+        check = request.form.getlist("check")
+        repertoire = ["creation_instance", "participation_instance", "appel_instance_decision", "diffusion",
+                      "participation_decision", "rassemblement", "production", "illegalisme", "autre"]
+        list_check = {}
+        for values in repertoire:
+            if values in check:
+                list_check[values] = 1
+            else:
+                list_check[values] = 0
+
+        if not erreurs:
+            print("Faire ma modifications")
+            participer.acteur_id = participer.acteur_id
+            participer.objet = Objet_contest.query.get(request.form["objet_contest"])
+            participer.creation_instance = list_check["creation_instance"]
+            participer.participation_instance = list_check["participation_instance"]
+            participer.appel_instance_decision = list_check["appel_instance_decision"]
+            participer.diffusion = list_check["diffusion"]
+            participer.participation_decision = list_check["participation_decision"]
+            participer.rassemblement = list_check["rassemblement"]
+            participer.production = list_check["production"]
+            participer.illegalisme = list_check["illegalisme"]
+            participer.autre = list_check["autre"]
+
+            db.session.add(participer)
+            db.session.add(AuthorshipActeur(authorship_acteur_id=participer.acteur_id, user=current_user))
+            db.session.commit()
+            updated = True
+    return render_template(
+        "pages/update/modification_autres.html",
+        contest=contest,
+        participer=participer,
+        erreurs=erreurs,
+        updated=updated)
 
 #Gestion des données
 #Autres

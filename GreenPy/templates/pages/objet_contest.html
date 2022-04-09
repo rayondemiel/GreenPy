@@ -1,177 +1,177 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if projet_contest %}| Projets contestés : {{projet_contest.nom}} {% endif %}
-    {%if projets_contest %}| {{name}} {% endif %}
+{%if projet_contest %}| Projets contestés : {{projet_contest.nom}} {% endif %}
+{%if projets_contest %}| {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}
-    <!-- Page d'un projet contesté -->
-    {% if projet_contest %}
-            <h1 style="margin-bottom: 1em"><center><b>{{projet_contest.nom}}</b> ({{projet_contest.date_debut}}{% if projet_contest.date_fin is not none %} - {{projet_contest.date_fin}}{% else %} - ... {% endif %})</center></h1>
-            <div class="page_objet">
-                <div style="margin-right: 1em">
-                    <h4>Données</h4>
-                    <dl>
-                        <dt>Catégorie de l'objet contesté</dt><dd>{{projet_contest.categorie.nom}}</dd>
-                        <dt>Durée du conflit</dt><dd>{{date}}</dd>
-                        <dt>Ville</dt><dd>{{projet_contest.ville}}</dd>
-                        <dt>Département/Région</dt><dd>{% if projet_contest.dpt is not none %}{{projet_contest.dpt}}{%else%}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-                        <dt>Pays</dt><dd>{{projet_contest.pays.nom}}</dd>
-                        <dt>Description</dt><dd>{% if projet_contest.description is not none %}{{projet_contest.description}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-                        <dt>Ressources bibliographiques</dt><dd>{% if projet_contest.ressources is not none %}{{projet_contest.ressources}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
-                    </dl>
-                </div>
-                <div>
-                    <h4 style="margin-bottom: 1em"><center>🌏 Situation géographique 🌏</center></h4>
-                    <center><iframe class="carte_folium" src="{{url_for('carte_native')}}" width=750, height=450></iframe></center>
+<!-- Page d'un projet contesté -->
+{% if projet_contest %}
+<h1 style="margin-bottom: 1em"><center><b>{{projet_contest.nom}}</b> ({{projet_contest.date_debut}}{% if projet_contest.date_fin is not none %} - {{projet_contest.date_fin}}{% else %} - ... {% endif %})</center></h1>
+<div class="page_objet">
+    <div style="margin-right: 1em">
+        <h4>Données</h4>
+        <dl>
+            <dt>Catégorie de l'objet contesté</dt><dd>{{projet_contest.categorie.nom}}</dd>
+            <dt>Durée du conflit</dt><dd>{{date}}</dd>
+            <dt>Ville</dt><dd>{{projet_contest.ville}}</dd>
+            <dt>Département/Région</dt><dd>{% if projet_contest.dpt is not none %}{{projet_contest.dpt}}{%else%}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+            <dt>Pays</dt><dd>{{projet_contest.pays.nom}}</dd>
+            <dt>Description</dt><dd>{% if projet_contest.description is not none %}{{projet_contest.description}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+            <dt>Ressources bibliographiques</dt><dd>{% if projet_contest.ressources is not none %}{{projet_contest.ressources}}{% else %}<i>(Cette section est à compléter)</i>{% endif %}</dd>
+        </dl>
+    </div>
+    <div>
+        <h4 style="margin-bottom: 1em"><center>🌏 Situation géographique 🌏</center></h4>
+        <center><iframe class="carte_folium" src="{{url_for('carte_native')}}" width=750, height=450></iframe></center>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Images {% if current_user.is_authenticated %}<a role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">+</a>{% endif %}</h3>
+    {% if images %}
+    <div id="carouselObjet" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for image in images %}
+            {% if loop.index == 1 %}
+            <button type="button" data-bs-target="#carouselObjet" data-bs-slide-to="{{ loop.index - 1}}" class="active" aria-current="true" aria-label="Slide {{ loop.index - 1 }}"></button>
+            {% else %}
+            <button type="button" data-bs-target="#carouselObjet" data-bs-slide-to="{{ loop.index - 1 }}" aria-label="Slide {{ loop.index - 1 }}"></button>
+            {%endif%}
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for image in images %}
+            {% if loop.index == 1 %}
+            <div class="carousel-item active">
+                <img src="{{url_for('static', filename='images/upload/' + image.lien)}}" class="d-block w-100" alt="{{image.nom}}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="carousel-text">{{image.nom}}</h5>
+                    <p class="carousel-text">{% if image.legende is not none %}{{image.legende}}{%else%}<i>Pas de description</i>{%endif%}</p>
                 </div>
             </div>
-            <hr/>
-            <div>
-                <h3>Images {% if current_user.is_authenticated %}<a role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">+</a>{% endif %}</h3>
-                {% if images %}
-                <div id="carouselObjet" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-indicators">
-                    {% for image in images %}
-                      {% if loop.index == 1 %}
-                        <button type="button" data-bs-target="#carouselObjet" data-bs-slide-to="{{ loop.index - 1}}" class="active" aria-current="true" aria-label="Slide {{ loop.index - 1 }}"></button>
-                      {% else %}
-                        <button type="button" data-bs-target="#carouselObjet" data-bs-slide-to="{{ loop.index - 1 }}" aria-label="Slide {{ loop.index - 1 }}"></button>
-                      {%endif%}
-                    {% endfor %}
-                  </div>
-                  <div class="carousel-inner">
-                   {% for image in images %}
-                    {% if loop.index == 1 %}
-                      <div class="carousel-item active">
-                          <img src="{{url_for('static', filename='images/upload/' + image.lien)}}" class="d-block w-100" alt="{{image.nom}}">
-                          <div class="carousel-caption d-none d-md-block">
-                            <h5 class="carousel-text">{{image.nom}}</h5>
-                            <p class="carousel-text">{% if image.legende is not none %}{{image.legende}}{%else%}<i>Pas de description</i>{%endif%}</p>
-                          </div>
-                        </div>
-                    {% else %}
-                    <div class="carousel-item">
-                      <img src="{{url_for('static', filename='images/upload/' + image.lien)}}" class="d-block w-100" alt="{{image.nom}}">
-                      <div class="carousel-caption d-none d-md-block">
-                        <h5 class="carousel-text">{{image.nom}}</h5>
-                        <p class="carousel-text">{% if image.legende is not none %}{{image.legende}}{%else%}<i>Pas de description</i>{%endif%}</p>
-                      </div>
-                    </div>
-                    {%endif%}
-                   {% endfor%}
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselObjet" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Précédent</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselObjet" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Suivant</span>
-                  </button>
+            {% else %}
+            <div class="carousel-item">
+                <img src="{{url_for('static', filename='images/upload/' + image.lien)}}" class="d-block w-100" alt="{{image.nom}}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="carousel-text">{{image.nom}}</h5>
+                    <p class="carousel-text">{% if image.legende is not none %}{{image.legende}}{%else%}<i>Pas de description</i>{%endif%}</p>
                 </div>
-                {% else %}
-                <p><i>Cette section est à completer ! Pour ajouter une participation, vous devez être connecté et cliquer sur le bouton au-dessus.</i></p>
-                {% endif %}
             </div>
-        <!--Modal upload-->
-        <div class="modal fade" id="uploadModal" tabindex="-1">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form class="form" method="POST" action="{{url_for('upload_image')}}" enctype="multipart/form-data">
-                  <div class="modal-header">
+            {%endif%}
+            {% endfor%}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselObjet" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselObjet" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    </div>
+    {% else %}
+    <p><i>Cette section est à completer ! Pour ajouter une participation, vous devez être connecté et cliquer sur le bouton au-dessus.</i></p>
+    {% endif %}
+</div>
+<!--Modal upload-->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form" method="POST" action="{{url_for('upload_image')}}" enctype="multipart/form-data">
+                <div class="modal-header">
                     <h5 class="modal-title">Ajouter une image (png, jpeg, jpg)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div><input type="hidden" name="objet_id" value="{{projet_contest.id}}"></div>
-                      <div class="custom-file">
-                           <label class="custom-file-label" for="myfile">Selectionner un fichier:</label>
-                            <input type="file" id="myfile" name="file" class="custom-file-input" required>
-                      </div>
-                      <div class="form-group row">
+                </div>
+                <div class="modal-body">
+                    <div><input type="hidden" name="objet_id" value="{{projet_contest.id}}"></div>
+                    <div class="custom-file">
+                        <label class="custom-file-label" for="myfile">Selectionner un fichier:</label>
+                        <input type="file" id="myfile" name="file" class="custom-file-input" required>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Titre*</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="nom" placeholder="..." required/>
+                            <input type="text" class="form-control" name="nom" placeholder="..." required/>
                         </div>
-                      </div>
-                      <div class="form-group row">
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Légende</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="legende" placeholder="..."/>
+                            <input type="text" class="form-control" name="legende" placeholder="..."/>
                         </div>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
+                    </div>
+                </div>
+                <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <button class="btn btn-primary" type="submit">Ajout</button>
-                  </div>
-              </form>
-            </div>
-          </div>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
-            <hr/>
-            {% if createur %}
-                <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
-            {% endif %}
-            <dl>
-                <dd> <span>Cette page a été modifiée par :</span>
-                    <ul>
-                        {% for modification in projet_contest.authorships %}
-                            {% if modification.createur != "True" %}
-                            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </dd>
-            </dl>
-
-        <!-- Index des projets contestés -->
-        {% elif projets_contest %}
-        <h1>Index des luttes environnementales</h1>
-        <p>Il y a {{ projets_contest.total }} luttes environnementales qui ont été recensées :</p>
+<hr/>
+{% if createur %}
+<p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
+{% endif %}
+<dl>
+    <dd> <span>Cette page a été modifiée par :</span>
         <ul>
-            {% for objet in projets_contest.items %}
-                <li><a href="{{url_for('objContest', objContest_id=objet.id)}}">{{objet.nom}}</a></li>
+            {% for modification in projet_contest.authorships %}
+            {% if modification.createur != "True" %}
+            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
+            {% endif %}
             {% endfor %}
         </ul>
+    </dd>
+</dl>
 
-        <nav aria-label="research-pagination">
-          <ul class="pagination">
-            {%- for page in projets_contest.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
-                {% if page %}
+<!-- Index des projets contestés -->
+{% elif projets_contest %}
+<h1>Index des luttes environnementales</h1>
+<p>Il y a {{ projets_contest.total }} luttes environnementales qui ont été recensées :</p>
+<ul>
+    {% for objet in projets_contest.items %}
+    <li><a href="{{url_for('objContest', objContest_id=objet.id)}}">{{objet.nom}}</a></li>
+    {% endfor %}
+</ul>
 
-                  {% if page != projets_contest.page %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('index_objContest', page=page) }}">{{page}}</a>
-                    </li>
-                  {% else %}
-                    <li class="page-item active disabled">
-                      <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
-                    </li>
-                  {% endif %}
+<nav aria-label="research-pagination">
+    <ul class="pagination">
+        {%- for page in projets_contest.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+        {% if page %}
 
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">...</a>
-                    </li>
-                {% endif %}
-
-            {%- endfor %}
-          </ul>
-        </nav>
-        <!-- Si requête non trouvée -->
+        {% if page != projets_contest.page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('index_objContest', page=page) }}">{{page}}</a>
+        </li>
         {% else %}
-            <p>La base de données est en cours de constitution</p>
+        <li class="page-item active disabled">
+            <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+        </li>
         {% endif %}
 
-        {% if projet_contest %}
-            <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_lutte', objContest_id=projet_contest.id)}}">Faire une modification</a>
-            <a class="btn btn-secondary" role="button" href="{{url_for('index_objContest')}}">Retour à l'index</a>
-        {% elif projets_contest %}
-            <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_lutte')}}">Ajouter une page</a>
-            <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link">...</a>
+        </li>
         {% endif %}
+
+        {%- endfor %}
+    </ul>
+</nav>
+<!-- Si requête non trouvée -->
+{% else %}
+<p>La base de données est en cours de constitution</p>
+{% endif %}
+
+{% if projet_contest %}
+<a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_lutte', objContest_id=projet_contest.id)}}">Faire une modification</a>
+<a class="btn btn-secondary" role="button" href="{{url_for('index_objContest')}}">Retour à l'index</a>
+{% elif projets_contest %}
+<a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_lutte')}}">Ajouter une page</a>
+<a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+{% endif %}
 {% endblock %}

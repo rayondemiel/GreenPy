@@ -1,7 +1,7 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if militer %}| Participation (groupe) : {{militer.acteur.nom}} {{militer.orga.nom}} | Modification {% else %} Participation (lutte environnementale) : {% endif %}
+{%if militer %}| Participation (groupe) : {{militer.acteur.nom}} {{militer.orga.nom}} | Modification {% else %} Participation (lutte environnementale) : {% endif %}
 {% endblock %}
 
 {% block corps %}
@@ -13,7 +13,7 @@
         <input class="form-control"  name="orga" list="datalistOrgaOptions" id="orga" value="{{militer.orga.id}}" required>
         <datalist id="datalistOrgaOptions">
             {% for groupe in liste_orga %}
-                <option value="{{groupe.id}}" label="{{groupe.nom}}"></option>
+            <option value="{{groupe.id}}" label="{{groupe.nom}}"></option>
             {% endfor %}
         </datalist>
     </div>
@@ -36,25 +36,80 @@
         </div>
     </div>
 
-{% endif %}
+    {% elif participer %}
+<form class="form" method="POST" action="{{url_for('modification_participer', participer_id=participer.participation_id)}}">
+    <div class="form-group row">
+        <label for="obj_contest" class="col-sm-2 col-form-label">Participation*</label>
+        <input class="form-control"  name="objet_contest" list="datalistOptions" id="obj_contest" value="{{participer.contest_id}}" required>
+        <datalist id="datalistOptions">
+            {% for objet in contest %}
+            <option value="{{objet.id}}" label="{{objet.nom}}"></option>
+            {% endfor %}
+        </datalist>
+        <h6>Repertoire d'actions collectives utilisés*</h6>
+        <div class="block-check">
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="creation_instance" name="check" {% if participer.creation_instance == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Création d’une instance ou opposition à une instance</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="participation_instance" name="check" {% if participer.participation_instance == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Participation (non décisionnelle) à une instance de consultation</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="appel_instance_decision" name="check" {% if participer.appel_instance_decision == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Appel à une instance décisionnelle ou rejet d’une instance décisionnelle</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="diffusion" name="check" {% if participer.diffusion == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Diffusion de l’information (en vue de mobilisation pour une action ou susciter l’adhésion)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="autre" name="check" {% if participer.participation_decision == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Autres</label>
+                </div>
+            </div>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="participation_decision" name="check" {% if participer.rassemblement == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Participation à la prise de décision ou opposition à une prise de décision</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="rassemblement" name="check" {% if participer.production == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Rassemblement public (Manifestation, performance artistique ou sociale, occupation, squat)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="production" name="check" {% if participer.illegalisme == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Production ou opposition à la production (piquet de grève, création d'entreprises ou d'organismes)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="illegalisme" name="check" {% if participer.autre == 1 %} checked {% endif %}/>
+                    <label class="form-check-label">Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
     <center>
-      <div>
-        <button type="submit" class="btn btn-info">Modifier</button>
-        {% if militer %}<a class="btn btn-danger" role="button" href="{{url_for('militant', name_id=militer.acteur.id)}}">Annuler</a>{% endif%}
-      </div>
+        <div>
+            <button type="submit" class="btn btn-info">Modifier</button>
+            {% if militer %}<a class="btn btn-danger" role="button" href="{{url_for('militant', name_id=militer.acteur.id)}}">Annuler</a>{% endif%}
+            {% if participer %}<a class="btn btn-danger" role="button" href="{{url_for('militant', name_id=participer.acteur.id)}}">Annuler</a>{% endif%}
+        </div>
     </center>
 </form>
 
 
-    <!-- ajout d'une notification de succès -->
-    {% if updated %}
-        <div class="alert alert-success">
-            <p>Nous vous remercions pour votre contribution concernant la page {{militer.acteur.nom}}, {{militer.acteur.prenom}} !</p>
-            <p><a href="{{url_for('militant', name_id=militer.acteur.id)}}">Retour à la page</a></p>
-        </div>
-    {% endif %}
+<!-- ajout d'une notification de succès -->
+{% if updated %}
+<div class="alert alert-success">
+    <p>Nous vous remercions pour votre contribution concernant la page {% if militer %}{{militer.acteur.nom}}, {{militer.acteur.prenom}}{%else%}{{participer.acteur.nom}}, {{participer.acteur.prenom}}{% endif%} !</p>
+    <p><a href="{{url_for('militant', name_id=participer.acteur.id)}}">Retour à la page</a></p>
+</div>
+{% endif %}
 
 <br/>
 <div><a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
 {% endblock %}
-

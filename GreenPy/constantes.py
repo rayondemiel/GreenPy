@@ -3,6 +3,8 @@ from warnings import warn
 #Constantes des résultats de recherche
 RESULTATS_PAR_PAGES = 10
 
+#Autorisation format image
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 #Secret Key
 SECRET_KEY = "Pensez Printemps, les amis !!!"

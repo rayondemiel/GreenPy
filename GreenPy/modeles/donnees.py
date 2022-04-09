@@ -73,22 +73,21 @@ class Participation(db.Model):
     participation_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     acteur_id = db.Column(db.Integer, db.ForeignKey('acteur.id'))
     contest_id = db.Column(db.Integer, db.ForeignKey('objet_contest.id'))
-    creation_instance = db.Column(db.Integer)
-    participation_instance = db.Column(db.Integer)
-    appel_instance_decision = db.Column(db.Integer)
-    diffusion = db.Column(db.Integer)
-    participation_decision = db.Column(db.Integer)
-    rassemblement = db.Column(db.Integer)
-    production = db.Column(db.Integer)
-    illegalisme = db.Column(db.Integer)
-    autre = db.Column(db.Integer)
+    creation_instance = db.Column(db.Boolean, nullable=False, default=0)
+    participation_instance = db.Column(db.Boolean, nullable=False, default=0)
+    appel_instance_decision = db.Column(db.Boolean, nullable=False, default=0)
+    diffusion = db.Column(db.Boolean, nullable=False, default=0)
+    participation_decision = db.Column(db.Boolean, nullable=False, default=0)
+    rassemblement = db.Column(db.Boolean, nullable=False, default=0)
+    production = db.Column(db.Boolean, nullable=False, default=0)
+    illegalisme = db.Column(db.Boolean, nullable=False, default=0)
+    autre = db.Column(db.Boolean, nullable=False, default=0)
     #Relations
     acteur = db.relationship("Acteur", back_populates="participation")
     objet = db.relationship("Objet_contest", back_populates="participation")
 
     @staticmethod
-    def ajout_participation(acteur_id, contest_id, creation_instance, participation_instance, appel_instance_decision,
-                            diffusion, participation_decision, rassemblement, production, illegalisme, autre):
+    def ajout_participation(acteur_id, contest_id, check):
         erreurs = []
         if not acteur_id:
             erreurs.append("Veuillez renseigner la personne.")
@@ -96,31 +95,37 @@ class Participation(db.Model):
             erreurs.append("Veuillez renseigner l'objet contesté'")
 
         unique = Participation.query.filter(db.and_(
-            Participation.acteur.id == acteur_id,
-            Participation.objet.id == contest_id
+            Participation.acteur == acteur_id,
+            Participation.objet == contest_id
         )).count()
         if unique > 0:
             erreurs.append("Cette participation est déjà présente au sein de la base de données.")
 
+        if len(check) < 1:
+            erreurs.append("Vous devez sélectionner au moins un élément")
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
             return False, erreurs
 
-            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Acteur
+        #Fonction permettant de verifier l'existence dans la valeur au sein de la getlist des checkbox
+        #Valeur de 1 si présente, 0 si absente
+        repertoire = ["creation_instance", "participation_instance", "appel_instance_decision", "diffusion",
+                      "participation_decision", "rassemblement", "production", "illegalisme", "autre"]
+        list_check = {}
+        for values in repertoire:
+            if values in check:
+                list_check[values] = 1
+            else:
+                list_check[values] = 0
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table Participation
         nouvelle_participation = Participation(acteur=acteur_id,
                                                objet=contest_id,
-                                               creation_instance=creation_instance,
-                                               participation_instance=participation_instance,
-                                               appel_instance_decision=appel_instance_decision,
-                                               diffusion=diffusion,
-                                               participation_decision=participation_decision,
-                                               rassemblement=rassemblement,
-                                               production=production,
-                                               illegalisme=illegalisme,
-                                               autre=autre)
+                                               **list_check)
 
         try:
             db.session.add(nouvelle_participation)
+            # Necessite user_id, sinon bug de current_user
+            db.session.add(AuthorshipActeur(acteur=acteur_id, authorship_user_id=current_user.user_id))
             db.session.commit()
             return True, nouvelle_participation
 
@@ -293,6 +298,8 @@ class Militer(db.Model):
 
         try:
             db.session.add(nouvelle_participation)
+            # Necessite user_id, sinon bug de current_user
+            db.session.add(AuthorshipActeur(acteur=acteur_id, authorship_user_id=current_user.user_id))
             db.session.commit()
             return True, nouvelle_participation
 
@@ -342,12 +349,18 @@ class Image(db.Model):
     objet = db.relationship("Objet_contest", back_populates="image")
 
     @staticmethod
-    def ajout_image(nom, legende, lien, objet_id):
+    def ajout_image(nom, legende, lien, objet_id, user):
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")
         if not lien:
             erreurs.append("Le lien n'est pas accepté au sein de la base de données, veuillez réesayer.")
+        unique = Image.query.filter(db.and_(
+            Image.nom == nom,
+            Image.lien == lien
+        )).count()
+        if unique > 0:
+            erreurs.append("Cette participation est déjà présente au sein de la base de données.")
 
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
@@ -358,9 +371,10 @@ class Image(db.Model):
                                legende=legende,
                                lien=lien,
                                objet=objet_id)
-
         try:
             db.session.add(nouvelle_image)
+            #Necessite user_id, sinon bug de current_user
+            db.session.add(Authorship_ObjetContest(objet_contest=objet_id, authorship_user_id=current_user.user_id))
             db.session.commit()
             return True, nouvelle_image
 

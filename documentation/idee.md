@@ -43,7 +43,9 @@ https://maitron.fr/spip.php?article153734
 
 https://maitron.fr/spip.php?article155122
 
+#test
 
+https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7155848-tirez-le-maximum-de-ce-cours
 
 ---
 # Problème a regler
@@ -57,7 +59,7 @@ https://maitron.fr/spip.php?article155122
 ---
 
 ---
-## Gestion photos
+## Gestion photos (done)
 
 https://roytuts.com/upload-and-display-image-using-python-flask/
 https://github.com/roytuts/flask/tree/master/python-flask-upload-display-image

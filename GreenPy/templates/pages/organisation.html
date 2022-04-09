@@ -1,96 +1,96 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if organisation %}| Organisation : {{organisation.nom}} {% endif %}
-    {%if organisations %}| {{name}} {% endif %}
+{%if organisation %}| Organisation : {{organisation.nom}} {% endif %}
+{%if organisations %}| {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}
-    {% if organisation %}
-             <!-- Page de l'organisation-->
-            <h1><b>{{organisation.nom}}</b></h1>
-            <div class="flex-container">
-                <div>
-                    <h2>Description</h2>
-                    <dl>
-                        <dt>Date de fondation</dt><dd>{% if organisation.date_fondation is not none %}{{organisation.date_fondation}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
-                        <dt>Pays</dt><dd>{{organisation.pays.nom}}</dd>
-                        <dt>Type</dt><dd>{% if organisation.type_orga is not none %}{{organisation.type_orga}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
-                        <dt>Description</dt><dd>{% if organisation.description is not none %}{{organisation.description}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
-                    </dl>
-                </div>
-                <hr/>
-                <div>
-                    <h2>Membres ou proches de l'organisation</h2>
-                    <ul>
-                        {% for militant in militants %}
-                        <li>"{{militant.acteur.nom}}, {{militant.acteur.prenom}}" {% if militant.date_debut is not none %}  [{{militant.date_debut}} - {% if militant.date_fin is not none %}
-                            {{militant.date_fin}}{% else %}...{% endif %}] {% endif %}{% if militant.statut is not none %}, {{militant.statut}} {% endif %}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% if createur %}
-                <p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
-            {% endif %}
-            <dl>
-                <dd> <span>Cette page a été modifiée par :</span>
-                    <ul>
-                        {% for modification in organisation.authorships %}
-                            {% if modification.createur != "True" %}
-                            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </dd>
-            </dl>
-        <!-- Index des organisations-->
-    {% elif organisations %}
-        <h1>Index des organisations</h1>
-        <p>Il y a {{ organisations.total }} enregistrés :</p>
+{% if organisation %}
+<!-- Page de l'organisation-->
+<h1><b>{{organisation.nom}}</b></h1>
+<div class="flex-container">
+    <div>
+        <h2>Description</h2>
+        <dl>
+            <dt>Date de fondation</dt><dd>{% if organisation.date_fondation is not none %}{{organisation.date_fondation}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
+            <dt>Pays</dt><dd>{{organisation.pays.nom}}</dd>
+            <dt>Type</dt><dd>{% if organisation.type_orga is not none %}{{organisation.type_orga}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
+            <dt>Description</dt><dd>{% if organisation.description is not none %}{{organisation.description}}{% else %}<i>(Cette section est à compléter)</i>{%endif%}</dd>
+        </dl>
+    </div>
+    <hr/>
+    <div>
+        <h2>Membres ou proches de l'organisation</h2>
         <ul>
-            {% for organisation in organisations.items %}
-                <li><a href="{{url_for('organisation', orga_id=organisation.id)}}">{{organisation.nom}}</a></li>
+            {% for militant in militants %}
+            <li>"{{militant.acteur.nom}}, {{militant.acteur.prenom}}" {% if militant.date_debut is not none %}  [{{militant.date_debut}} - {% if militant.date_fin is not none %}
+                {{militant.date_fin}}{% else %}...{% endif %}] {% endif %}{% if militant.statut is not none %}, {{militant.statut}} {% endif %}</li>
             {% endfor %}
         </ul>
-        <nav aria-label="research-pagination">
-          <ul class="pagination">
-            {%- for page in organisations.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
-                {% if page %}
+    </div>
+</div>
+{% if createur %}
+<p>Cette page a été écrite par {{createur.user.user_nom}} le {{createur.authorship_date}}.</p>
+{% endif %}
+<dl>
+    <dd> <span>Cette page a été modifiée par :</span>
+        <ul>
+            {% for modification in organisation.authorships %}
+            {% if modification.createur != "True" %}
+            <li>[{{modification.authorship_date}}] {{modification.user.user_nom}}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>
+<!-- Index des organisations-->
+{% elif organisations %}
+<h1>Index des organisations</h1>
+<p>Il y a {{ organisations.total }} enregistrés :</p>
+<ul>
+    {% for organisation in organisations.items %}
+    <li><a href="{{url_for('organisation', orga_id=organisation.id)}}">{{organisation.nom}}</a></li>
+    {% endfor %}
+</ul>
+<nav aria-label="research-pagination">
+    <ul class="pagination">
+        {%- for page in organisations.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+        {% if page %}
 
-                  {% if page != organisations.page %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('index_organisation', page=page) }}">{{page}}</a>
-                    </li>
-                  {% else %}
-                    <li class="page-item active disabled">
-                      <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
-                    </li>
-                  {% endif %}
-
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">...</a>
-                    </li>
-                {% endif %}
-
-            {%- endfor %}
-              </ul>
-            </nav>
-
-        <!-- Si requête non trouvée -->
+        {% if page != organisations.page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('index_organisation', page=page) }}">{{page}}</a>
+        </li>
         {% else %}
-            <p>La base de données est en cours de constitution</p>
+        <li class="page-item active disabled">
+            <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+        </li>
         {% endif %}
 
-        <!-- Bouton accueil -->
-            <div>
-            {% if organisation %}
-                <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_orga', orga_id=organisation.id)}}">Faire une modification</a>
-                <a class="btn btn-secondary" role="button" href="{{url_for('index_organisation')}}">Retour à l'index</a>
-            {% elif organisations %}
-                <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_orga')}}">Ajouter une organisation</a>
-                <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
-            {% endif %}
-            </div>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link">...</a>
+        </li>
+        {% endif %}
+
+        {%- endfor %}
+    </ul>
+</nav>
+
+<!-- Si requête non trouvée -->
+{% else %}
+<p>La base de données est en cours de constitution</p>
+{% endif %}
+
+<!-- Bouton accueil -->
+<div>
+    {% if organisation %}
+    <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_orga', orga_id=organisation.id)}}">Faire une modification</a>
+    <a class="btn btn-secondary" role="button" href="{{url_for('index_organisation')}}">Retour à l'index</a>
+    {% elif organisations %}
+    <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_orga')}}">Ajouter une organisation</a>
+    <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+    {% endif %}
+</div>
 {% endblock %}}

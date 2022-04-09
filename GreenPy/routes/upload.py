@@ -1,12 +1,11 @@
 from flask import request, redirect, flash, url_for
 import os
 from werkzeug.utils import secure_filename
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from ..app import app, statics
 from ..modeles.donnees import Image, Objet_contest
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+from ..constantes import ALLOWED_EXTENSIONS
 
 def autorisation_files(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -38,8 +37,8 @@ def upload_image():
                 return redirect(url_for('objContest', objContest_id=obj_id))
             else:
                 flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
-                os.remove(os.path.join(statics, app.config['UPLOAD_FOLDER'], filename))
-                return redirect(request.url)
+                os.remove(os.path.join(statics, "images/upload", filename))
+                return redirect(url_for('objContest', objContest_id=obj_id))
         else:
             flash("Les types d'images autorisés sont : png, jpg, jpeg")
             return redirect(url_for('objContest', objContest_id=obj_id))

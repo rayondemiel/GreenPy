@@ -1,7 +1,7 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if orga %}| Organisation : {{orga.nom}} | Modification {% else %} Ajout d'une organisation{% endif %}
+{%if orga %}| Organisation : {{orga.nom}} | Modification {% else %} Ajout d'une organisation{% endif %}
 {% endblock %}
 
 {% block corps %}
@@ -17,114 +17,114 @@
 </div>
 <form class="form" method="POST">
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Intitulé*</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="nom" value="{{orga.nom}}" required/>
-      </div>
+        <label class="col-sm-2 col-form-label">Intitulé*</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="nom" value="{{orga.nom}}" required/>
+        </div>
         <label class="col-sm-2 col-form-label">Date de fondation</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="date_fondation" {% if orga.date_fondation is not none %} value="{{orga.date_fondation}}" {% endif %}/>
-      </div>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="date_fondation" {% if orga.date_fondation is not none %} value="{{orga.date_fondation}}" {% endif %}/>
+        </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Type d'organisation</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="type_orga" {% if orga.type_orga is not none %} value="{{orga.type_orga}}" {% endif %}/>
-      </div>
+        <label class="col-sm-2 col-form-label">Type d'organisation</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="type_orga" {% if orga.type_orga is not none %} value="{{orga.type_orga}}" {% endif %}/>
+        </div>
     </div>
     <div class="form-group row">
-      <label for="pays" class="col-sm-2 col-form-label">Pays (fondation)*</label>
-      <div class="col-sm-10">
-        <select name="pays" id="pays" required>
-		    	{% for etat in pays %}
-		    		<option value="{{etat.id}}" {% if etat.id == orga.pays_id %}selected{% endif %}>
-			    		{{etat.nom}}
-			    	</option>
-		    	{% endfor %}
-		    </select>
-      </div>
+        <label for="pays" class="col-sm-2 col-form-label">Pays (fondation)*</label>
+        <div class="col-sm-10">
+            <select name="pays" id="pays" required>
+                {% for etat in pays %}
+                <option value="{{etat.id}}" {% if etat.id == orga.pays_id %}selected{% endif %}>
+                    {{etat.nom}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
     <div class="form-group row">
-      <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
+        <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
             <textarea id="textarea1" class="form-control" rows="3" name="description">{% if orga.description is not none %}{{orga.description}}{%endif%}</textarea>
         </div>
     </div>
-<!-- ajout d'une notification de succès -->
+    <!-- ajout d'une notification de succès -->
     {% if updated %}
-            <div class="alert alert-success">
-                <p>Nous vous remercions pour votre contribution concernant la page "{{orga.nom}}"!</p>
-                <p><a href="{{url_for('organisation', orga_id=orga.id)}}">Retour à la page</a></p>
+    <div class="alert alert-success">
+        <p>Nous vous remercions pour votre contribution concernant la page "{{orga.nom}}"!</p>
+        <p><a href="{{url_for('organisation', orga_id=orga.id)}}">Retour à la page</a></p>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Formulaire de création d'une organisation -->
+    <div>
+        <center>
+            <h2>Formulaire d'ajout d'une organisation</h2>
+            <p>Veuillez renseigner les différents critères. Les élements avec une * sont obligatoire.</p>
+        </center>
+    </div>
+    <form class="form" method="POST">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Intitulé*</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="nom" placeholder="..." required/>
             </div>
-        {% endif %}
-
-{% else %}
- <!-- Formulaire de création d'une organisation -->
-<div>
-    <center>
-        <h2>Formulaire d'ajout d'une organisation</h2>
-        <p>Veuillez renseigner les différents critères. Les élements avec une * sont obligatoire.</p>
-    </center>
-</div>
-<form class="form" method="POST">
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Intitulé*</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="nom" placeholder="..." required/>
-      </div>
-        <label class="col-sm-2 col-form-label">Date de fondation</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="date_fondation" placeholder="Année ou sous le format AAAA-MM-DD"/>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Type d'organisation</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="type_orga" placeholder="..."/>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="pays" class="col-sm-2 col-form-label">Pays (fondation)*</label>
-      <div class="col-sm-10">
-        <select name="pays" id="pays" required>
-		    	{% for etat in pays %}
-		    		<option value="{{etat.id}}">
-			    		{{etat.nom}}
-			    	</option>
-		    	{% endfor %}
-		    </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
-        <div class="col-sm-10">
-            <textarea id="textarea1" class="form-control" rows="3" name="description"></textarea>
+            <label class="col-sm-2 col-form-label">Date de fondation</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="date_fondation" placeholder="Année ou sous le format AAAA-MM-DD"/>
+            </div>
         </div>
-    </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Type d'organisation</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="type_orga" placeholder="..."/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="pays" class="col-sm-2 col-form-label">Pays (fondation)*</label>
+            <div class="col-sm-10">
+                <select name="pays" id="pays" required>
+                    {% for etat in pays %}
+                    <option value="{{etat.id}}">
+                        {{etat.nom}}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="textarea1" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <textarea id="textarea1" class="form-control" rows="3" name="description"></textarea>
+            </div>
+        </div>
 
-{% endif%}
-<!-- Base du formulaire -->
-     <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
-      <label class="form-check-label" for="invalidCheck">
-        J'accepte de partager les données dans le cadre de ce projet en étant informé de la <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank"  rel="noreferrer noopener">réglementation en vigueur sur les droits RGPD</a>.
-      </label>
-      <div class="invalid-feedback">
-        Vous devez accepter les conditions.
-      </div>
-    </div>
-  </div>
+        {% endif%}
+        <!-- Base du formulaire -->
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
+                <label class="form-check-label" for="invalidCheck">
+                    J'accepte de partager les données dans le cadre de ce projet en étant informé de la <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank"  rel="noreferrer noopener">réglementation en vigueur sur les droits RGPD</a>.
+                </label>
+                <div class="invalid-feedback">
+                    Vous devez accepter les conditions.
+                </div>
+            </div>
+        </div>
 
 
         <center>
-      <div>
-        {% if orga %} <button type="submit" class="btn btn-info">Modifier</button> {% else %}<button type="submit" class="btn btn-info">Ajouter</button>{% endif %}
-        <a class="btn btn-danger" role="button" href="{{url_for('index_organisation')}}">Annuler</a>
-      </div>
-    </center>
-</form>
+            <div>
+                {% if orga %} <button type="submit" class="btn btn-info">Modifier</button> {% else %}<button type="submit" class="btn btn-info">Ajouter</button>{% endif %}
+                <a class="btn btn-danger" role="button" href="{{url_for('index_organisation')}}">Annuler</a>
+            </div>
+        </center>
+    </form>
 
-<br/>
-<div><a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
-{% endblock %}
+    <br/>
+    <div><a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a></div>
+    {% endblock %}
