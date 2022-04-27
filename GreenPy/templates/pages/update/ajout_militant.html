@@ -1,7 +1,7 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-{%if militant %}| Personne : {{militant.nom}} {{militant.prenom}} | Modification {% else %} Ajout d'une personne{% endif %}
+{%if militant %}Personne : {{militant.nom}} {{militant.prenom}} | Modification {% else %} Ajout d'une personne{% endif %}
 {% endblock %}
 
 {% block corps %}

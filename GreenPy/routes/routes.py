@@ -18,6 +18,10 @@ from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
 @app.route("/")
 @app.route("/accueil")
 def accueil():
+    """
+
+    :return:
+    """
     militants = Acteur.query.all()
     projets_contest = Objet_contest.query.all()
     return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
@@ -114,11 +118,16 @@ def militant(name_id):
 
 @app.route("/projet_contest")
 def index_objContest():
+    """
+        Cette fonction permet de retourner un index des données présentes au sein de la table Objet_contest.
+        :return: index HTML
+        """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
+    #requete SQL
     projets_contest = Objet_contest.query.order_by(Objet_contest.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/objet_contest.html", name="Index des projets contestés", projets_contest=projets_contest)
 
@@ -173,11 +182,16 @@ def organisation(orga_id):
 
 @app.route("/organisation")
 def index_organisation():
+    """
+    Cette fonction permet de retourner un index des données présentes au sein de la table Organisation.
+    :return: index HTML
+    """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
+    #Requete SQL
     organisations = Orga.query.order_by(Orga.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/organisation.html", name="Index des organisations", organisations=organisations)
 

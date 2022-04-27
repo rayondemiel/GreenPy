@@ -1,7 +1,7 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-{%if militer %}| Participation (groupe) : {{militer.acteur.nom}} {{militer.orga.nom}} | Modification {% else %} Participation (lutte environnementale) : {% endif %}
+{%if militer %}Participation (groupe) : {{militer.acteur.nom}} {{militer.orga.nom}} | Modification {% else %} Participation (lutte environnementale) : {% endif %}
 {% endblock %}
 
 {% block corps %}
