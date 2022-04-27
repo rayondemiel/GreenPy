@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from GreenPy.app import db, login, config_app
+from GreenPy.app import db, login, config_app, app
 from GreenPy.modeles.utilisateurs import User
 from GreenPy.modeles.donnees import *
 from GreenPy.modeles.authorship import *
@@ -90,3 +90,6 @@ class Base(TestCase):
 
     def tearDown(self):
         self.db.drop_all(app=self.app)
+
+    def test_app_is_testing(self):
+        self.assertTrue(app.config['TESTING'])
