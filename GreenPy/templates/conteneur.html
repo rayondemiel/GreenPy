@@ -39,9 +39,16 @@
             .carousel-caption {
                 background-color: rgba(139, 191, 202, 0.3);
             }
-
             footer {
             margin-top: 2em;
+            }
+            .text-right {
+              text-align: right;
+            }
+            div.limit {
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
             }
     </style>
 </head>
@@ -68,7 +75,7 @@
                 <a class="nav-link" href="{{url_for('carte')}}">Carte</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">À propos</a>
+                <a class="nav-link" href="{{url_for('about')}}">À propos</a>
             </li>
         </ul>
     </div>

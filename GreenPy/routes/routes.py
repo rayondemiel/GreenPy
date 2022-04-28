@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
+import numpy as np
 import re
 
 from .email import inscription_mail
@@ -22,9 +23,24 @@ def accueil():
 
     :return:
     """
-    militants = Acteur.query.all()
-    projets_contest = Objet_contest.query.all()
-    return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
+    #Random item
+    query_militant = Acteur.query.all()
+    list_militant = list(militant.id for militant in query_militant)
+    militants = np.asarray(list_militant)
+    id_random = np.random.choice(militants)
+    militant = Acteur.query.get_or_404(id_random)
+
+    #Requete count sql
+    militants_count = Acteur.query.count()
+    projets_contest = Objet_contest.query.count()
+    organisation = Orga.query.count()
+    participation = Participation.query.count()
+    return render_template("pages/accueil.html", name="accueil", militants=militants_count, projets_contest=projets_contest,
+                           organisation=organisation, participation=participation, militant=militant)
+
+@app.route("/a_propos")
+def about():
+    return render_template("pages/apropos.html")
 
 #Accès aux données
 

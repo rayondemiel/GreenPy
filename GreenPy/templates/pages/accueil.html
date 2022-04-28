@@ -9,16 +9,37 @@
 {% block corps %}
 <p class="display-2 text-center">Bienvenue au sein du projet  <img src="{{ url_for('static', filename='images/logo.svg')}}" width="800" height="200"></p>
 
-<blockquote class="blockquote text-center">
+<blockquote class="blockquote text-right" style="margin-bottom: 2em;">
   <p class="mb-2">“La révolution ou la mort”, ce slogan n'est plus l'expression lyrique de la conscience révoltée, <br/>c'est le dernier mot de la pensée scientifique de notre siècle. </p>
   <footer class="blockquote-footer">Guy Debord dans <cite title="Source Title">La planète malade</cite></footer>
 </blockquote>
-
-<div>
-#en haut faire un petit compte du nombre de données receuills par (table, ex: 808 participationse environnemetales recenses,) faire cou nt requte sql
-#faire un genre de block a droite dans la div pour presentant une personne (faire un get id random et ensuite faire une selection de donnée et a gauche le projet
-#idee pour limiter taille caractere selon bloc
-#https://stackoverflow.com/questions/33718245/limit-characters-displayed-in-span
+<br/>
+<div class="row" style="margin-bottom: 2em;">
+  <div class="card col-md-4 col-sm-2 p-1" >
+    <p class="h4 text-center">{{militant.nom}}, {{militant.prenom}}</p><br/><span class="text-muted text-center" style="font-size: small;">{{militant.date_naissance}}{% if militant.date_deces is not none %} - {{militant.date_deces}}{% else %} - ... {% endif %}</span>
+      <hr/>
+    <ul>
+      <li><b>Lieu de naisssance :</b> {{militant.ville_naissance}}</li>
+      <li><b>Pays de naissance :</b> {{militant.pays.nom}}</li>
+      <li><b>Profession :</b> {% if militant.profession is not none %}{{militant.profession}}{% else %}<i>N.C.</i>{%endif%}</li>
+      <li><b>Biographie :</b> <div class="limit">{{militant.biographie}}</div></li>
+    </ul>
+    <a href="{{url_for('militant', name_id=militant.id)}}" class="text-right" style="font-size: small;">En savoir + ...</a>
+  </div>
+  <div class="col-md-8 col-sm-7">
+    <p class="h3 text-center">GreenPy data<br/>
+    <span class="text-muted text-center" style="font-size: small;">Les données en quelques chiffres ...</span></p>
+    <dl class="container row" style="margin-top:1em;">
+      <div class="col">
+      <dd>Nombre de participation recensées</dd><dt>{{participation}}</dt>
+      <dd>Nombre d'acteurs écologistes recensés</dd><dt>{{militants}}</dt>
+      </div>
+      <div class="col">
+      <dd>Nombre de luttes environnementales recensées</dd><dt>{{projets_contest}}</dt>
+      <dd>Nombre d'organisations recensées</dd><dt>{{organisation}}</dt>
+        </div>
+    </dl>
+  <div>
 </div>
 
 {% endblock %}
