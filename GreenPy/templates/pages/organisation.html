@@ -1,8 +1,8 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-{%if organisation %}| Organisation : {{organisation.nom}} {% endif %}
-{%if organisations %}| {{name}} {% endif %}
+{%if organisation %} Organisation : {{organisation.nom}} {% endif %}
+{%if organisations %} {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}

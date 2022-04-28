@@ -1,8 +1,8 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-{%if militant %}| militant : {{militant.nom}} {{militant.prenom}} {% endif %}
-{%if militants %}| {{name}} {% endif %}
+{%if militant %} militant : {{militant.nom}} {{militant.prenom}} {% endif %}
+{%if militants %} {{name}} {% endif %}
 {% endblock %}
 
 {% block corps %}

@@ -2,9 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>GreenPY {% block titre %}{% endblock %}</title>
+    <title>GreenPY | {% block titre %}{% endblock %}</title>
     {% include "partials/css.html" %}
     {% include "partials/metadata.html" %}
+    <link rel="icon" type="image/svg" href="{{ url_for('static', filename='images/logo.svg')}}"/>
     <style type="text/css">
             .hero  {
                 background-position: center center;
@@ -38,7 +39,17 @@
             .carousel-caption {
                 background-color: rgba(139, 191, 202, 0.3);
             }
-
+            footer {
+            margin-top: 2em;
+            }
+            .text-right {
+              text-align: right;
+            }
+            div.limit {
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
     </style>
 </head>
 <body>
@@ -64,7 +75,7 @@
                 <a class="nav-link" href="{{url_for('carte')}}">Carte</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">À propos</a>
+                <a class="nav-link" href="{{url_for('about')}}">À propos</a>
             </li>
         </ul>
     </div>
@@ -108,5 +119,20 @@
         </div>
     </div>
 </div>
+<footer class="text-center" style="background-color: #f8f9fa;">
+    <div class="row">
+        <div class="col text-center p-2">
+           © GreenPy 2022 — Maxime Humeau
+            <a href="https://github.com/rayondemiel" target="_blank" style="margin-left:1em;">
+                <img src="{{url_for('static', filename='images/github.png')}}" alt="Github" class="icon-footer" width="20" height="20">
+            </a>
+        </div>
+        <div class="col box-img-footer">
+            <a href="https://www.chartes.psl.eu/" target="_blank">
+                <img src="{{url_for('static', filename='images/logo_enc.png')}}" alt="Logo ENC" width="18%">
+            </a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -1,0 +1,30 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+À propos
+{%endblock%}
+
+{% block corps %}
+<p class="h1 text-center">À propos</p>
+<br/>
+<div style="margin-bottom:2em;">
+  <p>Ce prototype vise à recenser et collecter les participations, les témoignages, les traces et les mémoires d'une
+    écologie politique et sociale retrançant l'histoire des luttes environnementales, systémiques ou territoriales.
+    L'application donne accès à une base de données participative et agrégative sur une histoire des mouvements de contestations
+    écologique ou intersectionnelles, essentiellement tournées sur l'espace européen au XXe et XXIe siècle. Le projet se
+    concencentre sur la coordination entre 3 axes structurant :
+  <ul>
+  <li>Les individus : acteur et sujet de ces luttes environnementales. Le degré d'activité est relativement variable</li>
+  <li>Les luttes environnementales : traces des participations et histoire des luttes</li>
+  <li>Les organisations : structures de pensées et de regroupement des répertoires d'actions</li>
+</ul></p>
+  <p>Le projet GreenPy se construit sur deux idées majeures : structurer et conserver la mémoire des luttes écologistes
+    et d'en faire l'histoire critique. Prochainement requêtable, GreenPy souhaite faire rejoindre l'histoire politique,
+  social et environnementale de ces "nouveaux mouvements sociaux" (Alain Touraine) au travers des nouvelles méthodes
+    des <i>Digital Humanities</i>.</p>
+  <br style="margin-top:1em;"/>
+  <p class="h4 text-center">Le projet étant encore un prototype, les données sont purement démonstratives et n'ont aucunes
+  valeurs scientifiques. Elles ne sont que le fruit de l'imagination (assez faible avouons-le) !</p>
+</div>
+<a href="https://www.flickr.com/photos/valkphotos/39566676351/" target="_blank"><img class="rounded mx-auto d-block" src="{{url_for('static', filename='images/about.png')}}" width="70%" alt="La magnifique Bison Futé est partie en fumée... @Valk"/></a>
+{% endblock %}

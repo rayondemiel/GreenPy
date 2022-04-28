@@ -1,12 +1,14 @@
 {% extends "conteneur.html" %}
 
-{% block titre %}| {{titre}} {%endblock%}
+{% block titre %} {{titre}} {%endblock%}
+
+{% block afternav %}
+{% include "partials/recherche.html" %}
+{%endblock%}
 
 {% block corps %}
 
-{% include "partials/recherche.html" %}
-
-<h1>{{titre}}</h1>
+<p1 class="h1">{{titre}}</p1>
 {% if resultats %}
 <p>Il y a {{resultats.total}} {% if resultats.total > 1 %} résultats qui correspondent {% else %} résultat qui correspond {% endif %} à votre requête :</p>
 <ul>
@@ -39,7 +41,8 @@
     </ul>
 </nav>
 {% else %}
-<h1>Nous sommes désolé</h1>
+<hr/>
+<p class="h2">Nous sommes désolés ...</p>
 <p>Nous n'avons pas pu trouver votre requête. Vous pouvez réessayer avec d'autres termes ou en utilisant <a href="{{url_for('index_militant')}}">l'index des militants recencés</a>
     ou des <a href="{{url_for('index_objContest')}}">différents projets contestés</a></p>
 {% endif %}

@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
+import numpy as np
 import re
 
 from .email import inscription_mail
@@ -18,9 +19,28 @@ from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
 @app.route("/")
 @app.route("/accueil")
 def accueil():
-    militants = Acteur.query.all()
-    projets_contest = Objet_contest.query.all()
-    return render_template("pages/accueil.html", name="accueil", militants=militants, projets_contest=projets_contest)
+    """
+
+    :return:
+    """
+    #Random item
+    query_militant = Acteur.query.all()
+    list_militant = list(militant.id for militant in query_militant)
+    militants = np.asarray(list_militant)
+    id_random = np.random.choice(militants)
+    militant = Acteur.query.get_or_404(id_random)
+
+    #Requete count sql
+    militants_count = Acteur.query.count()
+    projets_contest = Objet_contest.query.count()
+    organisation = Orga.query.count()
+    participation = Participation.query.count()
+    return render_template("pages/accueil.html", name="accueil", militants=militants_count, projets_contest=projets_contest,
+                           organisation=organisation, participation=participation, militant=militant)
+
+@app.route("/a_propos")
+def about():
+    return render_template("pages/apropos.html")
 
 #Accès aux données
 
@@ -114,11 +134,16 @@ def militant(name_id):
 
 @app.route("/projet_contest")
 def index_objContest():
+    """
+        Cette fonction permet de retourner un index des données présentes au sein de la table Objet_contest.
+        :return: index HTML
+        """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
+    #requete SQL
     projets_contest = Objet_contest.query.order_by(Objet_contest.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/objet_contest.html", name="Index des projets contestés", projets_contest=projets_contest)
 
@@ -173,11 +198,16 @@ def organisation(orga_id):
 
 @app.route("/organisation")
 def index_organisation():
+    """
+    Cette fonction permet de retourner un index des données présentes au sein de la table Organisation.
+    :return: index HTML
+    """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
+    #Requete SQL
     organisations = Orga.query.order_by(Orga.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/organisation.html", name="Index des organisations", organisations=organisations)
 
