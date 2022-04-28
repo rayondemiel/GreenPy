@@ -79,8 +79,9 @@ class Base(TestCase):
                       ressources=None,
                       latitude=45.7588,
                       longitude=4.8333
-                  ),
+                  )
               ],
+    orga = [],
 
     def setUp(self):
         self.app = config_app("test")
@@ -90,6 +91,16 @@ class Base(TestCase):
 
     def tearDown(self):
         self.db.drop_all(app=self.app)
+
+    def insert_all(self, personne=True, objet=True):
+        with self.app.app_context():
+            if personne:
+                for fixture in self.personne:
+                    self.db.session.add(fixture)
+            if objet:
+                for fixture in self.objet:
+                    self.db.session.add(fixture)
+            self.db.session.commit()
 
     def test_app_is_testing(self):
         self.assertTrue(app.config['TESTING'])
