@@ -1,6 +1,7 @@
 from warnings import warn
 import re
 
+from .settings import _PRODUCTION, _TEST
 #Constantes des résultats de recherche
 RESULTATS_PAR_PAGES = 10
 
@@ -14,8 +15,6 @@ REGEX_MAJ = re.compile(r"[A-Z]+")
 REGEX_NB = re.compile(r"\d+")
 REGEX_CAR = re.compile(r"""[`~!@#$%^&*()_|+=?;:'".<>]+""")
 
-#Secret Key
-SECRET_KEY = "Pensez Printemps, les amis !!!"
-
-if SECRET_KEY == "Pensez Printemps, les amis !!!":
+if _PRODUCTION.SECRET_KEY or _TEST.SECRET_KEY == "Pensez Printemps, les amis !!!":
     warn("Le secret par défaut n'a pas été changé, vous devriez le faire", Warning)
+
