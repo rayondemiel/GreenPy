@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 import os
 
-from .constantes import CONFIG
+from .settings import CONFIG
 
 
 db = SQLAlchemy()
