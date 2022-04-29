@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 from GreenPy.app import db, login, config_app, app
-from GreenPy.modeles.utilisateurs import User
 from GreenPy.modeles.donnees import *
 from GreenPy.modeles.authorship import *
 

@@ -14,6 +14,12 @@ def carte_native():
 
 @app.route("/carte")
 def carte():
+    """
+    Route permettant de créer une map localisant l'ensemble des luttes environnementales recensées en prenant en compte
+    les zones et donc regrouper les données. La carte est centrée automatiquement en fonction d'un dataframe de donnéess.
+    Un certain nombre d'options ont été paramétrées.
+    :return: html
+    """
     #Requete Sql
     luttes = Objet_contest.query.all()
     #Generation dataframe pour localisation et zoom
@@ -74,6 +80,13 @@ def carte():
 
 @app.route("/carte/resultat_carte/<int:lutte_id>")
 def resultat_carte(lutte_id):
+    """
+    Resultat de recherche à partir des tooltips de la carte indiquant les personnes recensées à une lutte
+    environnementale selectionnée
+
+    :param lutte_id: Selection d'une id au sein de la table Object_contest.
+    :return: HTML, list des personnes ayant participées
+    """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
