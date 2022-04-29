@@ -23,11 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-<<<<<<< HEAD
-                #map_5fb713cc9de44447a23f3953eba61a2b {
-=======
-                #map_2b8379d558cf4fbe867a0ddf6ac4aa25 {
->>>>>>> AlterTest
+                #map_2755bb6d7fea4dd1bf7176bbe86ea163 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -46,24 +42,15 @@
 </head>
 <body>    
     
-<<<<<<< HEAD
-            <div class="folium-map" id="map_5fb713cc9de44447a23f3953eba61a2b" ></div>
-=======
-            <div class="folium-map" id="map_2b8379d558cf4fbe867a0ddf6ac4aa25" ></div>
->>>>>>> AlterTest
+            <div class="folium-map" id="map_2755bb6d7fea4dd1bf7176bbe86ea163" ></div>
         
 </body>
 <script>    
     
-<<<<<<< HEAD
-            var map_5fb713cc9de44447a23f3953eba61a2b = L.map(
-                "map_5fb713cc9de44447a23f3953eba61a2b",
-=======
-            var map_2b8379d558cf4fbe867a0ddf6ac4aa25 = L.map(
-                "map_2b8379d558cf4fbe867a0ddf6ac4aa25",
->>>>>>> AlterTest
+            var map_2755bb6d7fea4dd1bf7176bbe86ea163 = L.map(
+                "map_2755bb6d7fea4dd1bf7176bbe86ea163",
                 {
-                    center: [47.18664356000001, 0.7977906066666667],
+                    center: [48.43825, -0.7973],
                     crs: L.CRS.EPSG3857,
                     zoom: 10,
                     zoomControl: true,
@@ -75,321 +62,44 @@
 
         
     
-<<<<<<< HEAD
-            var tile_layer_a1bd704309b74a999985fd62ba536946 = L.tileLayer(
+            var tile_layer_2eee683dc00c4dd69e698236ddcf9c6e = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_5fb713cc9de44447a23f3953eba61a2b);
+            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
         
     
-            map_5fb713cc9de44447a23f3953eba61a2b.fitBounds(
-=======
-            var tile_layer_7bc6e1dc6d584e81b27c1a210bd4fd6c = L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2b8379d558cf4fbe867a0ddf6ac4aa25);
-        
-    
-            map_2b8379d558cf4fbe867a0ddf6ac4aa25.fitBounds(
->>>>>>> AlterTest
-                [[44.0108, -4.6969], [52.3685, 8.9343]],
+            map_2755bb6d7fea4dd1bf7176bbe86ea163.fitBounds(
+                [[47.3814, -1.7141], [49.4951, 0.1195]],
                 {"maxZoom": 12}
             );
         
     
-<<<<<<< HEAD
-            var marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e = L.markerClusterGroup(
+            var marker_cluster_8c2dd048b3224f27b4a54572a4456dfd = L.markerClusterGroup(
                 {}
             );
-            map_5fb713cc9de44447a23f3953eba61a2b.addLayer(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
+            map_2755bb6d7fea4dd1bf7176bbe86ea163.addLayer(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
         
     
-            var marker_2537c3c03bb64242b797ab58104155a7 = L.marker(
-                [48.0248, -4.6969],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire \u00e0 Plogoff"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_1156ac6da59e4a94a5257a2d50f561ec = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_4fdace3e45c14be091d4062c636ab408 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSDDoCBQbG9nb2ZmPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzEiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IEVuZXJnaWUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IFBsb2dvZmYgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzEiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_1156ac6da59e4a94a5257a2d50f561ec.setContent(i_frame_4fdace3e45c14be091d4062c636ab408);
-        
-
-        marker_2537c3c03bb64242b797ab58104155a7.bindPopup(popup_1156ac6da59e4a94a5257a2d50f561ec)
-=======
-            var marker_cluster_b16ef98adfd8407e826deb50746282c3 = L.markerClusterGroup(
-                {}
-            );
-            map_2b8379d558cf4fbe867a0ddf6ac4aa25.addLayer(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-            var marker_1bc3606adc5646f8bc9e7a893951ddfb = L.marker(
-                [48.0248, -4.6969],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire \u00e0 Plogoff"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_bfdeb400daa54d77a01e5c694e966377 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_a845c9148c9c43fdaadc2572d1c6cd0d = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSDDoCBQbG9nb2ZmPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzEiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IEVuZXJnaWUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IFBsb2dvZmYgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzEiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_bfdeb400daa54d77a01e5c694e966377.setContent(i_frame_a845c9148c9c43fdaadc2572d1c6cd0d);
-        
-
-        marker_1bc3606adc5646f8bc9e7a893951ddfb.bindPopup(popup_bfdeb400daa54d77a01e5c694e966377)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_2537c3c03bb64242b797ab58104155a7.bindTooltip(
-=======
-            marker_1bc3606adc5646f8bc9e7a893951ddfb.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Energie : Projet de centrale nucléaire à Plogoff
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_0cb4462bf2d34beca8b7414375ef6e4b = L.marker(
-                [48.4051, -4.5036],
-                {"name": "Agriculture : Lutte contre les pesticides en Bretagne"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_a29be4d3de0c458dbee12a196f4000e4 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_5801b055f20b4abf8c8fb2294875ab1a = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5MdXR0ZSBjb250cmUgbGVzIHBlc3RpY2lkZXMgZW4gQnJldGFnbmU8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMiIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWdyaWN1bHR1cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEJyZXN0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8yIiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_a29be4d3de0c458dbee12a196f4000e4.setContent(i_frame_5801b055f20b4abf8c8fb2294875ab1a);
-        
-
-        marker_0cb4462bf2d34beca8b7414375ef6e4b.bindPopup(popup_a29be4d3de0c458dbee12a196f4000e4)
-=======
-            var marker_53935d52983c4fdd8cb2618dc54563c0 = L.marker(
-                [48.4051, -4.5036],
-                {"name": "Agriculture : Lutte contre les pesticides en Bretagne"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_4496e9ae0c424b7aa57b11de47358e71 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_b22cf76145444aa1b4d67a3f41ae7da3 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5MdXR0ZSBjb250cmUgbGVzIHBlc3RpY2lkZXMgZW4gQnJldGFnbmU8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMiIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWdyaWN1bHR1cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEJyZXN0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8yIiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_4496e9ae0c424b7aa57b11de47358e71.setContent(i_frame_b22cf76145444aa1b4d67a3f41ae7da3);
-        
-
-        marker_53935d52983c4fdd8cb2618dc54563c0.bindPopup(popup_4496e9ae0c424b7aa57b11de47358e71)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_0cb4462bf2d34beca8b7414375ef6e4b.bindTooltip(
-=======
-            marker_53935d52983c4fdd8cb2618dc54563c0.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Agriculture : Lutte contre les pesticides en Bretagne
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_f6d2896d955e42dcb9d7dff49d96f6c9 = L.marker(
-                [48.5775, -3.1885],
-                {"name": "Agriculture : Projet de ferme porcine"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_baf1ca97e545470a9a37736a31dd0bcb = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_ee83a7d79fef453997aabeb2197113f2 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgZmVybWUgcG9yY2luZTwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8zIiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBBZ3JpY3VsdHVyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogUGxvdWlzeSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvMyIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_baf1ca97e545470a9a37736a31dd0bcb.setContent(i_frame_ee83a7d79fef453997aabeb2197113f2);
-        
-
-        marker_f6d2896d955e42dcb9d7dff49d96f6c9.bindPopup(popup_baf1ca97e545470a9a37736a31dd0bcb)
-=======
-            var marker_af019e3725814094a55d9a11e9a78dae = L.marker(
-                [48.5775, -3.1885],
-                {"name": "Agriculture : Projet de ferme porcine"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_23ba346ea6c4494c96ed2a43a386bd3c = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_27f14f5ded0f406084599c66abdd8209 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgZmVybWUgcG9yY2luZTwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8zIiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBBZ3JpY3VsdHVyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogUGxvdWlzeSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvMyIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_23ba346ea6c4494c96ed2a43a386bd3c.setContent(i_frame_27f14f5ded0f406084599c66abdd8209);
-        
-
-        marker_af019e3725814094a55d9a11e9a78dae.bindPopup(popup_23ba346ea6c4494c96ed2a43a386bd3c)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_f6d2896d955e42dcb9d7dff49d96f6c9.bindTooltip(
-=======
-            marker_af019e3725814094a55d9a11e9a78dae.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Agriculture : Projet de ferme porcine
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_a0869cf937c14e6eaa54dd8251ff6c52 = L.marker(
-                [47.7104, -2.6618],
-                {"name": "Industrie : Projet de carri\u00e8re de granit"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_b4328586dc424682b97741e04dfd4c4e = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_f57aedacfded46ef9bc585a4be52d291 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2FycmnDqHJlIGRlIGdyYW5pdDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC80IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBJbmR1c3RyaWUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEx1aGFuIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS80IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_b4328586dc424682b97741e04dfd4c4e.setContent(i_frame_f57aedacfded46ef9bc585a4be52d291);
-        
-
-        marker_a0869cf937c14e6eaa54dd8251ff6c52.bindPopup(popup_b4328586dc424682b97741e04dfd4c4e)
-=======
-            var marker_23fdf42d47eb49538f219b4090b1c69d = L.marker(
-                [47.7104, -2.6618],
-                {"name": "Industrie : Projet de carri\u00e8re de granit"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_ac7c99cc55684424889ef89a497eb0e8 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_d609806b62dd4bf7bf8c4d5587bdbd86 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2FycmnDqHJlIGRlIGdyYW5pdDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC80IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBJbmR1c3RyaWUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEx1aGFuIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS80IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_ac7c99cc55684424889ef89a497eb0e8.setContent(i_frame_d609806b62dd4bf7bf8c4d5587bdbd86);
-        
-
-        marker_23fdf42d47eb49538f219b4090b1c69d.bindPopup(popup_ac7c99cc55684424889ef89a497eb0e8)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_a0869cf937c14e6eaa54dd8251ff6c52.bindTooltip(
-=======
-            marker_23fdf42d47eb49538f219b4090b1c69d.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Industrie : Projet de carrière de granit
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_4b16a06bbdb441c6a4df532cc6c41996 = L.marker(
-                [44.0108, 3.2602],
-                {"name": "Militaire : Projet d\u2019extension du camps militaire au Larzac"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_d4d48c0c96f54b299f3eec58a9e66ddc = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_56be1966f9b9412db138159befb22b11 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZOKAmWV4dGVuc2lvbiBkdSBjYW1wcyBtaWxpdGFpcmUgYXUgTGFyemFjPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzUiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IE1pbGl0YWlyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGEgQ2F2YWxlcmllIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS81IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_d4d48c0c96f54b299f3eec58a9e66ddc.setContent(i_frame_56be1966f9b9412db138159befb22b11);
-        
-
-        marker_4b16a06bbdb441c6a4df532cc6c41996.bindPopup(popup_d4d48c0c96f54b299f3eec58a9e66ddc)
-=======
-            var marker_20abe5773e0c40f2bc52eca395864063 = L.marker(
-                [44.0108, 3.2602],
-                {"name": "Militaire : Projet d\u2019extension du camps militaire au Larzac"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_0f109ae8f1964a27878c530635734119 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_d15eeba506874429a9b52d6a3cd056f5 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZOKAmWV4dGVuc2lvbiBkdSBjYW1wcyBtaWxpdGFpcmUgYXUgTGFyemFjPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzUiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IE1pbGl0YWlyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGEgQ2F2YWxlcmllIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS81IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_0f109ae8f1964a27878c530635734119.setContent(i_frame_d15eeba506874429a9b52d6a3cd056f5);
-        
-
-        marker_20abe5773e0c40f2bc52eca395864063.bindPopup(popup_0f109ae8f1964a27878c530635734119)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_4b16a06bbdb441c6a4df532cc6c41996.bindTooltip(
-=======
-            marker_20abe5773e0c40f2bc52eca395864063.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Militaire : Projet d’extension du camps militaire au Larzac
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_930d4591e82445f984a53e0877ea7567 = L.marker(
+            var marker_f9f62a87219249ed96bc53532e859362 = L.marker(
                 [47.3814, -1.7141],
                 {"name": "Transport : Projet d\u0027a\u00e9roport du Grand Ouest"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
+            ).addTo(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
         
     
-        var popup_6e4ba98aa3f04d98acf2eb6066c0e435 = L.popup({"maxWidth": 650});
+        var popup_d44afea778884c4885d82435dfc47ff0 = L.popup({"maxWidth": 650});
 
         
-            var i_frame_677fd62c79424b7193e7b00dc7a1efa2 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZCdhw6lyb3BvcnQgZHUgR3JhbmQgT3Vlc3Q8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvNiIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogVHJhbnNwb3J0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBOb3RyZS1EYW1lLWRlcy1MYW5kZXMgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzYiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_6e4ba98aa3f04d98acf2eb6066c0e435.setContent(i_frame_677fd62c79424b7193e7b00dc7a1efa2);
+            var i_frame_7533f59c5e2e4cb9a46dad25b296ddc8 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlByb2pldCBkJ2HDqXJvcG9ydCBkdSBHcmFuZCBPdWVzdDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzYiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFRyYW5zcG9ydCA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBOb3RyZS1EYW1lLWRlcy1MYW5kZXMgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS82IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_d44afea778884c4885d82435dfc47ff0.setContent(i_frame_7533f59c5e2e4cb9a46dad25b296ddc8);
         
 
-        marker_930d4591e82445f984a53e0877ea7567.bindPopup(popup_6e4ba98aa3f04d98acf2eb6066c0e435)
-=======
-            var marker_77568921b0224356b1a37c2ab23d4aa1 = L.marker(
-                [47.3814, -1.7141],
-                {"name": "Transport : Projet d\u0027a\u00e9roport du Grand Ouest"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_f0a33facf85c4a778a2e4b3b3667ddef = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_a224ead2b72f46b58349eae4999f03f8 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZCdhw6lyb3BvcnQgZHUgR3JhbmQgT3Vlc3Q8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvNiIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogVHJhbnNwb3J0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBOb3RyZS1EYW1lLWRlcy1MYW5kZXMgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzYiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_f0a33facf85c4a778a2e4b3b3667ddef.setContent(i_frame_a224ead2b72f46b58349eae4999f03f8);
-        
-
-        marker_77568921b0224356b1a37c2ab23d4aa1.bindPopup(popup_f0a33facf85c4a778a2e4b3b3667ddef)
->>>>>>> AlterTest
+        marker_f9f62a87219249ed96bc53532e859362.bindPopup(popup_d44afea778884c4885d82435dfc47ff0)
         ;
 
         
     
     
-<<<<<<< HEAD
-            marker_930d4591e82445f984a53e0877ea7567.bindTooltip(
-=======
-            marker_77568921b0224356b1a37c2ab23d4aa1.bindTooltip(
->>>>>>> AlterTest
+            marker_f9f62a87219249ed96bc53532e859362.bindTooltip(
                 `<div>
                      Transport : Projet d'aéroport du Grand Ouest
                  </div>`,
@@ -397,239 +107,26 @@
             );
         
     
-<<<<<<< HEAD
-            var marker_9d13534013dd4b6d9b95f4ea66ea9517 = L.marker(
-                [47.3261, -2.4185],
-                {"name": "Agriculture : Protection des marais salants"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_a12d910baf5d4bd0aba22ace8ba51995 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_dc7fe9ca87c741e88b178274702f7d87 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm90ZWN0aW9uIGRlcyBtYXJhaXMgc2FsYW50czwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC83IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBBZ3JpY3VsdHVyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogR3XDqXJhbmRlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS83IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_a12d910baf5d4bd0aba22ace8ba51995.setContent(i_frame_dc7fe9ca87c741e88b178274702f7d87);
-        
-
-        marker_9d13534013dd4b6d9b95f4ea66ea9517.bindPopup(popup_a12d910baf5d4bd0aba22ace8ba51995)
-=======
-            var marker_7e88e651aadb432994107a702e7ea521 = L.marker(
-                [47.3261, -2.4185],
-                {"name": "Agriculture : Protection des marais salants"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_710e64cffc6446fbacedef24e5ff53d7 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_65f3a189d3e5433d908a327b01e45f63 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm90ZWN0aW9uIGRlcyBtYXJhaXMgc2FsYW50czwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC83IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBBZ3JpY3VsdHVyZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogR3XDqXJhbmRlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS83IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_710e64cffc6446fbacedef24e5ff53d7.setContent(i_frame_65f3a189d3e5433d908a327b01e45f63);
-        
-
-        marker_7e88e651aadb432994107a702e7ea521.bindPopup(popup_710e64cffc6446fbacedef24e5ff53d7)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_9d13534013dd4b6d9b95f4ea66ea9517.bindTooltip(
-=======
-            marker_7e88e651aadb432994107a702e7ea521.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Agriculture : Protection des marais salants
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_ae3883c98a764b4da06e11301f094ea7 = L.marker(
-                [47.2168, -1.7947],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire au Pellerin/Carnet"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_d212a2e381664e9cb8c35b8426c96aa9 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_7b1834b059bc4fb095fc8977eae01cd2 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSBhdSBQZWxsZXJpbi9DYXJuZXQ8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvOCIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogRW5lcmdpZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgUGVsbGVyaW4gPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzgiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_d212a2e381664e9cb8c35b8426c96aa9.setContent(i_frame_7b1834b059bc4fb095fc8977eae01cd2);
-        
-
-        marker_ae3883c98a764b4da06e11301f094ea7.bindPopup(popup_d212a2e381664e9cb8c35b8426c96aa9)
-=======
-            var marker_e9e43ee44858417e8f218a00a7c2a16a = L.marker(
-                [47.2168, -1.7947],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire au Pellerin/Carnet"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_d446b74c23de4f30bbae674f2100384a = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_462bafd8f07b47faa276c5b5d3a3b03c = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSBhdSBQZWxsZXJpbi9DYXJuZXQ8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvOCIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogRW5lcmdpZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgUGVsbGVyaW4gPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzgiIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_d446b74c23de4f30bbae674f2100384a.setContent(i_frame_462bafd8f07b47faa276c5b5d3a3b03c);
-        
-
-        marker_e9e43ee44858417e8f218a00a7c2a16a.bindPopup(popup_d446b74c23de4f30bbae674f2100384a)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_ae3883c98a764b4da06e11301f094ea7.bindTooltip(
-=======
-            marker_e9e43ee44858417e8f218a00a7c2a16a.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Energie : Projet de centrale nucléaire au Pellerin/Carnet
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_dea5269b805747169e05810c6c258afd = L.marker(
-                [45.7501, 5.4806],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire \u00ab\u00a0Superph\u00e9nix\u00a0\u00bb"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_eddc49c1fd18485b89dfec8b5bdd3b06 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_b99a6ea8f61d4c529313059f2e194092 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSDCq8KgU3VwZXJwaMOpbml4wqDCuzwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC85IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBFbmVyZ2llIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBDcmV5cy1NYWx2aWxsZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvOSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_eddc49c1fd18485b89dfec8b5bdd3b06.setContent(i_frame_b99a6ea8f61d4c529313059f2e194092);
-        
-
-        marker_dea5269b805747169e05810c6c258afd.bindPopup(popup_eddc49c1fd18485b89dfec8b5bdd3b06)
-=======
-            var marker_0e73d6ba00804f65a3ef5e0c41c1a10e = L.marker(
-                [45.7501, 5.4806],
-                {"name": "Energie : Projet de centrale nucl\u00e9aire \u00ab\u00a0Superph\u00e9nix\u00a0\u00bb"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_48eec41c82084825b7c33c3e3072d3d1 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_6062be526a2147368eafaf8ae6d73372 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSDCq8KgU3VwZXJwaMOpbml4wqDCuzwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC85IiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBFbmVyZ2llIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBDcmV5cy1NYWx2aWxsZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvOSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_48eec41c82084825b7c33c3e3072d3d1.setContent(i_frame_6062be526a2147368eafaf8ae6d73372);
-        
-
-        marker_0e73d6ba00804f65a3ef5e0c41c1a10e.bindPopup(popup_48eec41c82084825b7c33c3e3072d3d1)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_dea5269b805747169e05810c6c258afd.bindTooltip(
-=======
-            marker_0e73d6ba00804f65a3ef5e0c41c1a10e.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Energie : Projet de centrale nucléaire « Superphénix »
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_bea8515f2cac4d1cbe66af8cba473fd4 = L.marker(
-                [52.3685, 4.899],
-                {"name": "Protection des animaux : Lutte contre la vivisection"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_882c4456d9994fcd8f373181d68c44c1 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_eee87013e8c74fc9a259e54bd67d4021 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5MdXR0ZSBjb250cmUgbGEgdml2aXNlY3Rpb248L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTAiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFByb3RlY3Rpb24gZGVzIGFuaW1hdXggPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEFtc3RlcmRhbSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBQYXlzLUJhcyA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMCIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_882c4456d9994fcd8f373181d68c44c1.setContent(i_frame_eee87013e8c74fc9a259e54bd67d4021);
-        
-
-        marker_bea8515f2cac4d1cbe66af8cba473fd4.bindPopup(popup_882c4456d9994fcd8f373181d68c44c1)
-=======
-            var marker_034c0658abcd40d6a6a71318625b9770 = L.marker(
-                [52.3685, 4.899],
-                {"name": "Protection des animaux : Lutte contre la vivisection"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_5f9fee0c24b041ff81db5c01496db10c = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_239979b4390b4143981dc0627dcb00ed = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5MdXR0ZSBjb250cmUgbGEgdml2aXNlY3Rpb248L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTAiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICA8dWw+ICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsiPkRvbm7DqWVzIDo8L3NwYW4+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFByb3RlY3Rpb24gZGVzIGFuaW1hdXggPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IEFtc3RlcmRhbSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBQYXlzLUJhcyA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMCIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_5f9fee0c24b041ff81db5c01496db10c.setContent(i_frame_239979b4390b4143981dc0627dcb00ed);
-        
-
-        marker_034c0658abcd40d6a6a71318625b9770.bindPopup(popup_5f9fee0c24b041ff81db5c01496db10c)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_bea8515f2cac4d1cbe66af8cba473fd4.bindTooltip(
-=======
-            marker_034c0658abcd40d6a6a71318625b9770.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Protection des animaux : Lutte contre la vivisection
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_3f5bc3ab13254e1da064952337b382c6 = L.marker(
+            var marker_c2d5242ea40a4249b94dc9d3bab1eaa1 = L.marker(
                 [49.4951, 0.1195],
                 {"name": "Protection des animaux : Protection des baleines en mer du Nord"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
+            ).addTo(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
         
     
-        var popup_187f1e4d6edb4003a9a638b9c13ab974 = L.popup({"maxWidth": 650});
+        var popup_76aacd9fa4644c0d9900791dbe8b67b0 = L.popup({"maxWidth": 650});
 
         
-            var i_frame_e86b8e24509f40c18e151ea9098e7d6a = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm90ZWN0aW9uIGRlcyBiYWxlaW5lcyBlbiBtZXIgZHUgTm9yZDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xMSIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogUHJvdGVjdGlvbiBkZXMgYW5pbWF1eCA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzExIiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_187f1e4d6edb4003a9a638b9c13ab974.setContent(i_frame_e86b8e24509f40c18e151ea9098e7d6a);
+            var i_frame_c8f79b31b93748d986ecb2212a8031d9 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlByb3RlY3Rpb24gZGVzIGJhbGVpbmVzIGVuIG1lciBkdSBOb3JkPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTEiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFByb3RlY3Rpb24gZGVzIGFuaW1hdXggPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_76aacd9fa4644c0d9900791dbe8b67b0.setContent(i_frame_c8f79b31b93748d986ecb2212a8031d9);
         
 
-        marker_3f5bc3ab13254e1da064952337b382c6.bindPopup(popup_187f1e4d6edb4003a9a638b9c13ab974)
-=======
-            var marker_c8e953c28f8e47c0b6f600cff2312336 = L.marker(
-                [49.4951, 0.1195],
-                {"name": "Protection des animaux : Protection des baleines en mer du Nord"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_2e0466f1e9e7444f8a2fd1f4663883a1 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_80cfd108054f4c30a34bd5c6a8f68503 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm90ZWN0aW9uIGRlcyBiYWxlaW5lcyBlbiBtZXIgZHUgTm9yZDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xMSIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogUHJvdGVjdGlvbiBkZXMgYW5pbWF1eCA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBQYXlzIDogRnJhbmNlIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzExIiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_2e0466f1e9e7444f8a2fd1f4663883a1.setContent(i_frame_80cfd108054f4c30a34bd5c6a8f68503);
-        
-
-        marker_c8e953c28f8e47c0b6f600cff2312336.bindPopup(popup_2e0466f1e9e7444f8a2fd1f4663883a1)
->>>>>>> AlterTest
+        marker_c2d5242ea40a4249b94dc9d3bab1eaa1.bindPopup(popup_76aacd9fa4644c0d9900791dbe8b67b0)
         ;
 
         
     
     
-<<<<<<< HEAD
-            marker_3f5bc3ab13254e1da064952337b382c6.bindTooltip(
-=======
-            marker_c8e953c28f8e47c0b6f600cff2312336.bindTooltip(
->>>>>>> AlterTest
+            marker_c2d5242ea40a4249b94dc9d3bab1eaa1.bindTooltip(
                 `<div>
                      Protection des animaux : Protection des baleines en mer du Nord
                  </div>`,
@@ -637,267 +134,39 @@
             );
         
     
-<<<<<<< HEAD
-            var marker_edd79c162a1b4247aa4736983035b52c = L.marker(
-                [45.1728, 6.089],
-                {"name": "Energie : Projet de barrage hydro\u00e9lectrique"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_0997a19593764ce2837ba1508e1a4d83 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_0e2cac0b484448978804e8ceb8bd212d = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgYmFycmFnZSBoeWRyb8OpbGVjdHJpcXVlPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzEyIiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBFbmVyZ2llIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBWYXVqYW55IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMiIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_0997a19593764ce2837ba1508e1a4d83.setContent(i_frame_0e2cac0b484448978804e8ceb8bd212d);
-        
-
-        marker_edd79c162a1b4247aa4736983035b52c.bindPopup(popup_0997a19593764ce2837ba1508e1a4d83)
-=======
-            var marker_cdc6db1b916649679649405aa8ed6bb8 = L.marker(
-                [45.1728, 6.089],
-                {"name": "Energie : Projet de barrage hydro\u00e9lectrique"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_8a4e888121fb4d95b93d7aa66381532b = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_e866bae724e744339a3b335160ced743 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgYmFycmFnZSBoeWRyb8OpbGVjdHJpcXVlPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzEyIiB0YXJnZXQ9Il9ibGFuayI+Q2xpcXVlei1pY2kgcG91ciBhY2PDqWRlcjwvYT48L3A+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IENhdMOpZ29yaWUgOiBFbmVyZ2llIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBWYXVqYW55IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMiIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_8a4e888121fb4d95b93d7aa66381532b.setContent(i_frame_e866bae724e744339a3b335160ced743);
-        
-
-        marker_cdc6db1b916649679649405aa8ed6bb8.bindPopup(popup_8a4e888121fb4d95b93d7aa66381532b)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_edd79c162a1b4247aa4736983035b52c.bindTooltip(
-=======
-            marker_cdc6db1b916649679649405aa8ed6bb8.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Energie : Projet de barrage hydroélectrique
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_13c81c747a60489eb7263864cd3b0ac4 = L.marker(
-                [44.4057, 8.9343],
-                {"name": "Altermondialisme : Manifestation contre le G8"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_68901f04bd844a23979e9983e97a42cc = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_c0d806d8a6a84a61aff057edf0021e28 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5NYW5pZmVzdGF0aW9uIGNvbnRyZSBsZSBHODwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xMyIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWx0ZXJtb25kaWFsaXNtZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogR8OqbmVzIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEl0YWxpZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMyIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_68901f04bd844a23979e9983e97a42cc.setContent(i_frame_c0d806d8a6a84a61aff057edf0021e28);
-        
-
-        marker_13c81c747a60489eb7263864cd3b0ac4.bindPopup(popup_68901f04bd844a23979e9983e97a42cc)
-=======
-            var marker_1c1a9dd009c74c9ebdcd099f046dc35c = L.marker(
-                [44.4057, 8.9343],
-                {"name": "Altermondialisme : Manifestation contre le G8"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_0fd8877a9b0140f6a165fccf2ace3198 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_372b24c47274435388ef598a7f24f987 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5NYW5pZmVzdGF0aW9uIGNvbnRyZSBsZSBHODwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xMyIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWx0ZXJtb25kaWFsaXNtZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogR8OqbmVzIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEl0YWxpZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMyIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_0fd8877a9b0140f6a165fccf2ace3198.setContent(i_frame_372b24c47274435388ef598a7f24f987);
-        
-
-        marker_1c1a9dd009c74c9ebdcd099f046dc35c.bindPopup(popup_0fd8877a9b0140f6a165fccf2ace3198)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_13c81c747a60489eb7263864cd3b0ac4.bindTooltip(
-=======
-            marker_1c1a9dd009c74c9ebdcd099f046dc35c.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Altermondialisme : Manifestation contre le G8
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_4728e029a72f40c0a7edcd18166ca8b4 = L.marker(
-                [45.7588, 4.8333],
-                {"name": "Transport : Projet de ligne ferroviaire Lyon-Turin"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_8a5d6db719ac45e5944f61734de48aeb = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_816bcc0cb28f4455a7d96f05afd59ea1 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgbGlnbmUgZmVycm92aWFpcmUgTHlvbi1UdXJpbjwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xNCIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogVHJhbnNwb3J0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBMeW9uIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xNCIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_8a5d6db719ac45e5944f61734de48aeb.setContent(i_frame_816bcc0cb28f4455a7d96f05afd59ea1);
-        
-
-        marker_4728e029a72f40c0a7edcd18166ca8b4.bindPopup(popup_8a5d6db719ac45e5944f61734de48aeb)
-=======
-            var marker_530e5aa9fa0540a6b5e324f41636b49c = L.marker(
-                [45.7588, 4.8333],
-                {"name": "Transport : Projet de ligne ferroviaire Lyon-Turin"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_c3cf95e084874876a8655652d35c1b65 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_4e5f15e44b1d488baa5f8b485fe0791e = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgbGlnbmUgZmVycm92aWFpcmUgTHlvbi1UdXJpbjwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xNCIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogVHJhbnNwb3J0IDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBMeW9uIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xNCIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_c3cf95e084874876a8655652d35c1b65.setContent(i_frame_4e5f15e44b1d488baa5f8b485fe0791e);
-        
-
-        marker_530e5aa9fa0540a6b5e324f41636b49c.bindPopup(popup_c3cf95e084874876a8655652d35c1b65)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_4728e029a72f40c0a7edcd18166ca8b4.bindTooltip(
-=======
-            marker_530e5aa9fa0540a6b5e324f41636b49c.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Transport : Projet de ligne ferroviaire Lyon-Turin
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var marker_0f81b97eaa764c7580d4ff2534dad489 = L.marker(
-                [46.1957534, -0.6709409],
-                {"name": "Agriculture : Projet de m\u00e9ga-bassine agricole"}
-            ).addTo(marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e);
-        
-    
-        var popup_10b64179de654295b39b67a54cfb34bc = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_812742bdfb5249c9a6f3bc01e3584cd9 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgbcOpZ2EtYmFzc2luZSBhZ3JpY29sZTwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xNSIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWdyaWN1bHR1cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IE1hdXrDqS1zdXItbGUtTWlnbm9uIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xNSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_10b64179de654295b39b67a54cfb34bc.setContent(i_frame_812742bdfb5249c9a6f3bc01e3584cd9);
-        
-
-        marker_0f81b97eaa764c7580d4ff2534dad489.bindPopup(popup_10b64179de654295b39b67a54cfb34bc)
-=======
-            var marker_166d542601de4d058320de2fa1b91c90 = L.marker(
-                [46.1957534, -0.6709409],
-                {"name": "Agriculture : Projet de m\u00e9ga-bassine agricole"}
-            ).addTo(marker_cluster_b16ef98adfd8407e826deb50746282c3);
-        
-    
-        var popup_cb0959011aa8481d9061a34d24eb3352 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_b8837ddc74ff4a7bb76536d42d956c28 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgbcOpZ2EtYmFzc2luZSBhZ3JpY29sZTwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHAgc3R5bGU9ImZvbnQtc2l6ZTogeC1zbWFsbCI+PGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9wcm9qZXRfY29udGVzdC8xNSIgdGFyZ2V0PSJfYmxhbmsiPkNsaXF1ZXotaWNpIHBvdXIgYWNjw6lkZXI8L2E+PC9wPiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBDYXTDqWdvcmllIDogQWdyaWN1bHR1cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IE1hdXrDqS1zdXItbGUtTWlnbm9uIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xNSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgIDwvdWw+ICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_cb0959011aa8481d9061a34d24eb3352.setContent(i_frame_b8837ddc74ff4a7bb76536d42d956c28);
-        
-
-        marker_166d542601de4d058320de2fa1b91c90.bindPopup(popup_cb0959011aa8481d9061a34d24eb3352)
->>>>>>> AlterTest
-        ;
-
-        
-    
-    
-<<<<<<< HEAD
-            marker_0f81b97eaa764c7580d4ff2534dad489.bindTooltip(
-=======
-            marker_166d542601de4d058320de2fa1b91c90.bindTooltip(
->>>>>>> AlterTest
-                `<div>
-                     Agriculture : Projet de méga-bassine agricole
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-<<<<<<< HEAD
-            var tile_layer_06334124d499460b969a303e6972df3d = L.tileLayer(
+            var tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30 = L.tileLayer(
                 "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
                 {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_5fb713cc9de44447a23f3953eba61a2b);
+            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
         
     
-            var tile_layer_1ed6a05b5e2445a1bce799bd21b26e9a = L.tileLayer(
+            var tile_layer_e099dfb504084e31a8ecca94c4d81621 = L.tileLayer(
                 "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
                 {"attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_5fb713cc9de44447a23f3953eba61a2b);
+            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
         
     
-            var layer_control_8d7c3161a4054c009fca27e720608a07 = {
+            var layer_control_1e7c16794bbc4ceea81d9799c68d3fcd = {
                 base_layers : {
-                    "openstreetmap" : tile_layer_a1bd704309b74a999985fd62ba536946,
-                    "stamenterrain" : tile_layer_06334124d499460b969a303e6972df3d,
-                    "World Imagery" : tile_layer_1ed6a05b5e2445a1bce799bd21b26e9a,
+                    "openstreetmap" : tile_layer_2eee683dc00c4dd69e698236ddcf9c6e,
+                    "stamenterrain" : tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30,
+                    "World Imagery" : tile_layer_e099dfb504084e31a8ecca94c4d81621,
                 },
                 overlays :  {
-                    "Luttes environnementales" : marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e,
+                    "Luttes environnementales" : marker_cluster_8c2dd048b3224f27b4a54572a4456dfd,
                 },
             };
             L.control.layers(
-                layer_control_8d7c3161a4054c009fca27e720608a07.base_layers,
-                layer_control_8d7c3161a4054c009fca27e720608a07.overlays,
+                layer_control_1e7c16794bbc4ceea81d9799c68d3fcd.base_layers,
+                layer_control_1e7c16794bbc4ceea81d9799c68d3fcd.overlays,
                 {"autoZIndex": true, "collapsed": true, "position": "topright"}
-            ).addTo(map_5fb713cc9de44447a23f3953eba61a2b);
-            tile_layer_06334124d499460b969a303e6972df3d.remove();
-            tile_layer_1ed6a05b5e2445a1bce799bd21b26e9a.remove();
+            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
+            tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30.remove();
+            tile_layer_e099dfb504084e31a8ecca94c4d81621.remove();
         
     
-            var marker_cluster_6b1d915d4cfd4e16a39ef55a6035748esearchControl = new L.Control.Search({
-                layer: marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e,
-=======
-            var tile_layer_4c23ed6b33b5433eb438366e4d2088cd = L.tileLayer(
-                "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
-                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2b8379d558cf4fbe867a0ddf6ac4aa25);
-        
-    
-            var tile_layer_ad241eec9d8b4a0da23edcb5919167b8 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {"attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2b8379d558cf4fbe867a0ddf6ac4aa25);
-        
-    
-            var layer_control_ad23e4d1fed44666b3bc9477ebda0d7c = {
-                base_layers : {
-                    "openstreetmap" : tile_layer_7bc6e1dc6d584e81b27c1a210bd4fd6c,
-                    "stamenterrain" : tile_layer_4c23ed6b33b5433eb438366e4d2088cd,
-                    "World Imagery" : tile_layer_ad241eec9d8b4a0da23edcb5919167b8,
-                },
-                overlays :  {
-                    "Luttes environnementales" : marker_cluster_b16ef98adfd8407e826deb50746282c3,
-                },
-            };
-            L.control.layers(
-                layer_control_ad23e4d1fed44666b3bc9477ebda0d7c.base_layers,
-                layer_control_ad23e4d1fed44666b3bc9477ebda0d7c.overlays,
-                {"autoZIndex": true, "collapsed": true, "position": "topright"}
-            ).addTo(map_2b8379d558cf4fbe867a0ddf6ac4aa25);
-            tile_layer_4c23ed6b33b5433eb438366e4d2088cd.remove();
-            tile_layer_ad241eec9d8b4a0da23edcb5919167b8.remove();
-        
-    
-            var marker_cluster_b16ef98adfd8407e826deb50746282c3searchControl = new L.Control.Search({
-                layer: marker_cluster_b16ef98adfd8407e826deb50746282c3,
->>>>>>> AlterTest
+            var marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl = new L.Control.Search({
+                layer: marker_cluster_8c2dd048b3224f27b4a54572a4456dfd,
                 
                 propertyName: 'name',
                 
@@ -910,43 +179,25 @@
                 hideMarkerOnCollapse: true
             
                 });
-<<<<<<< HEAD
-                marker_cluster_6b1d915d4cfd4e16a39ef55a6035748esearchControl.on('search:locationfound', function(e) {
-                    marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e.setStyle(function(feature){
-=======
-                marker_cluster_b16ef98adfd8407e826deb50746282c3searchControl.on('search:locationfound', function(e) {
-                    marker_cluster_b16ef98adfd8407e826deb50746282c3.setStyle(function(feature){
->>>>>>> AlterTest
+                marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl.on('search:locationfound', function(e) {
+                    marker_cluster_8c2dd048b3224f27b4a54572a4456dfd.setStyle(function(feature){
                         return feature.properties.style
                     })
                     
                     if(e.layer._popup)
                         e.layer.openPopup();
                 })
-<<<<<<< HEAD
-                marker_cluster_6b1d915d4cfd4e16a39ef55a6035748esearchControl.on('search:collapsed', function(e) {
-                        marker_cluster_6b1d915d4cfd4e16a39ef55a6035748e.setStyle(function(feature){
+                marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl.on('search:collapsed', function(e) {
+                        marker_cluster_8c2dd048b3224f27b4a54572a4456dfd.setStyle(function(feature){
                             return feature.properties.style
                     });
                 });
-            map_5fb713cc9de44447a23f3953eba61a2b.addControl( marker_cluster_6b1d915d4cfd4e16a39ef55a6035748esearchControl );
-=======
-                marker_cluster_b16ef98adfd8407e826deb50746282c3searchControl.on('search:collapsed', function(e) {
-                        marker_cluster_b16ef98adfd8407e826deb50746282c3.setStyle(function(feature){
-                            return feature.properties.style
-                    });
-                });
-            map_2b8379d558cf4fbe867a0ddf6ac4aa25.addControl( marker_cluster_b16ef98adfd8407e826deb50746282c3searchControl );
->>>>>>> AlterTest
+            map_2755bb6d7fea4dd1bf7176bbe86ea163.addControl( marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl );
 
         
     
             L.control.fullscreen(
                 {"forceSeparateButton": true, "position": "topleft", "title": "Fullscreen", "titleCancel": "Exit fullscreen"}
-<<<<<<< HEAD
-            ).addTo(map_5fb713cc9de44447a23f3953eba61a2b);
-=======
-            ).addTo(map_2b8379d558cf4fbe867a0ddf6ac4aa25);
->>>>>>> AlterTest
+            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
         
 </script>

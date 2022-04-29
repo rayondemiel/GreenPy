@@ -1,7 +1,7 @@
 from flask import request, redirect, flash, url_for
 import os
 from werkzeug.utils import secure_filename
-from flask_login import login_required, current_user
+from flask_login import login_required
 
 from ..app import app, statics
 from ..modeles.donnees import Image, Objet_contest

@@ -166,7 +166,7 @@
     <div class="modal fade" id="exampleModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="form" method="POST" action="{{url_for('ajout_pays')}}">
+                <form class="form" method="POST" {%if militant %} action="{{url_for('ajout_pays', id=militant.id, page='militant')}}"{%else%} action="{{url_for('ajout_pays', page='militant')}}"{%endif%}>
                     <div class="modal-header">
                         <h5 class="modal-title">Ajout d'un pays</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

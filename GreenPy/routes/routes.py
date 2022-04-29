@@ -5,10 +5,10 @@ import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
 import numpy as np
-import re
+import re, os
 
 from .email import inscription_mail
-from ..app import app, login, db
+from ..app import app, login, db, statics
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
 from ..modeles.utilisateurs import User
 from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
@@ -302,21 +302,6 @@ def modification_militant(name_id):
         erreurs=erreurs,
         updated=updated
     )
-@app.route("/militant/<int:name_id>/suppression", methods=["POST", "GET"])
-@login_required
-def supprimer_militant(name_id):
-
-    suppr = Acteur.query.get(name_id)
-
-    if suppr:
-        db.session.delete(suppr)
-        db.session.commit()
-        flash("Suppression réussie", "success")
-        return redirect("/")
-    else:
-        db.session.rollback()
-        flash("La suppression a échoué. Réessayez !", "warning")
-        return redirect(url_for('militant', name_id=name_id))
 
 #Gestion des données
 ##Luttes environnementales
@@ -426,6 +411,11 @@ def modification_lutte(objContest_id):
 @app.route("/inscription_orga", methods=["GET", "POST"])
 @login_required
 def inscription_orga():
+    """
+    Route permettant d'ajouter des données dans la Table Orga dans le cadre d'un formulaire avec la méthode POST. Retourne vers l'acceuil
+    si l'ajout à fonctionner, sinon retourne vers la page initiale.
+    :return: HTML update, ensemble des query de la table Pays
+    """
 
     pays = Pays.query.all()
 
@@ -451,7 +441,14 @@ def inscription_orga():
 @app.route("/organisation/<int:orga_id>/update", methods=["GET", "POST"])
 @login_required
 def modification_orga(orga_id):
+    """
+        Route permettant de modifier des données dans la Table Orga dans le cadre d'un formulaire avec la méthode POST.
+        Retourne vers l'la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
+        page. Les metadata de la modification sont enregistrés via Authorship_Orga.
+        :return: HTML updated, ensemble des query de la table Pays
+    """
 
+    #SQL
     orga = Orga.query.get_or_404(orga_id)
     pays = Pays.query.all()
 
@@ -633,22 +630,104 @@ def modification_participer(participer_id):
 #Gestion des données
 #Autres
 
-@app.route("/pays", methods=["GET", "POST"])
+@app.route("/<page>/pays", methods=["GET", "POST"])
 @login_required
-def ajout_pays():
+def ajout_pays(page, obj_id=None):
 
     # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Pays.ajout_pays(
-            nom = request.form.get("nom", None)
+            nom=request.form.get("nom", None)
         )
 
         if statut is True:
             flash("Ajout d'un nouveau pays", "success")
-            return redirect("/inscription_militant")
+            #Redirection en fonction de la page indiquée
+            if page == "acteur":
+                if obj_id is not None:
+                    return redirect(url_for('modification_militant', name_id=obj_id))
+                else:
+                    return redirect("/inscription_militant")
+            if page == "objet_contest":
+                if obj_id is not None:
+                    return redirect(url_for('modification_lutte', objContest_id=obj_id))
+                else:
+                    return redirect("/inscription_lutte")
+            if page == "orga":
+                if obj_id is not None:
+                    return redirect(url_for('modification_orga', orga_id=obj_id))
+                else:
+                    return redirect("/inscription_orga")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
             return redirect("/")
+
+#Delete fonction
+
+@app.route("/<page>/<int:obj_id>/<table>/delete")
+@login_required
+def delete(page, table, obj_id):
+
+    liste_table = {
+        "acteur": Acteur,
+        "objet_contest": Objet_contest,
+        "orga": Orga,
+        "participation": Participation,
+        "militer": Militer,
+        "image": Image
+    }
+
+    suppr = liste_table[table].query.get(obj_id)
+
+    if request.method:
+        try:
+            if table is Acteur:
+                print(suppr.participation)
+                for dep_parti in suppr.participation:
+                    db.session.delete(dep_parti)
+                for dep_milit in suppr.militer:
+                    db.session.delete(dep_milit)
+                    print(dep_milit)
+                for dep_author in suppr.authorships:
+                    print(dep_author)
+                    db.session.delete(dep_author)
+                db.session.delete(suppr)
+            if table is Orga:
+                for dep_milit in suppr.militer:
+                    db.session.delete(dep_milit)
+                for dep_author in suppr.authorships:
+                    db.session.delete(dep_author)
+                db.session.delete(suppr)
+            if table is Objet_contest:
+                for dep_parti in suppr.participation:
+                    db.session.delete(dep_parti)
+                for dep_author in suppr.authorships:
+                    db.session.delete(dep_author)
+                if suppr.image:
+                    os.remove(os.path.join(statics, "images/upload", suppr.image.filename))
+                    db.session.delete(suppr.image.id)
+                db.session.delete(suppr)
+            else:
+                db.session.delete(suppr)
+            if page == "militant" and table != "acteur":
+                db.session.add(AuthorshipActeur(authorship_acteur_id=suppr.acteur_id, user=current_user))
+            if page == "projet_contest":
+                if liste_table[table] is Image:
+                    db.session.add(Authorship_ObjetContest(authorship_acteur_id=suppr.objet_id, user=current_user))
+                else:
+                    db.session.add(Authorship_ObjetContest(authorship_acteur_id=suppr.contest_id, user=current_user))
+            db.session.commit()
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        except Exception as erreur:
+            db.session.rollback()
+            flash("La suppression a échoué pour les raisons suivantes : " + str(erreur), "warning")
+            if page == "militant":
+                return redirect(url_for('militant', name_id=obj_id))
+            if page == "organisation":
+                return redirect(url_for('organisation', orga_id=obj_id))
+            if page == "projet_contest":
+                return redirect(url_for('objContest', objContest_id=obj_id))
 
 #Recherche
 
@@ -674,6 +753,7 @@ def recherche():
              )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+
 
 #Gestion des utilisateurs
 

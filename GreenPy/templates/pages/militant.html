@@ -258,7 +258,7 @@
         {% endif %}
 
 
-        <!-- Bouton accueil -->
+        <!-- Block boutons -->
         <div>
             {% if militant %}
             <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_militant', name_id=militant.id)}}">Faire une modification</a>
@@ -283,7 +283,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a type="button" class="btn btn-danger" href="{{url_for('supprimer_militant', name_id=militant.id)}}">J'accepte</a>
+                        <a type="button" class="btn btn-danger" href="{{url_for('delete', page='militant', table='acteur', obj_id=militant.id)}}">J'accepte</a>
                     </div>
                 </div>
             </div>

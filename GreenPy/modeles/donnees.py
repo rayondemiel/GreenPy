@@ -372,7 +372,7 @@ class Image(db.Model):
     objet = db.relationship("Objet_contest", back_populates="image")
 
     @staticmethod
-    def ajout_image(nom, legende, lien, objet_id, user):
+    def ajout_image(nom, legende, lien, objet_id):
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")
