@@ -167,11 +167,35 @@
 <p>La base de données est en cours de constitution</p>
 {% endif %}
 
+<!--Block boutons-->
 {% if projet_contest %}
 <a type="button" class="btn btn-lg btn-info" href="{{url_for('modification_lutte', objContest_id=projet_contest.id)}}">Faire une modification</a>
 <a class="btn btn-secondary" role="button" href="{{url_for('index_objContest')}}">Retour à l'index</a>
+{% if current_user.user_login == "admin"%}<a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#modalSuppr">Supprimer la page</a>{% endif %}
 {% elif projets_contest %}
 <a type="button" class="btn btn-lg btn-success" href="{{url_for('inscription_lutte')}}">Ajouter une page</a>
 <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
+{% endif %}
+
+
+{% if projet_contest %}
+        <!--Modal suppression-->
+        <div class="modal fade" id="modalSuppr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Suppression</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Veuillez confirmer la suppression de la page de {{projet_contest.nom}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <a type="button" class="btn btn-danger" href="{{url_for('delete', page='projet_contest', table='objet_contest', obj_id=projet_contest.id)}}">J'accepte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endif %}
 {% endblock %}

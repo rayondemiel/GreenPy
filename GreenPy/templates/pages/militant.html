@@ -28,7 +28,7 @@
         <ul>
             {% for groupes in organisation %}
             <li><a href="{{url_for('organisation', orga_id=groupes.orga.id)}}">"{{groupes.orga.nom}}"</a> {% if groupes.date_debut is not none %}  [{{groupes.date_debut}} - {% if groupes.date_fin is not none %}
-                {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %} (<a href="{{url_for('modification_militer', militer_id=groupes.militer_id)}}" style="font-size: small;">(Faire une modification ?)</a></li>
+                {{groupes.date_fin}}{% else %}...{% endif %}] {% endif %}{% if groupes.statut is not none %}, {{groupes.statut}} {% endif %} <a href="{{url_for('modification_militer', militer_id=groupes.militer_id)}}" style="font-size: small;">(Faire une modification ?)</a> <a href="{{url_for('delete', page='militant', table='militer', obj_id=groupes.militer_id)}}" style="font-size: small;">Supprimer</a></li>
             {% endfor %}
         </ul>
         {% else %}
@@ -110,7 +110,8 @@
                             {% if participation.illegalisme== 1 %}<li>Illégalisme (sabotage, atteinte aux infrastructures, vol, etc.)</li>{%endif%}
                             {% if participation.autre== 1 %}<li>Autres</li>{%endif%}
                         </ul>
-                        (<a href="{{url_for('modification_participer', participer_id=participation.participation_id)}}" style="font-size: small;">(Faire une modification ?)</a>
+                        <a href="{{url_for('modification_participer', participer_id=participation.participation_id)}}" style="font-size: small;">(Faire une modification ?)</a>
+                        {% if current_user.user_login == "admin"%}<a class="btn btn-danger text-right" href="{{url_for('delete', page='militant', table='participation', obj_id=participation.participation_id)}}" style="font-size: small;">Supprimer l'élément</a>{% endif %}
                     </div>
                 </div>
             </div>
@@ -269,6 +270,8 @@
             <a class="btn btn-secondary" role="button" href="{{url_for('accueil')}}">Retour à l'accueil</a>
             {% endif %}
         </div>
+
+
         {% if militant %}
         <!--Modal suppression-->
         <div class="modal fade" id="modalSuppr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">

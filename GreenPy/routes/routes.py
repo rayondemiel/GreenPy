@@ -713,9 +713,7 @@ def delete(page, table, obj_id):
                 db.session.add(AuthorshipActeur(authorship_acteur_id=suppr.acteur_id, user=current_user))
             if page == "projet_contest":
                 if liste_table[table] is Image:
-                    db.session.add(Authorship_ObjetContest(authorship_acteur_id=suppr.objet_id, user=current_user))
-                else:
-                    db.session.add(Authorship_ObjetContest(authorship_acteur_id=suppr.contest_id, user=current_user))
+                    db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.authorship, user=current_user))
             db.session.commit()
             flash("Suppression réussie", "success")
             return redirect("/")

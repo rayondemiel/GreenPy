@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_2755bb6d7fea4dd1bf7176bbe86ea163 {
+                #map_36227d71344441e89a9665db0ffaa4ac {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -32,27 +32,20 @@
                 }
             </style>
         
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css"/>
 </head>
 <body>    
     
-            <div class="folium-map" id="map_2755bb6d7fea4dd1bf7176bbe86ea163" ></div>
+            <div class="folium-map" id="map_36227d71344441e89a9665db0ffaa4ac" ></div>
         
 </body>
 <script>    
     
-            var map_2755bb6d7fea4dd1bf7176bbe86ea163 = L.map(
-                "map_2755bb6d7fea4dd1bf7176bbe86ea163",
+            var map_36227d71344441e89a9665db0ffaa4ac = L.map(
+                "map_36227d71344441e89a9665db0ffaa4ac",
                 {
-                    center: [48.43825, -0.7973],
+                    center: [47.9039843, 1.882624],
                     crs: L.CRS.EPSG3857,
-                    zoom: 10,
+                    zoom: 11,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -62,142 +55,28 @@
 
         
     
-            var tile_layer_2eee683dc00c4dd69e698236ddcf9c6e = L.tileLayer(
+            var tile_layer_5f999d45ecad4344b31b7dc961c1704e = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
+            ).addTo(map_36227d71344441e89a9665db0ffaa4ac);
         
     
-            map_2755bb6d7fea4dd1bf7176bbe86ea163.fitBounds(
-                [[47.3814, -1.7141], [49.4951, 0.1195]],
-                {"maxZoom": 12}
-            );
-        
-    
-            var marker_cluster_8c2dd048b3224f27b4a54572a4456dfd = L.markerClusterGroup(
+            var marker_2b123859919d450fa0a18777e2f830f3 = L.marker(
+                [47.9039843, 1.882624],
                 {}
-            );
-            map_2755bb6d7fea4dd1bf7176bbe86ea163.addLayer(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
+            ).addTo(map_36227d71344441e89a9665db0ffaa4ac);
         
     
-            var marker_f9f62a87219249ed96bc53532e859362 = L.marker(
-                [47.3814, -1.7141],
-                {"name": "Transport : Projet d\u0027a\u00e9roport du Grand Ouest"}
-            ).addTo(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
-        
-    
-        var popup_d44afea778884c4885d82435dfc47ff0 = L.popup({"maxWidth": 650});
+        var popup_88b8497209324bf7b49b178647208045 = L.popup({"maxWidth": 650});
 
         
-            var i_frame_7533f59c5e2e4cb9a46dad25b296ddc8 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlByb2pldCBkJ2HDqXJvcG9ydCBkdSBHcmFuZCBPdWVzdDwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cCBzdHlsZT0iZm9udC1zaXplOiB4LXNtYWxsIj48YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL3Byb2pldF9jb250ZXN0LzYiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFRyYW5zcG9ydCA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVmlsbGUgOiBOb3RyZS1EYW1lLWRlcy1MYW5kZXMgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS82IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_d44afea778884c4885d82435dfc47ff0.setContent(i_frame_7533f59c5e2e4cb9a46dad25b296ddc8);
+            var i_frame_fd02a3160c0e497f88323b70a26773cb = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5UZXN0MjwvYT48Y2VudGVyPjwvaDU+ICAgICAgICAgICAgICAgICAgICAgPHVsPiAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPgogICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogVGhhdXZpbiA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWb2lyIGxlcyByw6lzdWx0YXRzIGFzc29jacOpcyA6IDxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vY2FydGUvcmVzdWx0YXRfY2FydGUvMTciIHRhcmdldD0iX2JsYW5rIj5jbGlxdWV6IGljaTwvYT4gICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_88b8497209324bf7b49b178647208045.setContent(i_frame_fd02a3160c0e497f88323b70a26773cb);
         
 
-        marker_f9f62a87219249ed96bc53532e859362.bindPopup(popup_d44afea778884c4885d82435dfc47ff0)
+        marker_2b123859919d450fa0a18777e2f830f3.bindPopup(popup_88b8497209324bf7b49b178647208045)
         ;
 
         
     
-    
-            marker_f9f62a87219249ed96bc53532e859362.bindTooltip(
-                `<div>
-                     Transport : Projet d'aéroport du Grand Ouest
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var marker_c2d5242ea40a4249b94dc9d3bab1eaa1 = L.marker(
-                [49.4951, 0.1195],
-                {"name": "Protection des animaux : Protection des baleines en mer du Nord"}
-            ).addTo(marker_cluster_8c2dd048b3224f27b4a54572a4456dfd);
-        
-    
-        var popup_76aacd9fa4644c0d9900791dbe8b67b0 = L.popup({"maxWidth": 650});
-
-        
-            var i_frame_c8f79b31b93748d986ecb2212a8031d9 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlByb3RlY3Rpb24gZGVzIGJhbGVpbmVzIGVuIG1lciBkdSBOb3JkPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTEiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFByb3RlY3Rpb24gZGVzIGFuaW1hdXggPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_76aacd9fa4644c0d9900791dbe8b67b0.setContent(i_frame_c8f79b31b93748d986ecb2212a8031d9);
-        
-
-        marker_c2d5242ea40a4249b94dc9d3bab1eaa1.bindPopup(popup_76aacd9fa4644c0d9900791dbe8b67b0)
-        ;
-
-        
-    
-    
-            marker_c2d5242ea40a4249b94dc9d3bab1eaa1.bindTooltip(
-                `<div>
-                     Protection des animaux : Protection des baleines en mer du Nord
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30 = L.tileLayer(
-                "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
-                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
-        
-    
-            var tile_layer_e099dfb504084e31a8ecca94c4d81621 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {"attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
-        
-    
-            var layer_control_1e7c16794bbc4ceea81d9799c68d3fcd = {
-                base_layers : {
-                    "openstreetmap" : tile_layer_2eee683dc00c4dd69e698236ddcf9c6e,
-                    "stamenterrain" : tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30,
-                    "World Imagery" : tile_layer_e099dfb504084e31a8ecca94c4d81621,
-                },
-                overlays :  {
-                    "Luttes environnementales" : marker_cluster_8c2dd048b3224f27b4a54572a4456dfd,
-                },
-            };
-            L.control.layers(
-                layer_control_1e7c16794bbc4ceea81d9799c68d3fcd.base_layers,
-                layer_control_1e7c16794bbc4ceea81d9799c68d3fcd.overlays,
-                {"autoZIndex": true, "collapsed": true, "position": "topright"}
-            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
-            tile_layer_1b0c5c4787aa4a4c9cc5b6acadbe7b30.remove();
-            tile_layer_e099dfb504084e31a8ecca94c4d81621.remove();
-        
-    
-            var marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl = new L.Control.Search({
-                layer: marker_cluster_8c2dd048b3224f27b4a54572a4456dfd,
-                
-                propertyName: 'name',
-                
-                collapsed: true,
-                textPlaceholder: 'Search',
-                position:'topleft',                
-            
-                initial: false,
-                
-                hideMarkerOnCollapse: true
-            
-                });
-                marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl.on('search:locationfound', function(e) {
-                    marker_cluster_8c2dd048b3224f27b4a54572a4456dfd.setStyle(function(feature){
-                        return feature.properties.style
-                    })
-                    
-                    if(e.layer._popup)
-                        e.layer.openPopup();
-                })
-                marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl.on('search:collapsed', function(e) {
-                        marker_cluster_8c2dd048b3224f27b4a54572a4456dfd.setStyle(function(feature){
-                            return feature.properties.style
-                    });
-                });
-            map_2755bb6d7fea4dd1bf7176bbe86ea163.addControl( marker_cluster_8c2dd048b3224f27b4a54572a4456dfdsearchControl );
-
-        
-    
-            L.control.fullscreen(
-                {"forceSeparateButton": true, "position": "topleft", "title": "Fullscreen", "titleCancel": "Exit fullscreen"}
-            ).addTo(map_2755bb6d7fea4dd1bf7176bbe86ea163);
-        
 </script>

@@ -1,5 +1,7 @@
+import geopy.exc
 from flask_login import current_user
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 import re
 
 from ..app import db
@@ -189,14 +191,18 @@ class Objet_contest(db.Model):
             erreurs.append("Cette page est déjà présente au sein de la base de données.")
 
         #Géolocalisation automatique
-        if dpt:
-            location = geolocator.geocode("{ville}, {dpt}, {pays}".format(ville=ville, dpt=dpt, pays=pays.nom))
-            if location is None:
-                erreurs.append("Le lieu n'a pas pu être géolocaliser. Veuillez préciser les données du formulaire.")
-        else:
-            location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
-            if location is None:
-                erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
+        try:
+            if dpt:
+                location = geolocator.geocode("{ville}, {dpt}, {pays}".format(ville=ville, dpt=dpt, pays=pays.nom))
+                if location is None:
+                    erreurs.append("Le lieu n'a pas pu être géolocaliser. Veuillez préciser les données du formulaire.")
+            else:
+                location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
+                if location is None:
+                    erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
+        except (GeocoderTimedOut, GeocoderUnavailable):
+            erreurs.append("Les services API n'ont pu être activés. Veuillez verifier votre connexion réseau.")
+
 
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
