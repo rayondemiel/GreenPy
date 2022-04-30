@@ -1,11 +1,12 @@
 from flask import render_template, request, redirect, flash, url_for
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
 import numpy as np
 import re, os
+from datetime import datetime, date
 
 from .email import inscription_mail
 from ..app import app, login, db, statics
@@ -13,6 +14,32 @@ from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, P
 from ..modeles.utilisateurs import User
 from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
 from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
+
+
+
+#Fonctions systèmes
+def times_pent(date_debut, date_fin=False, detail=False):
+
+    current_date = date.today()
+
+    if date_fin:
+        if not detail:
+            date_fin = datetime.strptime(date_fin, "%Y")
+            date_debut = datetime.strptime(date_debut, "%Y")
+            date_spent = date_fin - date_debut
+        else:
+            date_fin = datetime.strptime(date_fin, "%Y-%m-%d")
+            date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
+            date_spent = date_fin - date_debut
+    else:
+        if not detail:
+            date_spent = "En cours"
+        else:
+            date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
+            d1 = current_date.strftime("%Y-%m-%d")
+            date_spent = d1 - date_debut
+    return date_spent
+
 
 #Accueil
 
@@ -149,19 +176,22 @@ def index_objContest():
 
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
-    if Objet_contest.date_fin is not None :
-        date = Objet_contest.date_fin-Objet_contest.date_debut
-    else :
-        date = "En cours"
-    #Requete SQL
+    # Requete SQL
     unique_contest = Objet_contest.query.get(objContest_id)
     createur = Authorship_ObjetContest.query.filter(
-        and_(Authorship_ObjetContest.createur == "True", Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
+        and_(Authorship_ObjetContest.createur == "True",
+             Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
     images = Image.query \
         .join(Objet_contest, Image.objet_id == Objet_contest.id) \
         .filter(Objet_contest.id == objContest_id) \
         .order_by(Image.nom) \
         .all()
+    #Date
+    if Objet_contest.date_fin is not None :
+        date = times_pent(date_debut=unique_contest.date_debut)
+    else :
+        date = times_pent(date_debut=unique_contest.date_debut, date_fin=unique_contest.date_fin)
+
     #Cartographie
     map = folium.Map(location=[unique_contest.latitude, unique_contest.longitude], zoom_start=11)
     url = request.url_root + url_for('resultat_carte', lutte_id=unique_contest.id)
@@ -712,8 +742,8 @@ def delete(page, table, obj_id):
             if page == "militant" and table != "acteur":
                 db.session.add(AuthorshipActeur(authorship_acteur_id=suppr.acteur_id, user=current_user))
             if page == "projet_contest":
-                if liste_table[table] is Image:
-                    db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.authorship, user=current_user))
+                if table == "image":
+                    db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
             db.session.commit()
             flash("Suppression réussie", "success")
             return redirect("/")
@@ -809,3 +839,4 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
+
