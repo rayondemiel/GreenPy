@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_6b982f25477b49628e942e5d8a25243d {
+                #map_dd19f7c7c60648e6bf11d32e5e62c9dd {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -32,20 +32,27 @@
                 }
             </style>
         
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css"/>
 </head>
 <body>    
     
-            <div class="folium-map" id="map_6b982f25477b49628e942e5d8a25243d" ></div>
+            <div class="folium-map" id="map_dd19f7c7c60648e6bf11d32e5e62c9dd" ></div>
         
 </body>
 <script>    
     
-            var map_6b982f25477b49628e942e5d8a25243d = L.map(
-                "map_6b982f25477b49628e942e5d8a25243d",
+            var map_dd19f7c7c60648e6bf11d32e5e62c9dd = L.map(
+                "map_dd19f7c7c60648e6bf11d32e5e62c9dd",
                 {
-                    center: [47.2168, -1.7947],
+                    center: [48.69954215, 1.0010620000000001],
                     crs: L.CRS.EPSG3857,
-                    zoom: 11,
+                    zoom: 10,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -55,28 +62,142 @@
 
         
     
-            var tile_layer_3fad276133214a97b06b1f7af7c3df0f = L.tileLayer(
+            var tile_layer_2cbc3fef7d6648b3be1d73b776dddd93 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_6b982f25477b49628e942e5d8a25243d);
+            ).addTo(map_dd19f7c7c60648e6bf11d32e5e62c9dd);
         
     
-            var marker_4da81bf7be724c8cab5e3a6bd802aad8 = L.marker(
-                [47.2168, -1.7947],
+            map_dd19f7c7c60648e6bf11d32e5e62c9dd.fitBounds(
+                [[47.9039843, 0.1195], [49.4951, 1.882624]],
+                {"maxZoom": 12}
+            );
+        
+    
+            var marker_cluster_5107a2a97c6444a09dbf2119b05827d5 = L.markerClusterGroup(
                 {}
-            ).addTo(map_6b982f25477b49628e942e5d8a25243d);
+            );
+            map_dd19f7c7c60648e6bf11d32e5e62c9dd.addLayer(marker_cluster_5107a2a97c6444a09dbf2119b05827d5);
         
     
-        var popup_2ef8b6ad0a8b4527ae83074a01136f9f = L.popup({"maxWidth": 650});
+            var marker_f5239ae8544d486abaf6f740aa709354 = L.marker(
+                [47.9039843, 1.882624],
+                {"name": "Energie : Test2"}
+            ).addTo(marker_cluster_5107a2a97c6444a09dbf2119b05827d5);
+        
+    
+        var popup_a97957371ea244618a60cf1f49bb66d4 = L.popup({"maxWidth": 650});
 
         
-            var i_frame_048e58344772487392826287f6553735 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICA8aDU+PGNlbnRlcj5Qcm9qZXQgZGUgY2VudHJhbGUgbnVjbMOpYWlyZSBhdSBQZWxsZXJpbi9DYXJuZXQ8L2E+PGNlbnRlcj48L2g1PiAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gc3R5bGU9InRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyI+RG9ubsOpZXMgOjwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICAgICAgPGxpPiBWaWxsZSA6IExlIFBlbGxlcmluIDwvbGk+ICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS84IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgIDwvaHRtbD4=" width="300" style="border:none !important;" height="120"></iframe>`)[0];
-            popup_2ef8b6ad0a8b4527ae83074a01136f9f.setContent(i_frame_048e58344772487392826287f6553735);
+            var i_frame_90f5f03cec654d22b94996df9600d762 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlRlc3QyPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTciIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IEVuZXJnaWUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogVGhhdXZpbiA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gUGF5cyA6IEZyYW5jZSA8L2xpPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gVm9pciBsZXMgcsOpc3VsdGF0cyBhc3NvY2nDqXMgOiA8YSBocmVmPSJodHRwOi8vMTI3LjAuMC4xOjUwMDAvL2NhcnRlL3Jlc3VsdGF0X2NhcnRlLzE3IiB0YXJnZXQ9Il9ibGFuayI+Y2xpcXVleiBpY2k8L2E+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3VsPiAgICAgICAgICAgICAgICAgICAgICAgICA8L2h0bWw+" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_a97957371ea244618a60cf1f49bb66d4.setContent(i_frame_90f5f03cec654d22b94996df9600d762);
         
 
-        marker_4da81bf7be724c8cab5e3a6bd802aad8.bindPopup(popup_2ef8b6ad0a8b4527ae83074a01136f9f)
+        marker_f5239ae8544d486abaf6f740aa709354.bindPopup(popup_a97957371ea244618a60cf1f49bb66d4)
         ;
 
         
     
+    
+            marker_f5239ae8544d486abaf6f740aa709354.bindTooltip(
+                `<div>
+                     Energie : Test2
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4e572fdfb6de4fd0b5f25473562fe370 = L.marker(
+                [49.4951, 0.1195],
+                {"name": "Protection des animaux : Protection des baleines en mer du Nord"}
+            ).addTo(marker_cluster_5107a2a97c6444a09dbf2119b05827d5);
+        
+    
+        var popup_2fcf0667eb794524aea8d91c391ac7d0 = L.popup({"maxWidth": 650});
+
+        
+            var i_frame_4ec066300393446bbfb2b70ed2986450 = $(`<iframe src="data:text/html;charset=utf-8;base64,CiAgICA8aHRtbD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxoNT48Y2VudGVyPlByb3RlY3Rpb24gZGVzIGJhbGVpbmVzIGVuIG1lciBkdSBOb3JkPC9hPjxjZW50ZXI+PC9oNT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6IHgtc21hbGwiPjxhIGhyZWY9Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMC8vcHJvamV0X2NvbnRlc3QvMTEiIHRhcmdldD0iX2JsYW5rIj5DbGlxdWV6LWljaSBwb3VyIGFjY8OpZGVyPC9hPjwvcD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx1bD4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7Ij5Eb25uw6llcyA6PC9zcGFuPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxsaT4gQ2F0w6lnb3JpZSA6IFByb3RlY3Rpb24gZGVzIGFuaW1hdXggPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZpbGxlIDogTGUgSGF2cmUgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFBheXMgOiBGcmFuY2UgPC9saT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+IFZvaXIgbGVzIHLDqXN1bHRhdHMgYXNzb2Npw6lzIDogPGEgaHJlZj0iaHR0cDovLzEyNy4wLjAuMTo1MDAwLy9jYXJ0ZS9yZXN1bHRhdF9jYXJ0ZS8xMSIgdGFyZ2V0PSJfYmxhbmsiPmNsaXF1ZXogaWNpPC9hPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC91bD4gICAgICAgICAgICAgICAgICAgICAgICAgPC9odG1sPg==" width="300" style="border:none !important;" height="120"></iframe>`)[0];
+            popup_2fcf0667eb794524aea8d91c391ac7d0.setContent(i_frame_4ec066300393446bbfb2b70ed2986450);
+        
+
+        marker_4e572fdfb6de4fd0b5f25473562fe370.bindPopup(popup_2fcf0667eb794524aea8d91c391ac7d0)
+        ;
+
+        
+    
+    
+            marker_4e572fdfb6de4fd0b5f25473562fe370.bindTooltip(
+                `<div>
+                     Protection des animaux : Protection des baleines en mer du Nord
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var tile_layer_05322596ab644837a250e272065ffcba = L.tileLayer(
+                "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
+                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_dd19f7c7c60648e6bf11d32e5e62c9dd);
+        
+    
+            var tile_layer_6abb6c4fcc0f471c9e5d5fa2a236f75a = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {"attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_dd19f7c7c60648e6bf11d32e5e62c9dd);
+        
+    
+            var layer_control_143462e4cbbf4794a194151431d238d3 = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_2cbc3fef7d6648b3be1d73b776dddd93,
+                    "stamenterrain" : tile_layer_05322596ab644837a250e272065ffcba,
+                    "World Imagery" : tile_layer_6abb6c4fcc0f471c9e5d5fa2a236f75a,
+                },
+                overlays :  {
+                    "Luttes environnementales" : marker_cluster_5107a2a97c6444a09dbf2119b05827d5,
+                },
+            };
+            L.control.layers(
+                layer_control_143462e4cbbf4794a194151431d238d3.base_layers,
+                layer_control_143462e4cbbf4794a194151431d238d3.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_dd19f7c7c60648e6bf11d32e5e62c9dd);
+            tile_layer_05322596ab644837a250e272065ffcba.remove();
+            tile_layer_6abb6c4fcc0f471c9e5d5fa2a236f75a.remove();
+        
+    
+            var marker_cluster_5107a2a97c6444a09dbf2119b05827d5searchControl = new L.Control.Search({
+                layer: marker_cluster_5107a2a97c6444a09dbf2119b05827d5,
+                
+                propertyName: 'name',
+                
+                collapsed: true,
+                textPlaceholder: 'Search',
+                position:'topleft',                
+            
+                initial: false,
+                
+                hideMarkerOnCollapse: true
+            
+                });
+                marker_cluster_5107a2a97c6444a09dbf2119b05827d5searchControl.on('search:locationfound', function(e) {
+                    marker_cluster_5107a2a97c6444a09dbf2119b05827d5.setStyle(function(feature){
+                        return feature.properties.style
+                    })
+                    
+                    if(e.layer._popup)
+                        e.layer.openPopup();
+                })
+                marker_cluster_5107a2a97c6444a09dbf2119b05827d5searchControl.on('search:collapsed', function(e) {
+                        marker_cluster_5107a2a97c6444a09dbf2119b05827d5.setStyle(function(feature){
+                            return feature.properties.style
+                    });
+                });
+            map_dd19f7c7c60648e6bf11d32e5e62c9dd.addControl( marker_cluster_5107a2a97c6444a09dbf2119b05827d5searchControl );
+
+        
+    
+            L.control.fullscreen(
+                {"forceSeparateButton": true, "position": "topleft", "title": "Fullscreen", "titleCancel": "Exit fullscreen"}
+            ).addTo(map_dd19f7c7c60648e6bf11d32e5e62c9dd);
+        
 </script>

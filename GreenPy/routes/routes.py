@@ -6,7 +6,7 @@ from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
 import numpy as np
 import re, os
-from datetime import datetime, date
+from datetime import datetime
 
 from .email import inscription_mail
 from ..app import app, login, db, statics
@@ -18,11 +18,17 @@ from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
 
 
 #Fonctions systèmes
-def times_pent(date_debut, date_fin=False, detail=False):
+def times_spent(date_debut, date_fin, detail=False):
+    """
+    Fonction de calcul du temps entre deux dates en années. Si date_fin
+    :param date_debut: String
+    :param date_fin: String or none
+    :param detail: Booleen pour definir si le format est AAAA-MM-DD ou AAAA
+    :return: Différence de temps
+    """
 
-    current_date = date.today()
-
-    if date_fin:
+    current_date = datetime.today()
+    if date_fin is not None:
         if not detail:
             date_fin = datetime.strptime(date_fin, "%Y")
             date_debut = datetime.strptime(date_debut, "%Y")
@@ -31,15 +37,21 @@ def times_pent(date_debut, date_fin=False, detail=False):
             date_fin = datetime.strptime(date_fin, "%Y-%m-%d")
             date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
             date_spent = date_fin - date_debut
+            date_spent = date_spent.total_seconds()
+            date_spent = divmod(date_spent, 31536000)[0]
+            return "Décédé(e) à l'âge de " + str(date_spent) + " ans"
     else:
         if not detail:
             date_spent = "En cours"
         else:
             date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
-            d1 = current_date.strftime("%Y-%m-%d")
-            date_spent = d1 - date_debut
-    return date_spent
-
+            date_spent = current_date - date_debut
+    date_spent = date_spent.total_seconds()
+    date_spent = divmod(date_spent, 31536000)[0]
+    if date_spent < 1:
+        date_spent = "Moins d'une année"
+        return date_spent
+    return str(date_spent) + " années"
 
 #Accueil
 
@@ -74,6 +86,10 @@ def about():
 @app.route("/militant")
 @app.route("/militant")
 def index_militant():
+    """
+    Index avec système de pagination de l'ensemble des acteurs écologistes recensés.
+    :return: HTML
+    """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
@@ -84,6 +100,14 @@ def index_militant():
 
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
+    """
+    Route individuelle donnant les informations attachés à la personne identifié. La page recense les participations aux
+    projets écologistes et à différentes organisations. Une carte leaflet généré par folium permet de visualiser l'ensemble
+    des participations à des luttes environnementales selon la personne.
+    :param name_id: Int ID, attribut de la classe Acteur
+    :return: HTML avec resultats de requetes SQL (table Acteur, Orga, Objet_contest, Participation et Militer), de la date
+    et d'une carte.
+    """
     #Requete SQL
     unique_militants = Acteur.query.get(name_id)
     liste_orga = Orga.query.all()
@@ -101,6 +125,8 @@ def militant(name_id):
         .order_by(Objet_contest.date_debut)\
         .all()
     createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
+    #Date
+    date_militant = times_spent(unique_militants.date_naissance, unique_militants.date_deces, detail=True)
     # Generation dataframe pour localisation et zoom
     latitude = list(lutte.objet.latitude for lutte in participer)
     longitude = list(lutte.objet.longitude for lutte in participer)
@@ -157,7 +183,7 @@ def militant(name_id):
         ##Save
         map.save("GreenPy/templates/partials/map.html")
     return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation,
-                           participer=participer, liste_orga=liste_orga, contest=contest)
+                           participer=participer, liste_orga=liste_orga, contest=contest, date_militant=date_militant)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -187,10 +213,7 @@ def objContest(objContest_id):
         .order_by(Image.nom) \
         .all()
     #Date
-    if Objet_contest.date_fin is not None :
-        date = times_pent(date_debut=unique_contest.date_debut)
-    else :
-        date = times_pent(date_debut=unique_contest.date_debut, date_fin=unique_contest.date_fin)
+    date = times_spent(unique_contest.date_debut, unique_contest.date_fin)
 
     #Cartographie
     map = folium.Map(location=[unique_contest.latitude, unique_contest.longitude], zoom_start=11)
@@ -708,10 +731,9 @@ def delete(page, table, obj_id):
     }
 
     suppr = liste_table[table].query.get(obj_id)
-
     if request.method:
         try:
-            if table is Acteur:
+            if table == "acteur":
                 print(suppr.participation)
                 for dep_parti in suppr.participation:
                     db.session.delete(dep_parti)
@@ -745,6 +767,7 @@ def delete(page, table, obj_id):
                 if table == "image":
                     db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
             db.session.commit()
+            print("Suppression de l'entité réussie !:")
             flash("Suppression réussie", "success")
             return redirect("/")
         except Exception as erreur:
