@@ -42,7 +42,11 @@ def times_spent(date_debut, date_fin, detail=False):
             return "Décédé(e) à l'âge de " + str(date_spent) + " ans"
     else:
         if not detail:
-            date_spent = "En cours"
+            date_debut = datetime.strptime(date_debut, "%Y")
+            date_spent = current_date - date_debut
+            date_spent = date_spent.total_seconds()
+            date_spent = divmod(date_spent, 31536000)[0]
+            return "En cours : " + str(date_spent) + " ans"
         else:
             date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
             date_spent = current_date - date_debut
@@ -720,7 +724,16 @@ def ajout_pays(page, obj_id=None):
 @app.route("/<page>/<int:obj_id>/<table>/delete")
 @login_required
 def delete(page, table, obj_id):
+    """
+    Fonction de suppression d'une données au sein d'une table et des tables associés.
 
+    :param page: str, indique la page html de la donnée
+    :param table: str, nom de la classe associée
+    :param obj_id: int, id de l'objet devant être supprimé
+    :return: redirect
+    """
+
+    #dict identifiant la classe
     liste_table = {
         "acteur": Acteur,
         "objet_contest": Objet_contest,
@@ -729,19 +742,17 @@ def delete(page, table, obj_id):
         "militer": Militer,
         "image": Image
     }
-
+    #recuperation de la query
     suppr = liste_table[table].query.get(obj_id)
     if request.method:
         try:
+            #Suppression pour données avec données associées
             if table == "acteur":
-                print(suppr.participation)
                 for dep_parti in suppr.participation:
                     db.session.delete(dep_parti)
                 for dep_milit in suppr.militer:
                     db.session.delete(dep_milit)
-                    print(dep_milit)
                 for dep_author in suppr.authorships:
-                    print(dep_author)
                     db.session.delete(dep_author)
                 db.session.delete(suppr)
             if table == "orga":
@@ -750,7 +761,7 @@ def delete(page, table, obj_id):
                 for dep_author in suppr.authorships:
                     db.session.delete(dep_author)
                 db.session.delete(suppr)
-            if table is "objet_contest":
+            if table == "objet_contest":
                 for dep_parti in suppr.participation:
                     db.session.delete(dep_parti)
                 for dep_author in suppr.authorships:
@@ -759,17 +770,21 @@ def delete(page, table, obj_id):
                     os.remove(os.path.join(statics, "images/upload", suppr.image.filename))
                     db.session.delete(suppr.image.id)
                 db.session.delete(suppr)
+            #Suppression sans données asso
             else:
                 db.session.delete(suppr)
             if page == "militant" and table != "acteur":
+                #ajout trace de la modification
                 db.session.add(AuthorshipActeur(authorship_acteur_id=suppr.acteur_id, user=current_user))
             if page == "projet_contest":
                 if table == "image":
                     db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
+            #maj
             db.session.commit()
             print("Suppression de l'entité réussie !:")
             flash("Suppression réussie", "success")
             return redirect("/")
+        #Redirect selon la page d'origine
         except Exception as erreur:
             db.session.rollback()
             flash("La suppression a échoué pour les raisons suivantes : " + str(erreur), "warning")

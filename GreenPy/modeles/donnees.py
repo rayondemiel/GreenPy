@@ -42,11 +42,11 @@ class Acteur(db.Model):
         if not biographie:
             erreurs.append("Veuillez renseigner la biographie de la personne.")
         if date_naissance:
-            if not re.match(REGEX_ANNEE, date_naissance) or not re.match(REGEX_DATE, date_naissance):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+            if not re.match(REGEX_DATE, date_naissance):
+                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
         if date_deces:
-            if not re.match(REGEX_ANNEE, date_deces) or not re.match(REGEX_DATE, date_deces):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+            if not re.match(REGEX_DATE, date_deces):
+                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
 
         unique = Acteur.query.filter(db.and_(
             Acteur.nom == nom,
