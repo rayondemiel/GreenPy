@@ -50,11 +50,11 @@ https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7155848
 ---
 # Problème a regler
 
--> modal militer (def militer) dans template militant -> bug clé
+
 
 -> def suppression -> prob avec les jointures associés
 
--> faire la jointure de participation avec les booleens
+https://stackoverflow.com/questions/8895208/sqlalchemy-how-to-filter-date-field
 
 ---
 

@@ -1,5 +1,7 @@
+import geopy.exc
 from flask_login import current_user
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 import re
 
 from ..app import db
@@ -40,11 +42,11 @@ class Acteur(db.Model):
         if not biographie:
             erreurs.append("Veuillez renseigner la biographie de la personne.")
         if date_naissance:
-            if not re.match(REGEX_ANNEE, date_naissance) or not re.match(REGEX_DATE, date_naissance):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+            if not re.match(REGEX_DATE, date_naissance):
+                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
         if date_deces:
-            if not re.match(REGEX_ANNEE, date_deces) or not re.match(REGEX_DATE, date_deces):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+            if not re.match(REGEX_DATE, date_deces):
+                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
 
         unique = Acteur.query.filter(db.and_(
             Acteur.nom == nom,
@@ -145,8 +147,8 @@ class Objet_contest(db.Model):
     nom = db.Column(db.Text, nullable=False)
     categ_id = db.Column(db.Integer, db.ForeignKey('categorie.id'))
     description = db.Column(db.Text)
-    date_debut = db.Column(db.Integer, nullable=False)
-    date_fin = db.Column(db.Integer)
+    date_debut = db.Column(db.Text, nullable=False)
+    date_fin = db.Column(db.Text)
     ville = db.Column(db.Text, nullable=False)
     dpt = db.Column(db.Text)
     pays_id = db.Column(db.Integer, db.ForeignKey('pays.id'))
@@ -189,14 +191,18 @@ class Objet_contest(db.Model):
             erreurs.append("Cette page est déjà présente au sein de la base de données.")
 
         #Géolocalisation automatique
-        if dpt:
-            location = geolocator.geocode("{ville}, {dpt}, {pays}".format(ville=ville, dpt=dpt, pays=pays.nom))
-            if location is None:
-                erreurs.append("Le lieu n'a pas pu être géolocaliser. Veuillez préciser les données du formulaire.")
-        else:
-            location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
-            if location is None:
-                erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
+        try:
+            if dpt:
+                location = geolocator.geocode("{ville}, {dpt}, {pays}".format(ville=ville, dpt=dpt, pays=pays.nom))
+                if location is None:
+                    erreurs.append("Le lieu n'a pas pu être géolocaliser. Veuillez préciser les données du formulaire.")
+            else:
+                location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
+                if location is None:
+                    erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
+        except (GeocoderTimedOut, GeocoderUnavailable):
+            erreurs.append("Les services API n'ont pu être activés. Veuillez verifier votre connexion réseau.")
+
 
             # S'il y a au moins une erreur, afficher un message d'erreur.
         if len(erreurs) > 0:
@@ -372,7 +378,7 @@ class Image(db.Model):
     objet = db.relationship("Objet_contest", back_populates="image")
 
     @staticmethod
-    def ajout_image(nom, legende, lien, objet_id, user):
+    def ajout_image(nom, legende, lien, objet_id):
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")

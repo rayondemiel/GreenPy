@@ -1,18 +1,61 @@
 from flask import render_template, request, redirect, flash, url_for
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
 import pandas as pd
 import numpy as np
-import re
+import re, os
+from datetime import datetime
 
 from .email import inscription_mail
-from ..app import app, login, db
+from ..app import app, login, db, statics
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
 from ..modeles.utilisateurs import User
 from ..modeles.authorship import AuthorshipActeur, Authorship_Orga, Authorship_ObjetContest
 from ..constantes import RESULTATS_PAR_PAGES, REGEX_ANNEE, REGEX_DATE
+
+
+
+#Fonctions systèmes
+def times_spent(date_debut, date_fin, detail=False):
+    """
+    Fonction de calcul du temps entre deux dates en années. Si date_fin
+    :param date_debut: String
+    :param date_fin: String or none
+    :param detail: Booleen pour definir si le format est AAAA-MM-DD ou AAAA
+    :return: Différence de temps
+    """
+
+    current_date = datetime.today()
+    if date_fin is not None:
+        if not detail:
+            date_fin = datetime.strptime(date_fin, "%Y")
+            date_debut = datetime.strptime(date_debut, "%Y")
+            date_spent = date_fin - date_debut
+        else:
+            date_fin = datetime.strptime(date_fin, "%Y-%m-%d")
+            date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
+            date_spent = date_fin - date_debut
+            date_spent = date_spent.total_seconds()
+            date_spent = divmod(date_spent, 31536000)[0]
+            return "Décédé(e) à l'âge de " + str(date_spent) + " ans"
+    else:
+        if not detail:
+            date_debut = datetime.strptime(date_debut, "%Y")
+            date_spent = current_date - date_debut
+            date_spent = date_spent.total_seconds()
+            date_spent = divmod(date_spent, 31536000)[0]
+            return "En cours : " + str(date_spent) + " ans"
+        else:
+            date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
+            date_spent = current_date - date_debut
+    date_spent = date_spent.total_seconds()
+    date_spent = divmod(date_spent, 31536000)[0]
+    if date_spent < 1:
+        date_spent = "Moins d'une année"
+        return date_spent
+    return str(date_spent) + " années"
 
 #Accueil
 
@@ -47,6 +90,10 @@ def about():
 @app.route("/militant")
 @app.route("/militant")
 def index_militant():
+    """
+    Index avec système de pagination de l'ensemble des acteurs écologistes recensés.
+    :return: HTML
+    """
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
@@ -57,6 +104,14 @@ def index_militant():
 
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
+    """
+    Route individuelle donnant les informations attachés à la personne identifié. La page recense les participations aux
+    projets écologistes et à différentes organisations. Une carte leaflet généré par folium permet de visualiser l'ensemble
+    des participations à des luttes environnementales selon la personne.
+    :param name_id: Int ID, attribut de la classe Acteur
+    :return: HTML avec resultats de requetes SQL (table Acteur, Orga, Objet_contest, Participation et Militer), de la date
+    et d'une carte.
+    """
     #Requete SQL
     unique_militants = Acteur.query.get(name_id)
     liste_orga = Orga.query.all()
@@ -74,6 +129,8 @@ def militant(name_id):
         .order_by(Objet_contest.date_debut)\
         .all()
     createur = AuthorshipActeur.query.filter(and_(AuthorshipActeur.createur=="True", AuthorshipActeur.authorship_acteur_id==name_id)).first()
+    #Date
+    date_militant = times_spent(unique_militants.date_naissance, unique_militants.date_deces, detail=True)
     # Generation dataframe pour localisation et zoom
     latitude = list(lutte.objet.latitude for lutte in participer)
     longitude = list(lutte.objet.longitude for lutte in participer)
@@ -130,7 +187,7 @@ def militant(name_id):
         ##Save
         map.save("GreenPy/templates/partials/map.html")
     return render_template("pages/militant.html", militant=unique_militants, createur=createur, organisation=organisation,
-                           participer=participer, liste_orga=liste_orga, contest=contest)
+                           participer=participer, liste_orga=liste_orga, contest=contest, date_militant=date_militant)
 
 @app.route("/projet_contest")
 def index_objContest():
@@ -149,19 +206,19 @@ def index_objContest():
 
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
-    if Objet_contest.date_fin is not None :
-        date = Objet_contest.date_fin-Objet_contest.date_debut
-    else :
-        date = "En cours"
-    #Requete SQL
+    # Requete SQL
     unique_contest = Objet_contest.query.get(objContest_id)
     createur = Authorship_ObjetContest.query.filter(
-        and_(Authorship_ObjetContest.createur == "True", Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
+        and_(Authorship_ObjetContest.createur == "True",
+             Authorship_ObjetContest.authorship_objet_id == objContest_id)).first()
     images = Image.query \
         .join(Objet_contest, Image.objet_id == Objet_contest.id) \
         .filter(Objet_contest.id == objContest_id) \
         .order_by(Image.nom) \
         .all()
+    #Date
+    date = times_spent(unique_contest.date_debut, unique_contest.date_fin)
+
     #Cartographie
     map = folium.Map(location=[unique_contest.latitude, unique_contest.longitude], zoom_start=11)
     url = request.url_root + url_for('resultat_carte', lutte_id=unique_contest.id)
@@ -302,21 +359,6 @@ def modification_militant(name_id):
         erreurs=erreurs,
         updated=updated
     )
-@app.route("/militant/<int:name_id>/suppression", methods=["POST", "GET"])
-@login_required
-def supprimer_militant(name_id):
-
-    suppr = Acteur.query.get(name_id)
-
-    if suppr:
-        db.session.delete(suppr)
-        db.session.commit()
-        flash("Suppression réussie", "success")
-        return redirect("/")
-    else:
-        db.session.rollback()
-        flash("La suppression a échoué. Réessayez !", "warning")
-        return redirect(url_for('militant', name_id=name_id))
 
 #Gestion des données
 ##Luttes environnementales
@@ -426,6 +468,11 @@ def modification_lutte(objContest_id):
 @app.route("/inscription_orga", methods=["GET", "POST"])
 @login_required
 def inscription_orga():
+    """
+    Route permettant d'ajouter des données dans la Table Orga dans le cadre d'un formulaire avec la méthode POST. Retourne vers l'acceuil
+    si l'ajout à fonctionner, sinon retourne vers la page initiale.
+    :return: HTML update, ensemble des query de la table Pays
+    """
 
     pays = Pays.query.all()
 
@@ -451,7 +498,14 @@ def inscription_orga():
 @app.route("/organisation/<int:orga_id>/update", methods=["GET", "POST"])
 @login_required
 def modification_orga(orga_id):
+    """
+        Route permettant de modifier des données dans la Table Orga dans le cadre d'un formulaire avec la méthode POST.
+        Retourne vers l'la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
+        page. Les metadata de la modification sont enregistrés via Authorship_Orga.
+        :return: HTML updated, ensemble des query de la table Pays
+    """
 
+    #SQL
     orga = Orga.query.get_or_404(orga_id)
     pays = Pays.query.all()
 
@@ -633,22 +687,113 @@ def modification_participer(participer_id):
 #Gestion des données
 #Autres
 
-@app.route("/pays", methods=["GET", "POST"])
+@app.route("/<page>/pays", methods=["GET", "POST"])
 @login_required
-def ajout_pays():
+def ajout_pays(page, obj_id=None):
 
     # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Pays.ajout_pays(
-            nom = request.form.get("nom", None)
+            nom=request.form.get("nom", None)
         )
 
         if statut is True:
             flash("Ajout d'un nouveau pays", "success")
-            return redirect("/inscription_militant")
+            #Redirection en fonction de la page indiquée
+            if page == "acteur":
+                if obj_id is not None:
+                    return redirect(url_for('modification_militant', name_id=obj_id))
+                else:
+                    return redirect("/inscription_militant")
+            if page == "objet_contest":
+                if obj_id is not None:
+                    return redirect(url_for('modification_lutte', objContest_id=obj_id))
+                else:
+                    return redirect("/inscription_lutte")
+            if page == "orga":
+                if obj_id is not None:
+                    return redirect(url_for('modification_orga', orga_id=obj_id))
+                else:
+                    return redirect("/inscription_orga")
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
             return redirect("/")
+
+#Delete fonction
+
+@app.route("/<page>/<int:obj_id>/<table>/delete")
+@login_required
+def delete(page, table, obj_id):
+    """
+    Fonction de suppression d'une données au sein d'une table et des tables associés.
+
+    :param page: str, indique la page html de la donnée
+    :param table: str, nom de la classe associée
+    :param obj_id: int, id de l'objet devant être supprimé
+    :return: redirect
+    """
+
+    #dict identifiant la classe
+    liste_table = {
+        "acteur": Acteur,
+        "objet_contest": Objet_contest,
+        "orga": Orga,
+        "participation": Participation,
+        "militer": Militer,
+        "image": Image
+    }
+    #recuperation de la query
+    suppr = liste_table[table].query.get(obj_id)
+    if request.method:
+        try:
+            #Suppression pour données avec données associées
+            if table == "acteur":
+                for dep_parti in suppr.participation:
+                    db.session.delete(dep_parti)
+                for dep_milit in suppr.militer:
+                    db.session.delete(dep_milit)
+                for dep_author in suppr.authorships:
+                    db.session.delete(dep_author)
+                db.session.delete(suppr)
+            if table == "orga":
+                for dep_milit in suppr.militer:
+                    db.session.delete(dep_milit)
+                for dep_author in suppr.authorships:
+                    db.session.delete(dep_author)
+                db.session.delete(suppr)
+            if table == "objet_contest":
+                for dep_parti in suppr.participation:
+                    db.session.delete(dep_parti)
+                for dep_author in suppr.authorships:
+                    db.session.delete(dep_author)
+                if suppr.image:
+                    os.remove(os.path.join(statics, "images/upload", suppr.image.filename))
+                    db.session.delete(suppr.image.id)
+                db.session.delete(suppr)
+            #Suppression sans données asso
+            else:
+                db.session.delete(suppr)
+            if page == "militant" and table != "acteur":
+                #ajout trace de la modification
+                db.session.add(AuthorshipActeur(authorship_acteur_id=suppr.acteur_id, user=current_user))
+            if page == "projet_contest":
+                if table == "image":
+                    db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
+            #maj
+            db.session.commit()
+            print("Suppression de l'entité réussie !:")
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        #Redirect selon la page d'origine
+        except Exception as erreur:
+            db.session.rollback()
+            flash("La suppression a échoué pour les raisons suivantes : " + str(erreur), "warning")
+            if page == "militant":
+                return redirect(url_for('militant', name_id=obj_id))
+            if page == "organisation":
+                return redirect(url_for('organisation', orga_id=obj_id))
+            if page == "projet_contest":
+                return redirect(url_for('objContest', objContest_id=obj_id))
 
 #Recherche
 
@@ -674,6 +819,7 @@ def recherche():
              )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+
 
 #Gestion des utilisateurs
 
@@ -731,3 +877,4 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
+
