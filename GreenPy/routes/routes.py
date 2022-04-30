@@ -744,13 +744,13 @@ def delete(page, table, obj_id):
                     print(dep_author)
                     db.session.delete(dep_author)
                 db.session.delete(suppr)
-            if table is Orga:
+            if table == "orga":
                 for dep_milit in suppr.militer:
                     db.session.delete(dep_milit)
                 for dep_author in suppr.authorships:
                     db.session.delete(dep_author)
                 db.session.delete(suppr)
-            if table is Objet_contest:
+            if table is "objet_contest":
                 for dep_parti in suppr.participation:
                     db.session.delete(dep_parti)
                 for dep_author in suppr.authorships:
