@@ -70,11 +70,12 @@ class User(UserMixin, db.Model):
             return False, erreurs
 
         # On crée un utilisateur
-        utilisateur = User(user_nom=nom,
-                           user_login=login,
-                           user_email=email,
-                           user_password=generate_password_hash(motdepasse)
-                           )
+        utilisateur = User(
+            user_nom=nom,
+            user_login=login,
+            user_email=email,
+            user_password=generate_password_hash(motdepasse)
+        )
 
         try:
             # On l'ajoute au transport vers la base de données

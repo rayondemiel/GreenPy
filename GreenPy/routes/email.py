@@ -1,3 +1,5 @@
+import smtplib
+
 from flask import render_template, redirect, url_for, flash
 from flask_mail import Message
 from flask_login import current_user
@@ -29,11 +31,19 @@ def inscription_mail(donnees):
     :param donnees: ensemble des attributs de classes enregistrées lors de la fonction inscription()
     :return: None
     """
-    send_email("Validation inscription",
-               sender=app.config['MAIL_USERNAME'],
-               recipients=[donnees.user_email],
-               text_body=render_template('email/pages/inscription_mail.txt', user=donnees),
-               html_body=render_template("email/pages/inscription_mail.html", user=donnees))
+    try:
+        send_email("Validation inscription",
+                   sender=app.config['MAIL_USERNAME'],
+                   recipients=[donnees.user_email],
+                   text_body=render_template('email/pages/inscription_mail.txt', user=donnees),
+                   html_body=render_template("email/pages/inscription_mail.html", user=donnees))
+    except (smtplib.SMTPAuthenticationError, smtplib.SMTPServerDisconnected) as erreurs:
+        if erreurs is smtplib.SMTPAuthenticationError:
+            flash("L'adresse renseigné ne semble pas correctes")
+            return redirect(url_for('inscription'))
+        if erreurs is smtplib.SMTPServerDisconnected:
+            flash("Les serveurs ne sont pas accessibles. Votre inscription est en revanche validée")
+            pass
 
 def mdp_mail(user):
     """
@@ -43,11 +53,18 @@ def mdp_mail(user):
     :return: None
     """
     token = user.get_reset_password_token()
-    send_email('GreenPy | Demande de mot de passe',
-               sender=app.config['MAIL_USERNAME'],
-               recipients=[user.user_email],
-               text_body=render_template('email/pages/reset_mdp_requete.txt', user=user, token=token),
-               html_body=render_template('email/pages/reset_mdp_requete.html', user=user, token=token))
+    try:
+        send_email('GreenPy | Demande de mot de passe',
+                   sender=app.config['MAIL_USERNAME'],
+                   recipients=[user.user_email],
+                   text_body=render_template('email/pages/reset_mdp_requete.txt', user=user, token=token),
+                   html_body=render_template('email/pages/reset_mdp_requete.html', user=user, token=token))
+    except (smtplib.SMTPAuthenticationError, smtplib.SMTPServerDisconnected) as erreurs:
+        if erreurs is smtplib.SMTPAuthenticationError:
+            flash("L'adresse renseigné ne semble pas correctes")
+            return redirect('/')
+        if erreurs is smtplib.SMTPServerDisconnected:
+            flash("Les serveurs ne sont pas accessibles ! Veuillez réessayer plus tard. ")
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():

@@ -4,9 +4,10 @@ from GreenPy.app import db, login, config_app, app
 from GreenPy.modeles.donnees import *
 from GreenPy.modeles.authorship import *
 
-#voir tuto flask migrate
-
 class Base(TestCase):
+    """
+    Bdd de test
+    """
     personne = [
                    Acteur(
                        nom='Boris',
@@ -189,12 +190,21 @@ class Base(TestCase):
     ]
 
     def setUp(self):
+        """
+        Initiation app et creation des tables
+        :return: None
+        """
         self.app = config_app("test")
         self.db = db
         self.client = self.app.test_client()
         self.db.create_all(app=self.app)
 
+
     def tearDown(self):
+        """
+        Fin du test et suppressions des tables
+        :return: None
+        """
         self.db.drop_all(app=self.app)
 
     def test_app_is_testing(self):
