@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
@@ -8,6 +8,13 @@ import numpy as np
 import re, os
 from datetime import datetime
 
+#Whoosh
+from whoosh import index, query
+from whoosh.index import create_in
+from whoosh.qparser import QueryParser
+from ..modeles.whoosh import Search_Orga, Search_Participer, Search_Lutte, Search_Militant, Search_Militer
+
+#App
 from .email import inscription_mail
 from ..app import app, login, db, statics
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
@@ -877,4 +884,3 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
-
