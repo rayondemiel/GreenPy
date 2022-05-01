@@ -53,7 +53,7 @@ class User(UserMixin, db.Model):
             erreurs.append("Le nom fourni est vide")
         if not motdepasse or len(motdepasse) < 8:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
-        elif motdepasse and len(motdepasse) > 8 :
+        if motdepasse and len(motdepasse) > 8:
             if not re.match(REGEX_MAJ, motdepasse) and not re.match(REGEX_NB, motdepasse) and not re.match(REGEX_CAR, motdepasse):
                 erreurs.append("Le mot de passe fourni doit contenir au moins une majuscule, un chiffre et un caractère spécials")
 
