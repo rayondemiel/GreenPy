@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 
-from app import chemin_actuel
+#Configure path
+chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 
 #Initialisation secret .env
 load_dotenv()

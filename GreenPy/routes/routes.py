@@ -10,7 +10,6 @@ from datetime import datetime
 
 #Whoosh
 from whoosh import index, query
-from whoosh.index import create_in
 from whoosh.qparser import QueryParser
 from ..modeles.whoosh import Search_Orga, Search_Participer, Search_Lutte, Search_Militant, Search_Militer
 
@@ -826,6 +825,23 @@ def recherche():
              )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+
+#Whoosh
+@app.route("/generate_index")
+def generate_index(classe=None):
+    list_classe = [Acteur, Objet_contest, Orga, Militer, Participation]
+    #generation totale de l'index
+    if classe is None:
+        for classe in list_classe:
+            statut = classe.generate_index()
+            if statut is not True:
+                return redirect('/'), flash("Echec de l'indexation", "danger")
+    #generation index par schema
+    else:
+        statut = classe.generate_index()
+        if statut is False:
+            return redirect('/'), flash("Echec de l'indexation", "danger")
+
 
 
 #Gestion des utilisateurs

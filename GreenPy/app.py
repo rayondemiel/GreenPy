@@ -4,14 +4,13 @@ from flask_login import LoginManager
 from flask_mail import Mail
 import os
 
-from .settings import CONFIG
+from .settings import CONFIG, chemin_actuel
 
 
 db = SQLAlchemy()
 login = LoginManager()
 mail = Mail()
 
-chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
 statics = os.path.join(chemin_actuel, "static")
 
