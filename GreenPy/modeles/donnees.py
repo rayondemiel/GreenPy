@@ -1,7 +1,9 @@
+import whoosh.writing
 from flask_login import current_user
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 import re
+from whoosh import writing
 from whoosh.index import create_in
 
 from ..app import db,app
@@ -82,24 +84,27 @@ class Acteur(db.Model):
 
     @staticmethod
     def generate_index():
-        ix_acteur = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militant)
-        writer = ix_acteur.writer()
-        objets = Acteur.query.order_by(Acteur.id).all()
-        for objet in objets:
-            writer.add_document(
-                id=objet.id,
-                nom=objet.nom,
-                prenom=objet.prenom,
-                date_naissance=objet.date_naissance,
-                date_deces=objet.date_deces,
-                profession=objet.profession,
-                biographie=objet.biographie,
-                pays=objet.pays.id
-            )
-            print(writer)
-        writer.commit()
-        update = True
-        return update
+        try:
+            ix_acteur = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militant)
+            writer = ix_acteur.writer()
+            objets = Acteur.query.order_by(Acteur.id).all()
+            for objet in objets:
+                writer.add_document(
+                    id=objet.id,
+                    nom=objet.nom,
+                    prenom=objet.prenom,
+                    date_naissance=objet.date_naissance,
+                    date_deces=objet.date_deces,
+                    profession=objet.profession,
+                    biographie=objet.biographie,
+                    pays=objet.pays.nom
+                )
+            writer.commit(mergetype=writing.CLEAR)
+            update = True
+            return update
+        except Exception:
+            update = False
+            return update
 
 class Participation(db.Model):
     participation_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
@@ -166,27 +171,31 @@ class Participation(db.Model):
 
     @staticmethod
     def generate_index():
-        ix_particip = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Participer)
-        writer = ix_particip.writer()
-        objets = Participation.query.order_by(Participation.participation_id).all()
-        for objet in objets:
-            writer.add_document(
-                id=objet.participation_id,
-                acteur_id=objets.acteur.id,
-                contest_id=objet.objet.id,
-                creation_instance=objet.creation_instance,
-                participation_instance=objet.participation_instance,
-                appel_instance_decision=objet.appel_instance_decision,
-                diffusion=objet.diffusion,
-                participation_decision=objet.participation_decision,
-                rassemblement=objet.rassemblement,
-                production=objet.production,
-                illegalisme=objet.illegalisme,
-                autre=objet.autre
-            )
-        writer.commit()
-        update=True
-        return update
+        try:
+            ix_particip = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Participer)
+            writer = ix_particip.writer()
+            objets = Participation.query.order_by(Participation.participation_id).all()
+            for objet in objets:
+                writer.add_document(
+                    id=objet.participation_id,
+                    acteur_id=objet.acteur.nom and objet.acteur.prenom,
+                    contest_id=objet.objet.nom,
+                    creation_instance=objet.creation_instance,
+                    participation_instance=objet.participation_instance,
+                    appel_instance_decision=objet.appel_instance_decision,
+                    diffusion=objet.diffusion,
+                    participation_decision=objet.participation_decision,
+                    rassemblement=objet.rassemblement,
+                    production=objet.production,
+                    illegalisme=objet.illegalisme,
+                    autre=objet.autre
+                )
+            writer.commit(mergetype=writing.CLEAR)
+            update = True
+            return update
+        except Exception:
+            update = False
+            return update
 
 class Objet_contest(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -277,24 +286,28 @@ class Objet_contest(db.Model):
 
     @staticmethod
     def generate_index():
-        ix_lutte = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Lutte)
-        writer = ix_lutte.writer()
-        objets = Objet_contest.query.order_by(Objet_contest.id).all()
-        for objet in objets:
-            writer.add_document(
-                id=objet.id,
-                intitule=objets.nom,
-                categorie=objet.categorie.id,
-                description=objet.description,
-                date_debut=objet.date_debut,
-                date_fin=objet.date_fin,
-                ville=objet.ville,
-                dpt=objet.dpt,
-                pays=objet.pays.id
-            )
-        writer.commit()
-        update=True
-        return update
+        try:
+            ix_lutte = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Lutte)
+            writer = ix_lutte.writer()
+            objets = Objet_contest.query.order_by(Objet_contest.id).all()
+            for objet in objets:
+                writer.add_document(
+                    id=objet.id,
+                    intitule=objet.nom,
+                    categorie=objet.categorie.nom,
+                    description=objet.description,
+                    date_debut=objet.date_debut,
+                    date_fin=objet.date_fin,
+                    ville=objet.ville,
+                    dpt=objet.dpt,
+                    pays=objet.pays.nom
+                )
+            writer.commit(mergetype=writing.CLEAR)
+            update=True
+            return update
+        except Exception:
+            update=False
+            return update
 
 class Categorie(db.Model):
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -351,20 +364,24 @@ class Orga(db.Model):
 
     @staticmethod
     def generate_index():
-        ix_orga = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Orga)
-        writer = ix_orga.writer()
-        objets = Orga.query.order_by(Orga.id).all()
-        for objet in objets:
-            writer.add_document(
-                id=objet.id,
-                intitule=objets.nom,
-                date_fondation=objet.date_fondation,
-                description=objet.description,
-                pays=objet.pays.id
-            )
-        writer.commit()
-        update=True
-        return update
+        try:
+            ix_orga = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Orga)
+            writer = ix_orga.writer()
+            objets = Orga.query.order_by(Orga.id).all()
+            for objet in objets:
+                writer.add_document(
+                    id=objet.id,
+                    intitule=objet.nom,
+                    date_fondation=objet.date_fondation,
+                    description=objet.description,
+                    type_orga=objet.type_orga,
+                    pays=objet.pays.nom
+                )
+            update = True
+            return update
+        except Exception:
+            update = False
+            return update
 
 class Militer(db.Model):
     militer_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
@@ -421,21 +438,25 @@ class Militer(db.Model):
 
     @staticmethod
     def generate_index():
-        ix_militer = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militer)
-        writer = ix_militer.writer()
-        objets = Militer.query.order_by(Militer.militer_id).all()
-        for objet in objets:
-            writer.add_document(
-                id=objet.militer_id,
-                acteur_id=objets.acteur.id,
-                orga_id=objet.orga.id,
-                date_debut=objet.date_debut,
-                date_fin=objet.date_fin,
-                statut=objet.statut
-            )
-        writer.commit()
-        update=True
-        return update
+        try:
+            ix_militer = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militer)
+            writer = ix_militer.writer()
+            objets = Militer.query.order_by(Militer.militer_id).all()
+            for objet in objets:
+                writer.add_document(
+                    militer_id=objet.militer_id,
+                    acteur_id=objet.acteur.nom and objet.acteur.prenom,
+                    orga_id=objet.orga.nom,
+                    date_debut=objet.date_debut,
+                    date_fin=objet.date_fin,
+                    statut=objet.statut
+                )
+            writer.commit(mergetype=writing.CLEAR)
+            update = True
+            return update
+        except Exception:
+            update = False
+            return update
 
 
 class Pays(db.Model):

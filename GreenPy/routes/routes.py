@@ -8,6 +8,9 @@ import numpy as np
 import re, os
 from datetime import datetime
 
+from nltk.corpus import stopwords
+
+
 #Whoosh
 from whoosh import index, query
 from whoosh.qparser import QueryParser
@@ -297,6 +300,7 @@ def inscription_militant():
         )
 
         if statut is True:
+            generate_index(classe=Acteur)
             flash("Ajout d'un nouveau militant", "success")
             return redirect("/")
         else:
@@ -354,6 +358,7 @@ def modification_militant(name_id):
             db.session.add(militant)
             db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
             db.session.commit()
+            generate_index(classe=Acteur)
             updated = True
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
@@ -391,6 +396,7 @@ def inscription_lutte():
         )
 
         if statut is True:
+            generate_index(classe=Objet_contest)
             flash("Ajout d'une nouvelle lutte environnementale", "success")
             return redirect("/")
         else:
@@ -456,6 +462,7 @@ def modification_lutte(objContest_id):
             db.session.add(lutte)
             db.session.add(Authorship_ObjetContest(objet_contest=lutte, user=current_user))
             db.session.commit()
+            generate_index(classe=Objet_contest)
             updated = True
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
@@ -493,6 +500,7 @@ def inscription_orga():
         )
 
         if statut is True:
+            generate_index(classe=Orga)
             flash("Ajout d'une nouvelle organisation", "success")
             return redirect("/")
         else:
@@ -542,6 +550,7 @@ def modification_orga(orga_id):
             db.session.commit()
             updated = True
         else:
+            generate_index(classe=Orga)
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_orga', orga_id=orga_id))
     return render_template(
@@ -568,6 +577,7 @@ def militer():
         )
 
         if statut is True:
+            generate_index(classe=Militer)
             flash("Ajout d'une nouvelle participation à une organisation", "success")
             return redirect(url_for('militant', name_id=name_id))
         else:
@@ -609,6 +619,7 @@ def modification_militer(militer_id):
             db.session.commit()
             updated = True
         else:
+            generate_index(classe=Militer)
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_militer', militer_id=militer_id))
     return render_template(
@@ -631,6 +642,7 @@ def participer():
         )
 
         if statut is True:
+            generate_index(classe=Participation)
             flash("Ajout d'une nouvelle participation environnementale", "success")
             return redirect(url_for('militant', name_id=name_id))
         else:
@@ -682,6 +694,7 @@ def modification_participer(participer_id):
             db.session.add(participer)
             db.session.add(AuthorshipActeur(authorship_acteur_id=participer.acteur_id, user=current_user))
             db.session.commit()
+            generate_index(classe=Participation)
             updated = True
     return render_template(
         "pages/update/modification_autres.html",
@@ -832,15 +845,23 @@ def generate_index(classe=None):
     list_classe = [Acteur, Objet_contest, Orga, Militer, Participation]
     #generation totale de l'index
     if classe is None:
+        i = 0
         for classe in list_classe:
-            statut = classe.generate_index()
-            if statut is not True:
-                return redirect('/'), flash("Echec de l'indexation", "danger")
+           statut = classe.generate_index()
+           if statut is True:
+               i+=1
+        if i == 4 :
+            flash("Indexation faite", "info")
+            return redirect('/')
+        else:
+            flash("Echec de l'indexation", "danger")
+            return redirect('/')
     #generation index par schema
     else:
         statut = classe.generate_index()
         if statut is False:
-            return redirect('/'), flash("Echec de l'indexation", "danger")
+            flash("Echec de l'indexation", "danger")
+            return redirect('/')
 
 
 
