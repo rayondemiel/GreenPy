@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_
 from flask_login import login_user, current_user, logout_user, login_required
 import folium
 from folium.plugins import MarkerCluster, Search, Fullscreen
@@ -8,6 +8,15 @@ import numpy as np
 import re, os
 from datetime import datetime
 
+
+
+#Whoosh
+from whoosh import index, query
+from whoosh.qparser import QueryParser, MultifieldParser
+from whoosh.query import Term, And, Every
+from ..modeles.whoosh import Search_Orga, Search_Lutte, Search_Militant
+
+#App
 from .email import inscription_mail
 from ..app import app, login, db, statics
 from ..modeles.donnees import Acteur, Objet_contest, Pays, Militer, Categorie, Participation, Orga, Image
@@ -291,6 +300,7 @@ def inscription_militant():
         )
 
         if statut is True:
+            generate_index(classe=Acteur)
             flash("Ajout d'un nouveau militant", "success")
             return redirect("/")
         else:
@@ -348,6 +358,7 @@ def modification_militant(name_id):
             db.session.add(militant)
             db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
             db.session.commit()
+            generate_index(classe=Acteur)
             updated = True
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
@@ -385,6 +396,7 @@ def inscription_lutte():
         )
 
         if statut is True:
+            generate_index(classe=Objet_contest)
             flash("Ajout d'une nouvelle lutte environnementale", "success")
             return redirect("/")
         else:
@@ -450,6 +462,7 @@ def modification_lutte(objContest_id):
             db.session.add(lutte)
             db.session.add(Authorship_ObjetContest(objet_contest=lutte, user=current_user))
             db.session.commit()
+            generate_index(classe=Objet_contest)
             updated = True
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
@@ -487,6 +500,7 @@ def inscription_orga():
         )
 
         if statut is True:
+            generate_index(classe=Orga)
             flash("Ajout d'une nouvelle organisation", "success")
             return redirect("/")
         else:
@@ -536,6 +550,7 @@ def modification_orga(orga_id):
             db.session.commit()
             updated = True
         else:
+            generate_index(classe=Orga)
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_orga', orga_id=orga_id))
     return render_template(
@@ -562,6 +577,7 @@ def militer():
         )
 
         if statut is True:
+            generate_index(classe=Militer)
             flash("Ajout d'une nouvelle participation à une organisation", "success")
             return redirect(url_for('militant', name_id=name_id))
         else:
@@ -603,6 +619,7 @@ def modification_militer(militer_id):
             db.session.commit()
             updated = True
         else:
+            generate_index(classe=Militer)
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_militer', militer_id=militer_id))
     return render_template(
@@ -625,6 +642,7 @@ def participer():
         )
 
         if statut is True:
+            generate_index(classe=Participation)
             flash("Ajout d'une nouvelle participation environnementale", "success")
             return redirect(url_for('militant', name_id=name_id))
         else:
@@ -676,6 +694,7 @@ def modification_participer(participer_id):
             db.session.add(participer)
             db.session.add(AuthorshipActeur(authorship_acteur_id=participer.acteur_id, user=current_user))
             db.session.commit()
+            generate_index(classe=Participation)
             updated = True
     return render_template(
         "pages/update/modification_autres.html",
@@ -781,6 +800,7 @@ def delete(page, table, obj_id):
                     db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
             #maj
             db.session.commit()
+            generate_index()
             print("Suppression de l'entité réussie !:")
             flash("Suppression réussie", "success")
             return redirect("/")
@@ -801,24 +821,45 @@ def delete(page, table, obj_id):
 def recherche():
     motclef = request.args.get("keyword", None)
     page = request.args.get("page", 1)
-    resultatsActeur = []
     titre = "Recherche"
+
+    liste = ["identite", "profession", "intitulé", "description", "biographie", "ville", "pays"]
 
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
-
-    if motclef:
-        resultatsActeur = Acteur.query.filter(or_(
-            Acteur.nom.like("%{}%".format(motclef)),
-            Acteur.prenom.like("%{}%".format(motclef)),
-            Acteur.biographie.like("%{}%".format(motclef)),
-            Acteur.prenom.like("%{}%".format(motclef)),
-            Acteur.profession.like("%{}%".format(motclef))
-             )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+    ix = index.open_dir(app.config["WHOOSH_SCHEMA_DIR"])
+    q = MultifieldParser(liste, ix.schema).parse(motclef)
+    with ix.searcher() as s:
+        results = s.search_page(q, page, pagelen=RESULTATS_PAR_PAGES, terms=True)
         titre = "Résultat pour la recherche `" + motclef + "`"
-    return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+    return render_template("pages/recherche.html", resultats=results, titre=titre, keyword=motclef)
+
+#Whoosh
+@app.route("/generate_index")
+def generate_index(classe=None):
+    list_classe = [Acteur, Objet_contest, Orga, Militer, Participation]
+    #generation totale de l'index
+    if classe is None:
+        i = 0
+        for classe in list_classe:
+           statut = classe.generate_index()
+           if statut is True:
+               i+=1
+        if i == 4 :
+            flash("Indexation faite", "info")
+            return redirect('/')
+        else:
+            flash("Echec de l'indexation", "danger")
+            return redirect('/')
+    #generation index par schema
+    else:
+        statut = classe.generate_index()
+        if statut is False:
+            flash("Echec de l'indexation", "danger")
+            return redirect('/')
+
 
 
 #Gestion des utilisateurs
@@ -877,4 +918,3 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
-

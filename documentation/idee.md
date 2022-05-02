@@ -50,7 +50,7 @@ https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7155848
 ---
 # Problème a regler
 
-
+python -m nltk.downloader stopwords -> apres le pip install
 
 -> def suppression -> prob avec les jointures associés
 

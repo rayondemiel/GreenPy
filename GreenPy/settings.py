@@ -1,6 +1,9 @@
 import os
 from dotenv import load_dotenv
 
+#Configure path
+chemin_actuel = os.path.dirname(os.path.abspath(__file__))
+
 #Initialisation secret .env
 load_dotenv()
 
@@ -17,6 +20,10 @@ class Config(object):
     MAIL_USERNAME = 'greenpy.project@gmail.com'
     MAIL_PASSWORD = os.getenv('G_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # Whoosh
+    WHOOSH_SCHEMA_DIR = os.path.join(chemin_actuel, "data/index", "whoosh")
+    if not os.path.exists(WHOOSH_SCHEMA_DIR):
+        os.makedirs(WHOOSH_SCHEMA_DIR, exist_ok=True)
 
 class _TEST(Config):
     """Configuration des paramètres pour le mode test avec la génération d'une bdd adaptée. TESTING permet d'indiquer aux
