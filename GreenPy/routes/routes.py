@@ -8,13 +8,13 @@ import numpy as np
 import re, os
 from datetime import datetime
 
-from nltk.corpus import stopwords
 
 
 #Whoosh
 from whoosh import index, query
-from whoosh.qparser import QueryParser
-from ..modeles.whoosh import Search_Orga, Search_Participer, Search_Lutte, Search_Militant, Search_Militer
+from whoosh.qparser import QueryParser, MultifieldParser
+from whoosh.query import Term, And, Every
+from ..modeles.whoosh import Search_Orga, Search_Lutte, Search_Militant
 
 #App
 from .email import inscription_mail
@@ -800,6 +800,7 @@ def delete(page, table, obj_id):
                     db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
             #maj
             db.session.commit()
+            generate_index()
             print("Suppression de l'entité réussie !:")
             flash("Suppression réussie", "success")
             return redirect("/")
@@ -820,24 +821,20 @@ def delete(page, table, obj_id):
 def recherche():
     motclef = request.args.get("keyword", None)
     page = request.args.get("page", 1)
-    resultatsActeur = []
     titre = "Recherche"
+
+    liste = ["identite", "profession", "intitulé", "description", "biographie", "ville", "pays"]
 
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
-
-    if motclef:
-        resultatsActeur = Acteur.query.filter(or_(
-            Acteur.nom.like("%{}%".format(motclef)),
-            Acteur.prenom.like("%{}%".format(motclef)),
-            Acteur.biographie.like("%{}%".format(motclef)),
-            Acteur.prenom.like("%{}%".format(motclef)),
-            Acteur.profession.like("%{}%".format(motclef))
-             )).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+    ix = index.open_dir(app.config["WHOOSH_SCHEMA_DIR"])
+    q = MultifieldParser(liste, ix.schema).parse(motclef)
+    with ix.searcher() as s:
+        results = s.search_page(q, page, pagelen=RESULTATS_PAR_PAGES, terms=True)
         titre = "Résultat pour la recherche `" + motclef + "`"
-    return render_template("pages/recherche.html", resultats=resultatsActeur, titre=titre, keyword=motclef)
+    return render_template("pages/recherche.html", resultats=results, titre=titre, keyword=motclef)
 
 #Whoosh
 @app.route("/generate_index")

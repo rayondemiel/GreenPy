@@ -6,8 +6,7 @@ french_analyser = RegexTokenizer() | LowercaseFilter() | StemFilter(lang="fr") |
 
 class Search_Militant(SchemaClass):
     id = STORED
-    nom = ID(stored=True, sortable=True)
-    prenom = ID(stored=True, sortable=True)
+    identite = ID(stored=True, sortable=True)
     date_naissance = DATETIME(stored=True)
     date_deces = DATETIME(stored=True)
     profession = TEXT(analyzer=KeywordAnalyzer(), stored=True)

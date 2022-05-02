@@ -91,8 +91,7 @@ class Acteur(db.Model):
             for objet in objets:
                 writer.add_document(
                     id=objet.id,
-                    nom=objet.nom,
-                    prenom=objet.prenom,
+                    identite=objet.nom and objet.prenom,
                     date_naissance=objet.date_naissance,
                     date_deces=objet.date_deces,
                     profession=objet.profession,
