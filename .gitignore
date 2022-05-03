@@ -12,9 +12,5 @@
 idee.md
 
 #ignore pycharm
-#GreenPy/__pycache__/
-#GreenPy/__pycache__/*
-#__pycache__/
-#GreenPy/modeles/__pycache__/*
-
+*__pycache__/*
 *documentation/*
