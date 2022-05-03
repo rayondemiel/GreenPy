@@ -60,7 +60,7 @@ Cette application a été conçue dans le cadre du cours 'Introduction au dévé
   
   ---
   
-  ## Recommendations
+  ## Recommandations
   
   Certains variables d'environnement ne sont pas accessibles directement via ce dépôt. Il vous exporter une valeur ```SECRET_KEY```.
 Le module mail nécessite la varaible ```G_KEY``` pour la configuration `MAIL_PASSWORD`. Vous pouvez configurer l'application avec `TESTING=TRUE` si vous ne possédez la valeur de la variable d'environnement.
