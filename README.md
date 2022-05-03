@@ -55,3 +55,12 @@ Cette application a été conçue dans le cadre du cours 'Introduction au dévé
   * Désactivation : ```ctrl + c``` ;
     
   * Sortir de l'environnement : ```deactivate```.
+  
+  Si vous souhaitez lancer les tests, vous pouvez executer cette commande : ```python3 -m unittest discover tests```
+  
+  ---
+  
+  ## Recommendations
+  
+  Certains variables d'environnement ne sont pas accessibles directement via ce dépôt. Il vous exporter une valeur ```SECRET_KEY```.
+Le module mail nécessite la varaible ```G_KEY``` pour la configuration `MAIL_PASSWORD`. Vous pouvez configurer l'application avec `TESTING=TRUE` si vous ne possédez la valeur de la variable d'environnement.
