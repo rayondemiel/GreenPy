@@ -2,6 +2,9 @@ from ..app import db
 import datetime
 
 class AuthorshipActeur(db.Model):
+    """
+    Table des modifications sur les pages militants
+    """
     __tablename__ = "authorship_acteur"
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     authorship_acteur_id = db.Column(db.Integer, db.ForeignKey('acteur.id'))
@@ -13,6 +16,9 @@ class AuthorshipActeur(db.Model):
     acteur = db.relationship("Acteur", back_populates="authorships")
 
 class Authorship_ObjetContest(db.Model):
+    """
+    Table des modifications sur les pages des luttes environnementales
+    """
     __tablename__ = "authorship_objet_contest"
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     authorship_objet_id = db.Column(db.Integer, db.ForeignKey('objet_contest.id'))
@@ -24,6 +30,9 @@ class Authorship_ObjetContest(db.Model):
     objet_contest = db.relationship("Objet_contest", back_populates="authorships")
 
 class Authorship_Orga(db.Model):
+    """
+    Table des modifications sur les pages Orga
+    """
     __tablename__ = "authorship_orga"
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     authorship_orga_id = db.Column(db.Integer, db.ForeignKey('orga.id'))

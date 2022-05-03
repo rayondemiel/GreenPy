@@ -37,11 +37,14 @@ def times_spent(date_debut, date_fin, detail=False):
     """
 
     current_date = datetime.today()
+    #Sans date de fin
     if date_fin is not None:
+        #Format YYYY
         if not detail:
             date_fin = datetime.strptime(date_fin, "%Y")
             date_debut = datetime.strptime(date_debut, "%Y")
             date_spent = date_fin - date_debut
+        #Format YYYY-MM-DD
         else:
             date_fin = datetime.strptime(date_fin, "%Y-%m-%d")
             date_debut = datetime.strptime(date_debut, "%Y-%m-%d")
@@ -72,8 +75,8 @@ def times_spent(date_debut, date_fin, detail=False):
 @app.route("/accueil")
 def accueil():
     """
-
-    :return:
+    Page d'accueil de l'application contenant des informations sur un l'élément de la table Acteur et quelque données sur l'application elle-même.
+    :return: Html templates
     """
     #Random item
     query_militant = Acteur.query.all()
@@ -92,6 +95,10 @@ def accueil():
 
 @app.route("/a_propos")
 def about():
+    """
+    Page contenant un petit à propos
+    :return: Html templates
+    """
     return render_template("pages/apropos.html")
 
 #Accès aux données
@@ -103,20 +110,23 @@ def index_militant():
     Index avec système de pagination de l'ensemble des acteurs écologistes recensés.
     :return: HTML
     """
+    #paramètres pagination
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
+    #Resultat sql avec pagination
     militants = Acteur.query.order_by(Acteur.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/militant.html", name="Index des militants", militants=militants)
 
 @app.route("/militant/<int:name_id>")
 def militant(name_id):
     """
-    Route individuelle donnant les informations attachés à la personne identifié. La page recense les participations aux
+    Route individuelle donnant les informations attachées à la personne identifiée. La page recense les participations aux
     projets écologistes et à différentes organisations. Une carte leaflet généré par folium permet de visualiser l'ensemble
-    des participations à des luttes environnementales selon la personne.
+    des participations à des luttes environnementales selon la personne. Il y a aussi quelques métadonnées concernant
+     la création ou la modification de l'élément.
     :param name_id: Int ID, attribut de la classe Acteur
     :return: HTML avec resultats de requetes SQL (table Acteur, Orga, Objet_contest, Participation et Militer), de la date
     et d'une carte.
@@ -204,17 +214,26 @@ def index_objContest():
         Cette fonction permet de retourner un index des données présentes au sein de la table Objet_contest.
         :return: index HTML
         """
+    #paramètre pagination
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
-    #requete SQL
+    #SQL et pagination
     projets_contest = Objet_contest.query.order_by(Objet_contest.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/objet_contest.html", name="Index des projets contestés", projets_contest=projets_contest)
 
 @app.route("/projet_contest/<int:objContest_id>")
 def objContest(objContest_id):
+    """
+    Route individuelle donnant les informations attachées à la lutte identifiée. Une carte leaflet généré par folium permet de visualiser l'ensemble
+    des participations à des luttes environnementales selon la personne. Il y a aussi quelques métadonnées concernant
+     la création ou la modification de l'élément.
+    :param objContest_id: Int, id de l'élément sélectionné.
+    :return: HTML avec resultats de requetes SQL (table Objet_contest, Authorship, Image), de la date
+    et d'une carte.
+    """
     # Requete SQL
     unique_contest = Objet_contest.query.get(objContest_id)
     createur = Authorship_ObjetContest.query.filter(
@@ -266,14 +285,15 @@ def organisation(orga_id):
 def index_organisation():
     """
     Cette fonction permet de retourner un index des données présentes au sein de la table Organisation.
-    :return: index HTML
+    :return: index HTML templates
     """
+    #paramètres pagination
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
-    #Requete SQL
+    #SQL et pagination
     organisations = Orga.query.order_by(Orga.nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
     return render_template("pages/organisation.html", name="Index des organisations", organisations=organisations)
 
@@ -282,7 +302,13 @@ def index_organisation():
 @app.route("/inscription_militant", methods=["GET", "POST"])
 @login_required
 def inscription_militant():
+    """
+    Route d'ajout de données concernant la table Acteur à travers la méthode POST. Cette fonction renvoie les données à la méthode statique
+    de la classe Acteur permettant d'ajouter les données.
+    :return: Html templates
+    """
 
+    #Requetes SQL tables associés
     pays = Pays.query.all()
     contest = Objet_contest.query.all()
 
@@ -298,7 +324,7 @@ def inscription_militant():
             profession= request.form.get("profession", None),
             biographie= request.form.get("biographie", None)
         )
-
+        #Validation
         if statut is True:
             generate_index(classe=Acteur)
             flash("Ajout d'un nouveau militant", "success")
@@ -312,13 +338,21 @@ def inscription_militant():
 @app.route("/militant/<int:name_id>/update", methods=["GET", "POST"])
 @login_required
 def modification_militant(name_id):
+    """
+    Route de modification de données contenues au sein de la classe Acteur à travers la méthode POST.
+    :param name_id: Int, id du militant sélectionné
+    :return: Html templates
+    """
 
+    #Selection SQL
     militant = Acteur.query.get_or_404(name_id)
+    #Table associée SQL
     pays = Pays.query.all()
 
     erreurs = []
     updated = False
 
+    #Condition de modifications
     if request.method == "POST":
         if not request.form.get("nom", "").strip():
             erreurs.append("Veuillez renseigner le nom de la personne.")
@@ -336,14 +370,14 @@ def modification_militant(name_id):
         elif not Pays.query.get(request.form["pays_naissance"]):
             erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
 
-        if request.form.get("date_naissance"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_naissance")) or not re.match(REGEX_DATE, request.form.get("date_naissance")):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
-        if request.form.get("date_deces"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_deces")) or not re.match(REGEX_DATE, request.form.get("date_deces")):
-                erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+        if request.form.get("date_naissance") and not re.match(REGEX_DATE, request.form.get("date_naissance")):
+            erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+        if request.form.get("date_deces") and not re.match(REGEX_DATE, request.form.get("date_deces")):
+            erreurs.append("Les dates doivent être sous le format AAAA ou AAAA-MM-DD et supérieur à 1800")
+        if datetime.strptime(request.form.get("date_naissance"), "%Y-%m-%d") > datetime.strptime(request.form.get("date_deces"), "%Y-%m-%d"):
+            erreurs.append("La date de naissance est supérieur à la date de décès")
 
-
+        #Récupération des données
         if not erreurs:
             print("Faire ma modifications")
             militant.nom = request.form["nom"]
@@ -354,12 +388,13 @@ def modification_militant(name_id):
             militant.profession = request.form["profession"]
             militant.biographie = request.form["biographie"]
             militant.pays = Pays.query.get(request.form["pays_naissance"])
-
+            #Ajoute à la base
             db.session.add(militant)
             db.session.add(AuthorshipActeur(acteur=militant, user=current_user))
             db.session.commit()
             generate_index(classe=Acteur)
             updated = True
+        #Renvoie d'erreurs
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_militant', name_id=name_id))
@@ -377,11 +412,17 @@ def modification_militant(name_id):
 @app.route("/inscription_lutte", methods=["GET", "POST"])
 @login_required
 def inscription_lutte():
+    """
+    Route d'ajout de données concernant la table Objet_contest à travers la méthode POST. Cette fonction renvoie les données à la méthode statique
+    de la classe Objet_contest permettant d'ajouter les données.
+    :return: Html templates
+    """
 
+    #SQL des tables associées
     pays = Pays.query.all()
     categorie = Categorie.query.all()
 
-    # Ajout d'une personne
+    # Ajout d'une d'une lutte
     if request.method == "POST":
         statut, informations = Objet_contest.ajout_lutte(
             nom=request.form.get("nom", None),
@@ -394,7 +435,7 @@ def inscription_lutte():
             description=request.form.get("description", None),
             ressources=request.form.get("ressources", None)
         )
-
+        #Validation
         if statut is True:
             generate_index(classe=Objet_contest)
             flash("Ajout d'une nouvelle lutte environnementale", "success")
@@ -408,14 +449,22 @@ def inscription_lutte():
 @app.route("/projet_contest/<int:objContest_id>/update", methods=["GET", "POST"])
 @login_required
 def modification_lutte(objContest_id):
+    """
+        Route de modification de données contenues au sein de la classe Objet_contest à travers la méthode POST.
+        :param objContest_id: Int, id de la lutte sélectionné
+        :return: Html templates
+        """
 
+    #Selection SQL
     lutte = Objet_contest.query.get_or_404(objContest_id)
+    #SQL tables associées
     pays = Pays.query.all()
     categorie = Categorie.query.all()
 
     erreurs = []
     updated = False
 
+    #Conditions de modification
     if request.method == "POST":
         if not request.form.get("nom", "").strip():
             erreurs.append("Veuillez renseigner un intitulé.")
@@ -437,14 +486,14 @@ def modification_lutte(objContest_id):
         elif not Pays.query.get(request.form["categorie"]):
             erreurs.append("Veuillez renseigner la catégorie.")
 
-        if request.form.get("date_debut"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
-                erreurs.append("Les dates doivent être sous le format AAAA")
-        if request.form.get("date_fin"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_fin")):
-                erreurs.append("Les dates doivent être sous le format AAAA")
+        if request.form.get("date_debut") and not re.match(REGEX_ANNEE, request.form.get("date_debut")):
+            erreurs.append("Les dates doivent être sous le format AAAA")
+        if request.form.get("date_fin") and not re.match(REGEX_ANNEE, request.form.get("date_fin")):
+            erreurs.append("Les dates doivent être sous le format AAAA")
+        if datetime.strptime(request.form.get("date_debut") , "%Y") > datetime.strptime(request.form.get("date_fin"), "%Y"):
+            erreurs.append("La date de début est supérieure à la date de décès")
 
-
+        #Recupération des données
         if not erreurs:
             print("Faire ma modifications")
             lutte.nom = request.form["nom"]
@@ -458,12 +507,13 @@ def modification_lutte(objContest_id):
             lutte.longitude = request.form["longitude"]
             lutte.categorie = Categorie.query.get(request.form["categorie"])
             lutte.pays = Pays.query.get(request.form["pays"])
-
+            #Ajout des données
             db.session.add(lutte)
             db.session.add(Authorship_ObjetContest(objet_contest=lutte, user=current_user))
             db.session.commit()
             generate_index(classe=Objet_contest)
             updated = True
+        #Renvoie d'erreurs
         else:
             flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(erreurs), "danger")
             return redirect(url_for('modification_lutte', objContest_id=objContest_id))
@@ -487,9 +537,10 @@ def inscription_orga():
     :return: HTML update, ensemble des query de la table Pays
     """
 
+    #SQL table associée
     pays = Pays.query.all()
 
-    # Ajout d'une personne
+    # Ajout d'une organisation
     if request.method == "POST":
         statut, informations = Orga.ajout_orga(
             nom=request.form.get("nom", None),
@@ -498,7 +549,7 @@ def inscription_orga():
             pays=Pays.query.get(request.form["pays"]),
             description=request.form.get("description", None)
         )
-
+        #Validation
         if statut is True:
             generate_index(classe=Orga)
             flash("Ajout d'une nouvelle organisation", "success")
@@ -514,8 +565,9 @@ def inscription_orga():
 def modification_orga(orga_id):
     """
         Route permettant de modifier des données dans la Table Orga dans le cadre d'un formulaire avec la méthode POST.
-        Retourne vers l'la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
+        Retourne vers la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
         page. Les metadata de la modification sont enregistrés via Authorship_Orga.
+        :param orga_id: Int, id de l'organisation sélectionné
         :return: HTML updated, ensemble des query de la table Pays
     """
 
@@ -526,6 +578,7 @@ def modification_orga(orga_id):
     erreurs = []
     updated = False
 
+    #Condition de modifications
     if request.method == "POST":
         if not request.form.get("nom", "").strip():
             erreurs.append("Veuillez renseigner un intitulé.")
@@ -533,10 +586,9 @@ def modification_orga(orga_id):
             erreurs.append("Veuillez renseigner le pays.")
         elif not Pays.query.get(request.form["pays"]):
             erreurs.append("Veuillez renseigner le pays.")
-        if request.form.get("date_fondation"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-
+        if request.form.get("date_fondation") and not re.match(REGEX_ANNEE, request.form.get("date_fondation")):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        #Récupération des données
         if not erreurs:
             print("Faire ma modifications")
             orga.nom = request.form["nom"]
@@ -544,7 +596,7 @@ def modification_orga(orga_id):
             orga.type_orga = request.form["type_orga"]
             orga.description = request.form["description"]
             orga.pays = Pays.query.get(request.form["pays"])
-
+            #Validation modification
             db.session.add(orga)
             db.session.add(Authorship_Orga(orga=orga, user=current_user))
             db.session.commit()
@@ -565,6 +617,12 @@ def modification_orga(orga_id):
 @login_required
 @app.route("/ajout_militer", methods=["Get","POST"])
 def militer():
+    """
+     Route permettant d'ajouter des données dans la Table Militer dans le cadre d'un formulaire avec la méthode POST. Retourne vers l'acceuil
+     si l'ajout à fonctionner, sinon retourne vers la page initiale.
+     :return: HTML templates
+     """
+    #SQL selection
     name_id = request.form.get("acteur")
     # Ajout d'une personne
     if request.method == "POST":
@@ -575,7 +633,7 @@ def militer():
             orga_id=Orga.query.get(request.form["orga"]),
             acteur_id=Acteur.query.get(request.form["acteur"])
         )
-
+        #Validation
         if statut is True:
             generate_index(classe=Militer)
             flash("Ajout d'une nouvelle participation à une organisation", "success")
@@ -587,25 +645,33 @@ def militer():
 @login_required
 @app.route("/militant/<int:militer_id>/update_militer", methods=["GET", "POST"])
 def modification_militer(militer_id):
-
+    """
+        Route permettant de modifier des données dans la Table Militer dans le cadre d'un formulaire avec la méthode POST.
+        Retourne vers la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
+        page. Les metadata de la modification sont enregistrés via Authorship_Orga.
+        :param militer_id: Int, id de la lutte sélectionné
+        :return: HTML updated, ensemble des query de la table Orga
+    """
+    #Selection SQL
     militer = Militer.query.get_or_404(militer_id)
+    #Table associée
     liste_orga = Orga.query.all()
 
     erreurs = []
     updated = False
-
+    #Conditions de modification
     if request.method == "POST":
         if not request.form.get("orga", "").strip():
             erreurs.append("Veuillez renseigner l'organisation.")
         elif not Orga.query.get(request.form["orga"]):
             erreurs.append("Veuillez renseigner l'organisation.")
-        if request.form.get("date_debut"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_debut")):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-        if request.form.get("date_fin"):
-            if not re.match(REGEX_ANNEE, request.form.get("date_fin")):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-
+        if request.form.get("date_debut") and not re.match(REGEX_ANNEE, request.form.get("date_debut")):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if request.form.get("date_fin") and not re.match(REGEX_ANNEE, request.form.get("date_fin")):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if datetime.strptime(request.form.get("date_debut") , "%Y") > datetime.strptime(request.form.get("date_fin"), "%Y"):
+            erreurs.append("La date de début est supérieure à la date de décès")
+        #Recupération des données
         if not erreurs:
             print("Faire ma modifications")
             militer.acteur_id = militer.acteur_id
@@ -613,7 +679,7 @@ def modification_militer(militer_id):
             militer.date_debut = request.form.get("date_debut", None)
             militer.date_fin = request.form.get("date_fin", None)
             militer.statut = request.form.get("statut", None)
-
+            #Validation
             db.session.add(militer)
             db.session.add(AuthorshipActeur(authorship_acteur_id=militer.acteur_id, user=current_user))
             db.session.commit()
@@ -632,15 +698,21 @@ def modification_militer(militer_id):
 @login_required
 @app.route("/ajout_participer", methods=["Get", "POST"])
 def participer():
+    """
+     Route permettant d'ajouter des données dans la Table Participation dans le cadre d'un formulaire avec la méthode POST. Retourne vers l'acceuil
+     si l'ajout à fonctionner, sinon retourne vers la page initiale.
+     :return: HTML templates, ensemble des query de la table Acteur et Objet_COntest
+     """
+    #Selection SQL
     name_id = request.form.get("acteur")
-    # Ajout d'une personne
+    # Ajout d'une participation
     if request.method == "POST":
         statut, informations = Participation.ajout_participation(
             contest_id=Objet_contest.query.get(request.form["objet_contest"]),
             acteur_id=Acteur.query.get(request.form["acteur"]),
             check=request.form.getlist("check")
         )
-
+        #Validation
         if statut is True:
             generate_index(classe=Participation)
             flash("Ajout d'une nouvelle participation environnementale", "success")
@@ -652,13 +724,23 @@ def participer():
 @login_required
 @app.route("/militant/<int:participer_id>/update_participer", methods=["GET", "POST"])
 def modification_participer(participer_id):
+    """
+           Route permettant de modifier des données dans la Table Participation dans le cadre d'un formulaire avec la méthode POST.
+           Retourne vers la page avec les notifications de modification si l'ajout à fonctionner, sinon retourne vers la
+           page. Les metadata de la modification sont enregistrés via Authorship_Orga.
+           :param participer_id: Int, id de la participation sélectionné
+           :return: HTML updated, ensemble des query de la table Pays
+       """
 
+    #SQL selection
     participer = Participation.query.get_or_404(participer_id)
+    #Tables associés
     contest = Objet_contest.query.all()
 
     erreurs = []
     updated = False
 
+    #Condition de récupération
     if request.method == "POST":
         if not request.form.get("objet_contest", "").strip():
             erreurs.append("Veuillez renseigner l'objet contesté.")
@@ -676,7 +758,7 @@ def modification_participer(participer_id):
                 list_check[values] = 1
             else:
                 list_check[values] = 0
-
+        #Validation des modifications
         if not erreurs:
             print("Faire ma modifications")
             participer.acteur_id = participer.acteur_id
@@ -709,6 +791,12 @@ def modification_participer(participer_id):
 @app.route("/<page>/pays", methods=["GET", "POST"])
 @login_required
 def ajout_pays(page, obj_id=None):
+    """
+    Ajout de données dans la table Pays depuis un modal et renvoie vers la page d'origine de cet ajout.
+    :param page: Str, nom de la page d'origine
+    :param obj_id: int, ID de la page d'origine
+    :return: redirection vers la page d'origine ou l'acceuil en cas d'erreurs
+    """
 
     # Ajout d'une personne
     if request.method == "POST":
@@ -800,7 +888,7 @@ def delete(page, table, obj_id):
                     db.session.add(Authorship_ObjetContest(authorship_objet_id=suppr.objet.id, user=current_user))
             #maj
             db.session.commit()
-            generate_index()
+            generate_index(classe=None)
             print("Suppression de l'entité réussie !:")
             flash("Suppression réussie", "success")
             return redirect("/")
@@ -816,7 +904,49 @@ def delete(page, table, obj_id):
                 return redirect(url_for('objContest', objContest_id=obj_id))
 
 #Recherche
+@app.route("/recherche")
+def recherche():
+    motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
+    resultatsActeur = []
+    resultatsObjet = []
+    resultatsOrga = []
+    resultats = None
+    titre = "Recherche"
 
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if motclef:
+        resultatsActeur = Acteur.query.filter(or_(
+            Acteur.nom.like("%{}%".format(motclef)),
+            Acteur.prenom.like("%{}%".format(motclef)),
+            Acteur.biographie.like("%{}%".format(motclef)),
+            Acteur.prenom.like("%{}%".format(motclef)),
+            Acteur.profession.like("%{}%".format(motclef))
+             )).with_entities(Acteur.__name__, Acteur.id, Acteur.full.label("nom"))
+
+        resultatsObjet = Objet_contest.query.filter(or_(
+            Objet_contest.nom.like("%{}%".format(motclef)),
+            Objet_contest.description.like("%{}%".format(motclef)),
+            Objet_contest.ville.like("%{}%".format(motclef))
+        )).with_entities(Objet_contest.__name__, Objet_contest.id, Objet_contest.nom.label("nom"))
+
+        resultatsOrga = Orga.query.filter(or_(
+            Orga.nom.like("%{}%".format(motclef)),
+            Orga.description.like("%{}%".format(motclef))
+        )).with_entities(Orga.__name__, Orga.id, Orga.nom.label("nom"))
+
+        resultats = resultatsActeur.union(resultatsObjet, resultatsOrga) \
+            .order_by(Acteur.full.asc()).paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+
+        titre = "Résultat pour la recherche `" + motclef + "`"
+    return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
+
+#Recherche whoosh non fonctionelle
+"""
 @app.route("/recherche")
 def recherche():
     motclef = request.args.get("keyword", None)
@@ -829,16 +959,22 @@ def recherche():
         page = int(page)
     else:
         page = 1
-    ix = index.open_dir(app.config["WHOOSH_SCHEMA_DIR"])
-    q = MultifieldParser(liste, ix.schema).parse(motclef)
+    ix = index.open_dir(app.config["WHOOSH_SCHEMA_DIR"], schema=Search_Militant)
+    q = QueryParser("profession", ix.schema).parse(motclef)
     with ix.searcher() as s:
         results = s.search_page(q, page, pagelen=RESULTATS_PAR_PAGES, terms=True)
         titre = "Résultat pour la recherche `" + motclef + "`"
     return render_template("pages/recherche.html", resultats=results, titre=titre, keyword=motclef)
+"""
 
 #Whoosh
 @app.route("/generate_index")
 def generate_index(classe=None):
+    """
+    Route permettant l'indexation whoosh grâce aux différentes statiques méthodes appelant des schémas particuliers.
+    :param classe: Class, nom de la classe souhaitant être appelée
+    :return: redirect
+    """
     list_classe = [Acteur, Objet_contest, Orga, Militer, Participation]
     #generation totale de l'index
     if classe is None:
@@ -847,6 +983,7 @@ def generate_index(classe=None):
            statut = classe.generate_index()
            if statut is True:
                i+=1
+        #Si indexation de toutes les tables, validation
         if i == 4 :
             flash("Indexation faite", "info")
             return redirect('/')
@@ -876,6 +1013,7 @@ def inscription():
             nom=request.form.get("nom", None),
             motdepasse=request.form.get("motdepasse", None)
         )
+        #Validation
         if statut is True:
             if donnees:
                 inscription_mail(donnees)
@@ -914,6 +1052,10 @@ login.login_view = 'connexion'
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
+    """
+    Route de déconnexion
+    :return:
+    """
     if current_user.is_authenticated is True:
         logout_user()
     flash("Vous êtes déconnecté-e", "info")

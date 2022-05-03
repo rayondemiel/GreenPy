@@ -8,6 +8,9 @@ chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 load_dotenv()
 
 class Config(object):
+    """
+    Configuration native de l'application
+    """
     TESTING = False
     #Clé
     SECRET_KEY = os.getenv('SECRET_KEY')
@@ -42,6 +45,7 @@ class _PRODUCTION(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data/env.db'
     DEBUG = True
 
+#Dictionnaire permettant d'appeler une configuration particulière
 CONFIG = {
         "test": _TEST,
         "production": _PRODUCTION

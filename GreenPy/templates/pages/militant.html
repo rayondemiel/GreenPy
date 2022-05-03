@@ -235,7 +235,7 @@
 
                 {% if page != militants.page %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('militant', page=page) }}">{{page}}</a>
+                    <a class="page-link" href="{{ url_for('index_militant', page=page) }}">{{page}}</a>
                 </li>
                 {% else %}
                 <li class="page-item active disabled">

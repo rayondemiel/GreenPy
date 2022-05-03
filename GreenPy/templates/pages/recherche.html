@@ -12,8 +12,14 @@
 {% if resultats %}
 <p>Il y a {{resultats.total}} {% if resultats.total > 1 %} résultats qui correspondent {% else %} résultat qui correspond {% endif %} à votre requête :</p>
 <ul>
-    {% for militant in resultats.items %}
-    <li><a href="{{url_for('militant', name_id=militant.id)}}">{{militant.nom}}, {{militant.prenom}}</a></li>
+    {% for resultat in resultats.items %}
+        {% if resultat == "acteur" %}
+        <li><a href="{{url_for('militant', name_id=resultat.id)}}">{{resultat.nom}}</a></li>
+        {% elif result == "objet_contest" %}
+        <li><a href="{{url_for('objContest', objContest_id=resultat.id)}}">{{resultat.nom}}</a></li>
+        {% elif result == "orga" %}
+        <li><a href="{{url_for('organisation', orga_id=resultat.id)}}">{{resultat.nom}}</a></li>
+        {%endif%}
     {% endfor %}
 </ul>
 <nav aria-label="research-pagination">
@@ -43,7 +49,7 @@
 {% else %}
 <hr/>
 <p class="h2">Nous sommes désolés ...</p>
-<p>Nous n'avons pas pu trouver votre requête. Vous pouvez réessayer avec d'autres termes ou en utilisant <a href="{{url_for('index_militant')}}">l'index des militants recencés</a>
+<p>Nous n'avons pas pu trouver votre requête. Vous pouvez réessayer avec d'autres termes ou en utilisant <a href="{{url_for('index_militant')}}">l'index des militants recensés</a>
     ou des <a href="{{url_for('index_objContest')}}">différents projets contestés</a></p>
 {% endif %}
 {%endblock%}

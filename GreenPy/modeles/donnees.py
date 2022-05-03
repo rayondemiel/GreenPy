@@ -1,19 +1,24 @@
-import whoosh.writing
 from flask_login import current_user
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 import re
+from datetime import datetime
 from whoosh import writing
 from whoosh.index import create_in
+from sqlalchemy.ext import hybrid
 
 from ..app import db,app
 from .authorship import AuthorshipActeur, Authorship_ObjetContest, Authorship_Orga
 from ..constantes import REGEX_ANNEE, REGEX_DATE
 from .whoosh import Search_Militer,Search_Participer,Search_Orga,Search_Lutte, Search_Militant
 
+#appel de géopy
 geolocator = Nominatim(user_agent="GreenPy")
 
 class Acteur(db.Model):
+    """
+    Table SQL Acteur
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     prenom = db.Column(db.Text, nullable=False)
@@ -31,6 +36,19 @@ class Acteur(db.Model):
 
     @staticmethod
     def ajout_acteur(nom, prenom, date_naissance, date_deces, ville_naissance, pays_naissance, profession, biographie):
+        """
+        Statique méthode permettant l'ajout de données
+        :param nom: str
+        :param prenom: str
+        :param date_naissance: str
+        :param date_deces: str
+        :param ville_naissance: str
+        :param pays_naissance: ID, clé étrangère de la table Pays
+        :param profession: str
+        :param biographie: str
+        :return: booléen
+        """
+        #Conditions de validation
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner le nom de la personne.")
@@ -44,13 +62,14 @@ class Acteur(db.Model):
             erreurs.append("Veuillez renseigner le pays de naissance de la personne.")
         if not biographie:
             erreurs.append("Veuillez renseigner la biographie de la personne.")
-        if date_naissance:
-            if not re.match(REGEX_DATE, date_naissance):
-                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
-        if date_deces:
-            if not re.match(REGEX_DATE, date_deces):
-                erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
+        if date_naissance and not re.match(REGEX_DATE, date_naissance):
+            erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
+        if date_deces and not re.match(REGEX_DATE, date_deces):
+            erreurs.append("Les dates doivent être sous le format AAAA-MM-DD et supérieur à 1800")
+        if datetime.strptime(date_naissance, "%Y-%m-%d") > datetime.strptime(date_deces, "%Y-%m-%d"):
+            erreurs.append("La date de naissance est supérieure à la date de décès")
 
+        #Recherche si l'élément déjà enregistré
         unique = Acteur.query.filter(db.and_(
             Acteur.nom == nom,
             Acteur.prenom == prenom,
@@ -82,11 +101,24 @@ class Acteur(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
+    @hybrid.hybrid_property
+    def full(self):
+        """Cette propriété permet de concaténer prénom et nom pour retourner un nom complet. #Merci mon ami Paul !
+        :return: Nom complet
+        :rtype: str
+        """
+        return self.nom + ", " + self.prenom
+
     @staticmethod
     def generate_index():
+        """
+        Génération de l'index whoosh selon le schéma associée
+        :return: booléen
+        """
         try:
             ix_acteur = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militant)
             writer = ix_acteur.writer()
+            #Selection des données à enregistrer
             objets = Acteur.query.order_by(Acteur.id).all()
             for objet in objets:
                 writer.add_document(
@@ -106,6 +138,9 @@ class Acteur(db.Model):
             return update
 
 class Participation(db.Model):
+    """
+    Table participation
+    """
     participation_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     acteur_id = db.Column(db.Integer, db.ForeignKey('acteur.id'))
     contest_id = db.Column(db.Integer, db.ForeignKey('objet_contest.id'))
@@ -124,6 +159,13 @@ class Participation(db.Model):
 
     @staticmethod
     def ajout_participation(acteur_id, contest_id, check):
+        """
+        Ajout de données au sein de la table Pariticipation
+        :param acteur_id: Id, clé étrangère de la table Acteur
+        :param contest_id: Id, clé étrangère de la table Objet
+        :param check: liste
+        :return: booléen
+        """
         erreurs = []
         if not acteur_id:
             erreurs.append("Veuillez renseigner la personne.")
@@ -170,9 +212,14 @@ class Participation(db.Model):
 
     @staticmethod
     def generate_index():
+        """
+        Génération de l'index whoosh selon le schéma associée
+        :return: booléen
+        """
         try:
             ix_particip = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Participer)
             writer = ix_particip.writer()
+            #Selection des données enregistrées
             objets = Participation.query.order_by(Participation.participation_id).all()
             for objet in objets:
                 writer.add_document(
@@ -197,6 +244,9 @@ class Participation(db.Model):
             return update
 
 class Objet_contest(db.Model):
+    """
+    Table objet_contest
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     categ_id = db.Column(db.Integer, db.ForeignKey('categorie.id'))
@@ -218,6 +268,19 @@ class Objet_contest(db.Model):
 
     @staticmethod
     def ajout_lutte(nom, categorie, date_debut, date_fin, ville, dpt, pays, description, ressources):
+        """
+        Statique méthode d'ajout de données
+        :param nom: str
+        :param categorie: ID, clé étrangère de la table Catégorie
+        :param date_debut: str
+        :param date_fin: str
+        :param ville: str
+        :param dpt: str
+        :param pays: ID, clé étrangère table Pays
+        :param description: str
+        :param ressources: str
+        :return: booléen
+        """
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")
@@ -229,13 +292,13 @@ class Objet_contest(db.Model):
             erreurs.append("Veuillez renseigner la ville.")
         if not pays:
             erreurs.append("Veuillez renseigner le pays.")
-        if date_debut:
-            if not re.match(REGEX_ANNEE, date_debut):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-        if date_fin:
-            if not re.match(REGEX_ANNEE, date_fin):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-
+        if date_debut and not re.match(REGEX_ANNEE, date_debut):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if date_fin and not re.match(REGEX_ANNEE, date_fin):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if datetime.strptime(date_debut, "%Y") > datetime.strptime(date_fin, "%Y"):
+            erreurs.append("La date de début est supérieure à la date de décès")
+        #Verification si donnée non présente
         unique = Objet_contest.query.filter(db.and_(
             Objet_contest.categorie == categorie,
             Objet_contest.date_debut == date_debut,
@@ -254,6 +317,7 @@ class Objet_contest(db.Model):
                 location = geolocator.geocode("{ville}, {pays}".format(ville=ville, pays=pays.nom))
                 if location is None:
                     erreurs.append("Le lieu n'a pas pu être géolocalisé. Veuillez préciser les données du formulaire.")
+        #En cas d'erreur de connexions
         except (GeocoderTimedOut, GeocoderUnavailable):
             erreurs.append("Les services API n'ont pu être activés. Veuillez verifier votre connexion réseau.")
 
@@ -285,9 +349,14 @@ class Objet_contest(db.Model):
 
     @staticmethod
     def generate_index():
+        """
+        Génération de l'index whoosh selon le schéma associée
+        :return: booléen
+            """
         try:
             ix_lutte = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Lutte)
             writer = ix_lutte.writer()
+            #Selection des données à indexer
             objets = Objet_contest.query.order_by(Objet_contest.id).all()
             for objet in objets:
                 writer.add_document(
@@ -301,6 +370,7 @@ class Objet_contest(db.Model):
                     dpt=objet.dpt,
                     pays=objet.pays.nom
                 )
+            #validation de l'indexation
             writer.commit(mergetype=writing.CLEAR)
             update=True
             return update
@@ -309,12 +379,18 @@ class Objet_contest(db.Model):
             return update
 
 class Categorie(db.Model):
+    """
+    Classe pour la table Catégorie
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     #Relations
     objet_contest = db.relationship("Objet_contest", back_populates="categorie")
 
 class Orga(db.Model):
+    """
+    Table pour la Table Orga
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     pays_id = db.Column(db.Integer, db.ForeignKey('pays.id'))
@@ -328,6 +404,15 @@ class Orga(db.Model):
 
     @staticmethod
     def ajout_orga(nom, date_fondation, type_orga, pays, description):
+        """
+        Statique méthode d'ajout de données
+        :param nom: str
+        :param date_fondation: str
+        :param type_orga: str
+        :param pays: ID, clé étrangère de table Pays
+        :param description: str
+        :return: Booléen
+        """
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")
@@ -363,9 +448,14 @@ class Orga(db.Model):
 
     @staticmethod
     def generate_index():
+        """
+        Génération de l'index whoosh selon le schéma associée
+        :return: booléen
+        """
         try:
             ix_orga = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Orga)
             writer = ix_orga.writer()
+            #Selection des données enregistrés
             objets = Orga.query.order_by(Orga.id).all()
             for objet in objets:
                 writer.add_document(
@@ -383,6 +473,9 @@ class Orga(db.Model):
             return update
 
 class Militer(db.Model):
+    """
+    Table Militer
+    """
     militer_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     acteur_id = db.Column(db.Integer, db.ForeignKey('acteur.id'))
     orga_id = db.Column(db.Integer, db.ForeignKey('orga.id'))
@@ -395,17 +488,26 @@ class Militer(db.Model):
 
     @staticmethod
     def ajout_militer(acteur_id, orga_id, date_debut, date_fin, statut):
+        """
+        Ajout de données au sein de la table Militer via statique méthode
+        :param acteur_id: Id, clé étrangère de la table Acteur
+        :param orga_id: Id, clé étrangère de la table Orga
+        :param date_debut: str
+        :param date_fin: str
+        :param statut: str
+        :return: Booléen
+        """
         erreurs = []
         if not acteur_id:
             erreurs.append("Veuillez renseigner la personne.")
         if not orga_id:
             erreurs.append("Veuillez renseigner l'organisation.")
-        if date_debut:
-            if not re.match(REGEX_ANNEE, date_debut):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
-        if date_fin:
-            if not re.match(REGEX_ANNEE, date_fin):
-                erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if date_debut and not re.match(REGEX_ANNEE, date_debut):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if date_fin and not re.match(REGEX_ANNEE, date_fin):
+            erreurs.append("Les dates doivent être sous le format AAAA et supérieur à 1800")
+        if datetime.strptime(date_debut, "%Y") > datetime.strptime(date_fin, "%Y"):
+            erreurs.append("La date de début est supérieure à la date de décès")
 
         unique = Militer.query.filter(db.and_(
             Militer.acteur == acteur_id,
@@ -437,9 +539,14 @@ class Militer(db.Model):
 
     @staticmethod
     def generate_index():
+        """
+        Génération de l'index whoosh selon le schéma associée
+        :return: booléen
+         """
         try:
             ix_militer = create_in(app.config['WHOOSH_SCHEMA_DIR'], Search_Militer)
             writer = ix_militer.writer()
+            #Selection des données à indexer
             objets = Militer.query.order_by(Militer.militer_id).all()
             for objet in objets:
                 writer.add_document(
@@ -459,6 +566,9 @@ class Militer(db.Model):
 
 
 class Pays(db.Model):
+    """
+    Table Pays
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     #Relations
@@ -468,10 +578,16 @@ class Pays(db.Model):
 
     @staticmethod
     def ajout_pays(nom):
+        """
+        Ajout de données via méthode statique au sein de la classe Pays
+        :param nom: str
+        :return: Booléen
+        """
+        #Conditions
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")
-
+        #Verification si la donnée n'est déhà pas présente
         unique = Pays.query.filter(Pays.nom).count()
         if unique > 0:
             erreurs.append("Ce pays est déjà présente au sein de la base de données.")
@@ -492,6 +608,9 @@ class Pays(db.Model):
             return False, [str(erreur)]
 
 class Image(db.Model):
+    """
+    Table de la table Image
+    """
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     nom = db.Column(db.Text, nullable=False)
     legende = db.Column(db.Text)
@@ -502,6 +621,14 @@ class Image(db.Model):
 
     @staticmethod
     def ajout_image(nom, legende, lien, objet_id):
+        """
+        Ajout de données via méthode statique pour la table image
+        :param nom: str
+        :param legende: str
+        :param lien: str
+        :param objet_id: Id, clé étrangère de la Objet_contest
+        :return: booléen
+        """
         erreurs = []
         if not nom:
             erreurs.append("Veuillez renseigner un intitulé.")

@@ -16,3 +16,5 @@ idee.md
 #GreenPy/__pycache__/*
 #__pycache__/
 #GreenPy/modeles/__pycache__/*
+
+*documentation/*

@@ -2,9 +2,13 @@ from whoosh.fields import SchemaClass, STORED, TEXT, DATETIME, ID, BOOLEAN
 from whoosh.analysis import KeywordAnalyzer, StopFilter, LowercaseFilter, RegexTokenizer, StemFilter
 from nltk.corpus import stopwords
 
+#Analyseur personnalisé
 french_analyser = RegexTokenizer() | LowercaseFilter() | StemFilter(lang="fr") | StopFilter(stoplist=frozenset(stopwords.words('french')))
 
 class Search_Militant(SchemaClass):
+    """
+    Classe pour la table Acteur
+    """
     id = STORED
     identite = ID(stored=True, sortable=True)
     date_naissance = DATETIME(stored=True)
@@ -15,6 +19,9 @@ class Search_Militant(SchemaClass):
 
 
 class Search_Lutte(SchemaClass):
+    """
+    Classe pour la table Objet_contest
+    """
     id = STORED
     intitule = ID(stored=True, sortable=True)
     categorie = ID(stored=True, sortable=True)
@@ -27,6 +34,9 @@ class Search_Lutte(SchemaClass):
 
 
 class Search_Orga(SchemaClass):
+    """
+    Classe pour la table orga
+    """
     id = STORED
     intitule = ID(stored=True, sortable=True)
     date_fondation = DATETIME(stored=True)
@@ -35,6 +45,9 @@ class Search_Orga(SchemaClass):
     pays = TEXT(stored=True)
 
 class Search_Participer(SchemaClass):
+    """
+    Classe pour la table participer
+    """
     id = STORED
     acteur_id = ID(stored=True, sortable=True)
     contest_id = ID(stored=True, sortable=True)
@@ -49,6 +62,9 @@ class Search_Participer(SchemaClass):
     autre = BOOLEAN(stored=True)
 
 class Search_Militer(SchemaClass):
+    """
+    Classe pour la table militer
+    """
     militer_id = STORED
     acteur_id = ID(stored=True, sortable=True)
     orga_id = ID(stored=True, sortable=True)

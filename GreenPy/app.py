@@ -6,14 +6,15 @@ import os
 
 from .settings import CONFIG, chemin_actuel
 
-
+#appel module
 db = SQLAlchemy()
 login = LoginManager()
 mail = Mail()
-
+#Path
 templates = os.path.join(chemin_actuel, "templates")
 statics = os.path.join(chemin_actuel, "static")
 
+#Instanciation Application
 app = Flask("GreenPy",
     template_folder=templates,
     static_folder=statics)
