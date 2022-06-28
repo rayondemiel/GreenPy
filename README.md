@@ -18,7 +18,7 @@ Cette application a été conçue dans le cadre du cours 'Introduction au dévé
 
 *Nota : commandes à exécuter dans le terminal (Linux ou macOS).*
 
-  * Cloner le dossier : ```git clone https://github.com/Chartes-TNAH/Actes_Charles_Ier```
+  * Cloner le dossier : ```git clone https://github.com/rayondemiel/GreenPy.git```
   
   * Installer l'environnement virtuel :
   
