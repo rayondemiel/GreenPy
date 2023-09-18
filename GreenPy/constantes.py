@@ -15,6 +15,6 @@ REGEX_MAJ = re.compile(r"[A-Z]+")
 REGEX_NB = re.compile(r"\d+")
 REGEX_CAR = re.compile(r"""[`~!@#$%^&*()_|+=?;:'".<>]+""")
 
-if _PRODUCTION.SECRET_KEY or _TEST.SECRET_KEY == "Pensez Printemps, les amis !!!":
+if _PRODUCTION.SECRET_KEY == "Pensez Printemps, les amis !!!" or _TEST.SECRET_KEY == "Pensez Printemps, les amis !!!":
     warn("Le secret par défaut n'a pas été changé, vous devriez le faire", Warning)
 
