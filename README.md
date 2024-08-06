@@ -1,5 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT--Licence-lightgrey.svg)](https://mit-license.org/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-red.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![made-with-python](https://img.shields.io/badge/Made%20with-python-1f425f.svg)](https://www.python.org/)
 
 # GreenPy
